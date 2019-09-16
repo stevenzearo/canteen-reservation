@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: core.framework:core-ng:7.0.0">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/core.framework/core-ng/7.0.0/f9f4fb524f70c5484e87d178e94de1012b9a4080/core-ng-7.0.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/core.framework/core-ng/7.0.0/512ef7bb688a4e13e2cc474eb182344e510e09d0/core-ng-7.0.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

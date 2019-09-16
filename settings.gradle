@@ -1,0 +1,9 @@
+include 'user-service',
+        'user-service-interface',
+        'restaurant-service',
+        'restaurant-service-interface',
+        'canteen-web-service',
+        'canteen-bo-service',
+        'reservation-service',
+        'reservation-notification-service'
+

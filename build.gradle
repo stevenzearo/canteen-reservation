@@ -1,0 +1,62 @@
+apply from: file("${rootDir}/gradle/project.gradle")
+
+def coreNGVersion = '7.0.0'
+//def hsqlVersion = '2.4.1'
+
+subprojects {
+    group = 'core.demo'
+    version = '1.0.0'
+
+    repositories {
+        maven {
+            url 'https://neowu.github.io/maven-repo/'
+            content {
+                includeGroupByRegex 'core\\.framework.*'
+            }
+        }
+    }
+    dependencies {
+        implementation "core.framework:core-ng:${coreNGVersion}"
+        testImplementation "core.framework:core-ng-test:${coreNGVersion}"
+    }
+}
+
+configure(project(':reservation-notification-service')) {
+    apply from: file("${rootDir}/gradle/app.gradle")
+    dependencies {
+        implementation "core.framework:core-ng-api:${coreNGVersion}"
+    }
+}
+
+configure(project(':user-service-interface')) {
+    apply from: file("${rootDir}/gradle/lib.gradle")
+    dependencies {
+        implementation "core.framework:core-ng-api:${coreNGVersion}"
+    }
+}
+
+configure(project(':user-service')) {
+    apply from: file("${rootDir}/gradle/app.gradle")
+    dependencies {
+        runtimeOnly 'mysql:mysql-connector-java:8.0.17'
+        implementation project(':user-service-interface')
+    }
+}
+
+configure(project(':restaurant-service-interface')) {
+    apply from: file("${rootDir}/gradle/lib.gradle")
+    dependencies {
+        implementation "core.framework:core-ng-api:${coreNGVersion}"
+        implementation "core.framework:core-ng-mongo:${coreNGVersion}"
+    }
+}
+
+configure(project(':restaurant-service')) {
+    apply from: file("${rootDir}/gradle/app.gradle")
+    dependencies {
+        runtimeOnly 'mysql:mysql-connector-java:8.0.17'
+        testImplementation "core.framework:core-ng-mongo-test:${coreNGVersion}"
+        implementation "core.framework:core-ng-mongo:${coreNGVersion}"
+        implementation project(':restaurant-service-interface')
+    }
+}
