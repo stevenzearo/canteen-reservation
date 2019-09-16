@@ -1,4 +1,4 @@
-package app.restaurant.api.restaurant;
+package app.restaurant.api.meal;
 
 import core.framework.api.json.Property;
 

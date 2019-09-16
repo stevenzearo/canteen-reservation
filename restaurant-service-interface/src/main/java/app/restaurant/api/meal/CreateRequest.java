@@ -1,21 +1,20 @@
-package app.restaurant.api.restaurant;
+package app.restaurant.api.meal;
 
 import core.framework.api.json.Property;
+import core.framework.api.validate.NotNull;
 import org.bson.types.ObjectId;
 
 /**
  * @author steve
  */
-public class MealView {
-    @Property(name = "id")
-    public ObjectId id;
+public class CreateRequest {
+    @NotNull
+    @Property(name = "restaurant_id")
+    public ObjectId restaurantId;
 
     @Property(name = "name")
     public String name;
 
     @Property(name = "price")
     public Float price;
-
-    @Property(name = "status")
-    public MealStatus status;
 }

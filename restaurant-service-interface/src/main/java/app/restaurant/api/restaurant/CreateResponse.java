@@ -1,16 +1,14 @@
 package app.restaurant.api.restaurant;
 
-import app.restaurant.api.meal.MealView;
 import core.framework.api.json.Property;
 import org.bson.types.ObjectId;
 
 import java.time.ZonedDateTime;
-import java.util.List;
 
 /**
  * @author steve
  */
-public class RestaurantView {
+public class CreateResponse {
     @Property(name = "id")
     public ObjectId id;
 
@@ -28,7 +26,4 @@ public class RestaurantView {
 
     @Property(name = "reserve_deadline")
     public ZonedDateTime reserveDeadline;
-
-    @Property(name = "meal_list")
-    public List<MealView> mealViewList;
 }
