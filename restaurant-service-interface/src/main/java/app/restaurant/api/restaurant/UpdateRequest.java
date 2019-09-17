@@ -1,13 +1,14 @@
 package app.restaurant.api.restaurant;
 
 import core.framework.api.json.Property;
+import core.framework.api.web.service.ResponseStatus;
 
 import java.time.ZonedDateTime;
 
 /**
  * @author steve
  */
-public class CreateRequest {
+public class UpdateRequest {
     @Property(name = "name")
     public String name;
 
@@ -16,6 +17,9 @@ public class CreateRequest {
 
     @Property(name = "phone")
     public String phone;
+
+    @Property(name = "status")
+    public RestaurantStatus status;
 
     @Property(name = "reserve_deadline")
     public ZonedDateTime reserveDeadline;

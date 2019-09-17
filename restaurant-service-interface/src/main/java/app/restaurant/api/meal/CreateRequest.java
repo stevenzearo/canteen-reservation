@@ -2,7 +2,6 @@ package app.restaurant.api.meal;
 
 import core.framework.api.json.Property;
 import core.framework.api.validate.NotNull;
-import org.bson.types.ObjectId;
 
 /**
  * @author steve
@@ -10,11 +9,11 @@ import org.bson.types.ObjectId;
 public class CreateRequest {
     @NotNull
     @Property(name = "restaurant_id")
-    public ObjectId restaurantId;
+    public String restaurantId;
 
     @Property(name = "name")
     public String name;
 
     @Property(name = "price")
-    public Float price;
+    public Double price;
 }

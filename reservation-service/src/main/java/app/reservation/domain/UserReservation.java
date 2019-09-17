@@ -19,7 +19,7 @@ public class UserReservation {
 
     @NotNull
     @Column(name = "reserve_amount")
-    public Float reserveAmount;
+    public Double reserveAmount;
 
     @NotNull
     @Column(name = "reserve_time")

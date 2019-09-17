@@ -5,10 +5,8 @@ import core.framework.api.validate.NotNull;
 import core.framework.mongo.Collection;
 import core.framework.mongo.Field;
 import core.framework.mongo.Id;
-import org.bson.types.ObjectId;
 
 import java.time.ZonedDateTime;
-import java.util.List;
 
 /**
  * @author steve
@@ -18,7 +16,7 @@ public class Restaurant {
     @NotNull
     @Id
     @Field(name = "id")
-    public ObjectId id;
+    public String id;
 
     @NotNull
     @NotBlank
@@ -42,7 +40,4 @@ public class Restaurant {
     @NotNull
     @Field(name = "status")
     public RestaurantStatus status;
-
-    @Field(name = "mealList")
-    public List<Meal> mealList;
 }

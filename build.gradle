@@ -4,7 +4,7 @@ def coreNGVersion = '7.0.0'
 //def hsqlVersion = '2.4.1'
 
 subprojects {
-    group = 'core.demo'
+    group = 'steve.canteen.reservation'
     version = '1.0.0'
 
     repositories {

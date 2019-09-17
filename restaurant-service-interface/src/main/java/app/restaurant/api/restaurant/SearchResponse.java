@@ -1,4 +1,4 @@
-package app.restaurant.api.meal;
+package app.restaurant.api.restaurant;
 
 import core.framework.api.json.Property;
 
@@ -11,6 +11,6 @@ public class SearchResponse {
     @Property(name = "total")
     public Long total;
 
-    @Property(name = "mealList")
-    public List<MealView> mealViewList;
+    @Property(name = "restaurantList")
+    public List<RestaurantView> restaurantViewList;
 }

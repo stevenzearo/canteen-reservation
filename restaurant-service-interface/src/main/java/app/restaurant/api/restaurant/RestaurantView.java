@@ -2,7 +2,6 @@ package app.restaurant.api.restaurant;
 
 import app.restaurant.api.meal.MealView;
 import core.framework.api.json.Property;
-import org.bson.types.ObjectId;
 
 import java.time.ZonedDateTime;
 import java.util.List;
@@ -12,7 +11,7 @@ import java.util.List;
  */
 public class RestaurantView {
     @Property(name = "id")
-    public ObjectId id;
+    public String id;
 
     @Property(name = "name")
     public String name;

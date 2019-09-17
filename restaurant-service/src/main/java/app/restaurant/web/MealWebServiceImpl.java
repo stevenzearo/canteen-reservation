@@ -2,27 +2,32 @@ package app.restaurant.web;
 
 import app.restaurant.api.MealWebService;
 import app.restaurant.api.meal.CreateRequest;
+import app.restaurant.api.meal.MealView;
 import app.restaurant.api.meal.SearchRequest;
 import app.restaurant.api.meal.SearchResponse;
 import app.restaurant.api.meal.UpdateRequest;
-import org.bson.types.ObjectId;
+import app.restaurant.service.MealService;
+import core.framework.inject.Inject;
 
 /**
  * @author steve
  */
 public class MealWebServiceImpl implements MealWebService {
+    @Inject
+    MealService service;
+
     @Override
-    public CreateRequest create(CreateRequest request) {
-        return null;
+    public MealView create(CreateRequest request) {
+        return service.create(request);
     }
 
     @Override
-    public void update(ObjectId id, UpdateRequest request) {
-
+    public void update(String id, UpdateRequest request) {
+        service.update(id, request);
     }
 
     @Override
-    public SearchResponse searchByConditions(SearchRequest request) {
-        return null;
+    public SearchResponse searchListByConditions(SearchRequest request) {
+        return service.searchListByConditions(request);
     }
 }
