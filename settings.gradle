@@ -5,5 +5,6 @@ include 'user-service',
         'canteen-web-service',
         'canteen-bo-service',
         'reservation-service',
-        'reservation-notification-service'
+        'reservation-notification-service',
+        'reservation-service-interface'
 

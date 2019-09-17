@@ -5,7 +5,7 @@ import core.framework.api.json.Property;
 /**
  * @author steve
  */
-public class LoginResponse {
+public class UserLoginResponse {
     @Property(name = "status")
     public Boolean status;
 

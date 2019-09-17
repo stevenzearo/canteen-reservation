@@ -1,10 +1,10 @@
 package app.restaurant.api;
 
-import app.restaurant.api.meal.CreateRequest;
+import app.restaurant.api.meal.CreateMealRequest;
 import app.restaurant.api.meal.MealView;
-import app.restaurant.api.meal.SearchRequest;
-import app.restaurant.api.meal.SearchResponse;
-import app.restaurant.api.meal.UpdateRequest;
+import app.restaurant.api.meal.SearchMealRequest;
+import app.restaurant.api.meal.SearchMealResponse;
+import app.restaurant.api.meal.UpdateMealRequest;
 import core.framework.api.web.service.POST;
 import core.framework.api.web.service.PUT;
 import core.framework.api.web.service.Path;
@@ -16,13 +16,13 @@ import core.framework.api.web.service.PathParam;
 public interface MealWebService {
     @POST
     @Path("/restaurant/meal")
-    MealView create(CreateRequest request);
+    MealView create(CreateMealRequest request);
 
     @POST
     @Path("/restaurant/meal/:id")
-    void update(@PathParam("id") String id, UpdateRequest request);
+    void update(@PathParam("id") String id, UpdateMealRequest request);
 
     @PUT
     @Path("/restaurant/meal")
-    SearchResponse searchListByConditions(SearchRequest request);
+    SearchMealResponse searchListByConditions(SearchMealRequest request);
 }

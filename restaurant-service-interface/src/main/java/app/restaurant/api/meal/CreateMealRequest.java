@@ -6,7 +6,7 @@ import core.framework.api.validate.NotNull;
 /**
  * @author steve
  */
-public class CreateRequest {
+public class CreateMealRequest {
     @NotNull
     @Property(name = "restaurant_id")
     public String restaurantId;

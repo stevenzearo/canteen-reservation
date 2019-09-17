@@ -1,11 +1,11 @@
 package app.restaurant.service;
 
-import app.restaurant.api.meal.CreateRequest;
+import app.restaurant.api.meal.CreateMealRequest;
 import app.restaurant.api.meal.MealStatus;
 import app.restaurant.api.meal.MealView;
-import app.restaurant.api.meal.SearchRequest;
-import app.restaurant.api.meal.SearchResponse;
-import app.restaurant.api.meal.UpdateRequest;
+import app.restaurant.api.meal.SearchMealRequest;
+import app.restaurant.api.meal.SearchMealResponse;
+import app.restaurant.api.meal.UpdateMealRequest;
 import app.restaurant.domain.Meal;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Updates;
@@ -16,7 +16,6 @@ import core.framework.util.Strings;
 import core.framework.web.exception.NotFoundException;
 import org.bson.conversions.Bson;
 
-import java.util.Arrays;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -27,7 +26,7 @@ public class MealService {
     @Inject
     MongoCollection<Meal> mealCollection;
 
-    public MealView create(CreateRequest request) {
+    public MealView create(CreateMealRequest request) {
         Meal meal = new Meal();
         meal.name = request.name;
         meal.price = request.price;
@@ -38,7 +37,7 @@ public class MealService {
         return view(meal);
     }
 
-    public void update(String id, UpdateRequest request) {
+    public void update(String id, UpdateMealRequest request) {
         Meal meal = mealCollection.get(id).orElseThrow(() -> new NotFoundException(Strings.format("Meal not found, id = {}", id)));
         Bson combineFilter = Filters.and();
         Bson combineUpdate = Updates.combine();
@@ -61,7 +60,7 @@ public class MealService {
         mealCollection.update(combineFilter, combineUpdate);
     }
 
-    public SearchResponse searchListByConditions(SearchRequest request) {
+    public SearchMealResponse searchListByConditions(SearchMealRequest request) {
         Query query = new Query();
         query.skip = request.skip;
         query.limit = request.limit;
@@ -75,7 +74,7 @@ public class MealService {
         if (request.restaurantId != null)
             conditions = Filters.and(conditions, Filters.eq("restaurant_id", request.restaurantId));
         query.filter = conditions;
-        SearchResponse response = new SearchResponse();
+        SearchMealResponse response = new SearchMealResponse();
         response.total = mealCollection.count(query.filter);
         response.mealViewList = mealCollection.find(query).stream().map(this::view).collect(Collectors.toList());
         return response;

@@ -1,4 +1,4 @@
-package app.restaurant.api.meal;
+package app.user.api.user;
 
 import core.framework.api.json.Property;
 
@@ -9,8 +9,8 @@ import java.util.List;
  */
 public class SearchResponse {
     @Property(name = "total")
-    public Long total;
+    public Integer total;
 
-    @Property(name = "mealList")
-    public List<MealView> mealViewList;
+    @Property(name = "user_list")
+    public List<UserView> userViewList;
 }

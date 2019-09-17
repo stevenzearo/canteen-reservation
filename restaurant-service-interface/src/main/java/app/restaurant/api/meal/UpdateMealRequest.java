@@ -5,7 +5,7 @@ import core.framework.api.json.Property;
 /**
  * @author steve
  */
-public class UpdateRequest {
+public class UpdateMealRequest {
     @Property(name = "id")
     public String id;
 

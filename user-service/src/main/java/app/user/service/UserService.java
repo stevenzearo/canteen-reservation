@@ -1,10 +1,10 @@
 package app.user.service;
 
 import app.user.api.user.CreateUserRequest;
-import app.user.api.user.LoginRequest;
-import app.user.api.user.LoginResponse;
+import app.user.api.user.UserLoginRequest;
+import app.user.api.user.UserLoginResponse;
 import app.user.api.user.SearchUserRequest;
-import app.user.api.user.SearchUserResponse;
+import app.user.api.user.SearchResponse;
 import app.user.api.user.UpdateUserRequest;
 import app.user.api.user.UserView;
 import app.user.domain.User;
@@ -39,35 +39,48 @@ public class UserService {
         return view(user);
     }
 
-    public SearchUserResponse searchByPage(SearchUserRequest request) {
+    public SearchResponse searchByConditions(SearchUserRequest request) {
         Query<User> query = repository.select();
         query.skip(request.skip);
         query.limit(request.limit);
+        if (!Strings.isBlank(request.email))
+            query.where("email like ?", request);
+        if (!Strings.isBlank(request.name))
+            query.where("name like ?", request.name);
+        if (request.status != null)
+            query.where("status = ?", UserStatus.valueOf(request.status.name()));
         List<UserView> userViewList = query.fetch().stream().map(this::view).collect(Collectors.toList());
-        SearchUserResponse response = new SearchUserResponse();
+        SearchResponse response = new SearchResponse();
         response.total = query.count();
         response.userViewList = userViewList;
         return response;
     }
 
-    public LoginResponse login(LoginRequest request) {
+    public UserLoginResponse login(UserLoginRequest request) {
         String sha256Hex = Hash.sha256Hex(request.password);
         List<User> userList = repository.select("email = ?", request.email);
-        LoginResponse loginResponse = new LoginResponse();
+        UserLoginResponse userLoginResponse = new UserLoginResponse();
         if (userList.size() == 1 && userList.get(0).password.equals(sha256Hex)) {
-            loginResponse.status = true;
-            loginResponse.userView = view(userList.get(0));
+            userLoginResponse.status = true;
+            userLoginResponse.userView = view(userList.get(0));
         }
-        return loginResponse;
+        return userLoginResponse;
     }
 
     public void update(Long id, UpdateUserRequest request) {
-        User user = repository.get(id).orElseThrow(() -> new NotFoundException(Strings.format("user not found, id = {}", id)));
+        User user = repository.get(id).orElseThrow(() -> new NotFoundException(Strings.format("User not found, id = {}", id)));
         user.name = request.name;
         user.password = request.password;
         user.status = request.status == null ? null : UserStatus.valueOf(request.status.name());
         user.email = request.email;
         repository.update(user);
+    }
+
+    public UserView getEmail(String id) {
+        User user = repository.get(id).orElseThrow(() -> new NotFoundException(Strings.format("user not found, id = {}", id)));
+        UserView userView = new UserView();
+        userView.email = user.email;
+        return userView;
     }
 
     private UserView view(User user) {

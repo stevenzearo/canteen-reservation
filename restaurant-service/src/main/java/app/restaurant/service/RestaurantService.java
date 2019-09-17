@@ -1,11 +1,11 @@
 package app.restaurant.service;
 
-import app.restaurant.api.restaurant.CreateRequest;
+import app.restaurant.api.restaurant.CreateRestaurantRequest;
 import app.restaurant.api.restaurant.RestaurantStatus;
 import app.restaurant.api.restaurant.RestaurantView;
-import app.restaurant.api.restaurant.SearchRequest;
+import app.restaurant.api.restaurant.SearchRestaurantRequest;
 import app.restaurant.api.restaurant.SearchResponse;
-import app.restaurant.api.restaurant.UpdateRequest;
+import app.restaurant.api.restaurant.UpdateRestaurantRequest;
 import app.restaurant.domain.Restaurant;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Updates;
@@ -26,14 +26,14 @@ public class RestaurantService {
     @Inject
     MongoCollection<Restaurant> restaurantCollection;
 
-    public RestaurantView create(CreateRequest createRequest) {
+    public RestaurantView create(CreateRestaurantRequest createRestaurantRequest) {
         Restaurant restaurant = new Restaurant();
         restaurant.id = UUID.randomUUID().toString();
-        restaurant.name = createRequest.name;
-        restaurant.address = createRequest.address;
-        restaurant.phone = createRequest.phone;
+        restaurant.name = createRestaurantRequest.name;
+        restaurant.address = createRestaurantRequest.address;
+        restaurant.phone = createRestaurantRequest.phone;
         restaurant.status = app.restaurant.domain.RestaurantStatus.OPEN;
-        restaurant.reserveDeadline = createRequest.reserveDeadline;
+        restaurant.reserveDeadline = createRestaurantRequest.reserveDeadline;
         restaurantCollection.insert(restaurant);
         return view(restaurant);
     }
@@ -42,7 +42,7 @@ public class RestaurantService {
         return view(restaurantCollection.get(id).orElseThrow(() -> new NotFoundException(Strings.format("Restaurant not found, id = {}", id))));
     }
 
-    public SearchResponse searchListByConditions(SearchRequest request) {
+    public SearchResponse searchListByConditions(SearchRestaurantRequest request) {
         Query query = new Query();
         query.skip = request.skip;
         query.limit = request.limit;
@@ -64,7 +64,7 @@ public class RestaurantService {
         return response;
     }
 
-    public void update(String id, UpdateRequest request) {
+    public void update(String id, UpdateRestaurantRequest request) {
         Restaurant restaurant = restaurantCollection.get(id).orElseThrow(() -> new NotFoundException(Strings.format("Restaurant not found, id = {}", id)));
         Bson combineFilter = Filters.and();
         Bson combineUpdate = Updates.combine();

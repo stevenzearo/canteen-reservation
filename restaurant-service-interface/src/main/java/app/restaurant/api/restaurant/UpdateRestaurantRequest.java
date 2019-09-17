@@ -1,23 +1,14 @@
 package app.restaurant.api.restaurant;
 
-import app.restaurant.api.meal.MealStatus;
 import core.framework.api.json.Property;
-import core.framework.api.validate.NotNull;
+import core.framework.api.web.service.ResponseStatus;
 
 import java.time.ZonedDateTime;
 
 /**
  * @author steve
  */
-public class SearchRequest {
-    @NotNull
-    @Property(name = "skip")
-    public Integer skip = 0;
-
-    @NotNull
-    @Property(name = "limit")
-    public Integer limit = 10;
-
+public class UpdateRestaurantRequest {
     @Property(name = "name")
     public String name;
 
@@ -27,9 +18,9 @@ public class SearchRequest {
     @Property(name = "phone")
     public String phone;
 
+    @Property(name = "status")
+    public RestaurantStatus status;
+
     @Property(name = "reserve_deadline")
     public ZonedDateTime reserveDeadline;
-
-    @Property(name = "status")
-    public MealStatus status;
 }

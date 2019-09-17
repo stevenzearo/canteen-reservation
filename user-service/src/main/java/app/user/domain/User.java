@@ -10,7 +10,6 @@ import core.framework.db.Table;
  */
 @Table(name = "user_info")
 public class User {
-    @NotNull
     @PrimaryKey(autoIncrement = true)
     @Column(name = "id")
     public Long id;

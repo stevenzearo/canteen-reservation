@@ -1,10 +1,11 @@
 package app.restaurant.web;
 
 import app.restaurant.api.RestaurantWebService;
-import app.restaurant.api.restaurant.CreateRequest;
+import app.restaurant.api.restaurant.CreateRestaurantRequest;
 import app.restaurant.api.restaurant.RestaurantView;
-import app.restaurant.api.restaurant.SearchRequest;
+import app.restaurant.api.restaurant.SearchRestaurantRequest;
 import app.restaurant.api.restaurant.SearchResponse;
+import app.restaurant.api.restaurant.UpdateRestaurantRequest;
 import app.restaurant.service.RestaurantService;
 import core.framework.inject.Inject;
 
@@ -16,7 +17,7 @@ public class RestaurantWebServiceImpl implements RestaurantWebService {
     RestaurantService service;
 
     @Override
-    public RestaurantView create(CreateRequest request) {
+    public RestaurantView create(CreateRestaurantRequest request) {
         return service.create(request);
     }
 
@@ -26,12 +27,12 @@ public class RestaurantWebServiceImpl implements RestaurantWebService {
     }
 
     @Override
-    public SearchResponse searchListByConditions(SearchRequest request) {
+    public SearchResponse searchListByConditions(SearchRestaurantRequest request) {
         return service.searchListByConditions(request);
     }
 
     @Override
-    public void update(String id, app.restaurant.api.restaurant.UpdateRequest request) {
+    public void update(String id, UpdateRestaurantRequest request) {
         service.update(id, request);
     }
 }

@@ -21,7 +21,6 @@ public class SearchUserRequest {
     @Property(name = "email")
     public String email;
 
-    @Deprecated
     @Property(name = "status")
-    public UserStatus userStatus;
+    public UserStatus status;
 }

@@ -10,16 +10,15 @@ import core.framework.db.Table;
  */
 @Table(name = "reservation_meal")
 public class ReservationMeal {
-    @NotNull
     @PrimaryKey(autoIncrement = true)
     @Column(name = "id")
     public Long id;
 
     @NotNull
-    @Column(name = "user_reservation_id")
+    @Column(name = "reservation_id")
     public String userReservationId;
 
     @NotNull
     @Column(name = "meal_id")
-    public Long mealId;
+    public String mealId;
 }

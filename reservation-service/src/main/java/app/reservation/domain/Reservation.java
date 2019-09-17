@@ -10,8 +10,8 @@ import java.time.ZonedDateTime;
 /**
  * @author steve
  */
-@Table(name = "user_reservation")
-public class UserReservation {
+@Table(name = "reservation")
+public class Reservation {
     @NotNull
     @PrimaryKey
     @Column(name = "id")
@@ -19,11 +19,15 @@ public class UserReservation {
 
     @NotNull
     @Column(name = "reserve_amount")
-    public Double reserveAmount;
+    public Double amount;
 
     @NotNull
     @Column(name = "reserve_time")
     public ZonedDateTime reserveTime;
+
+    @NotNull
+    @Column(name = "status")
+    public ReservationStatus status;
 
     @NotNull
     @Column(name = "eat_time")
@@ -31,5 +35,9 @@ public class UserReservation {
 
     @NotNull
     @Column(name = "user_id")
-    public Long userId;
+    public String userId;
+
+    @NotNull
+    @Column(name = "restaurant_id")
+    public String restaurantId;
 }

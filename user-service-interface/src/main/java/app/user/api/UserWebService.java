@@ -1,13 +1,14 @@
 package app.user.api;
 
 import app.user.api.user.CreateUserRequest;
-import app.user.api.user.LoginRequest;
-import app.user.api.user.LoginResponse;
+import app.user.api.user.UserLoginRequest;
+import app.user.api.user.UserLoginResponse;
 import app.user.api.user.SearchUserRequest;
-import app.user.api.user.SearchUserResponse;
+import app.user.api.user.SearchResponse;
 import app.user.api.user.UpdateUserRequest;
 import app.user.api.user.UserView;
 import core.framework.api.http.HTTPStatus;
+import core.framework.api.web.service.GET;
 import core.framework.api.web.service.POST;
 import core.framework.api.web.service.PUT;
 import core.framework.api.web.service.Path;
@@ -25,13 +26,17 @@ public interface UserWebService {
 
     @PUT
     @Path("/user")
-    SearchUserResponse searchByPage(SearchUserRequest request);
+    SearchResponse searchByConditions(SearchUserRequest request);
 
     @POST
     @Path("/user/login")
-    LoginResponse login(LoginRequest request);
+    UserLoginResponse login(UserLoginRequest request);
 
     @POST
     @Path("/user/:id")
     void update(@PathParam("id") Long id, UpdateUserRequest request);
+
+    @GET
+    @Path("/user/:id")
+    UserView getEmail(@PathParam("id") String id);
 }

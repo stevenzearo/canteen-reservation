@@ -2,14 +2,17 @@ package app.restaurant;
 
 import app.restaurant.api.MealWebService;
 import app.restaurant.api.RestaurantWebService;
-import app.restaurant.api.meal.CreateRequest;
+import app.restaurant.api.meal.CreateMealRequest;
 import app.restaurant.api.meal.MealStatus;
 import app.restaurant.api.meal.MealView;
-import app.restaurant.api.meal.SearchRequest;
-import app.restaurant.api.meal.SearchResponse;
-import app.restaurant.api.meal.UpdateRequest;
+import app.restaurant.api.meal.SearchMealRequest;
+import app.restaurant.api.meal.SearchMealResponse;
+import app.restaurant.api.meal.UpdateMealRequest;
+import app.restaurant.api.restaurant.CreateRestaurantRequest;
 import app.restaurant.api.restaurant.RestaurantStatus;
 import app.restaurant.api.restaurant.RestaurantView;
+import app.restaurant.api.restaurant.SearchRestaurantRequest;
+import app.restaurant.api.restaurant.UpdateRestaurantRequest;
 import app.restaurant.service.MealService;
 import app.restaurant.service.RestaurantService;
 import app.restaurant.web.MealWebServiceImpl;
@@ -23,18 +26,18 @@ public class RestaurantModule extends Module {
     @Override
     protected void initialize() {
         http().bean(MealView.class);
-        http().bean(CreateRequest.class);
+        http().bean(CreateMealRequest.class);
         http().bean(MealStatus.class);
-        http().bean(SearchRequest.class);
-        http().bean(SearchResponse.class);
-        http().bean(UpdateRequest.class);
+        http().bean(SearchMealRequest.class);
+        http().bean(SearchMealResponse.class);
+        http().bean(UpdateMealRequest.class);
 
         http().bean(RestaurantView.class);
         http().bean(RestaurantStatus.class);
-        http().bean(app.restaurant.api.restaurant.CreateRequest.class);
-        http().bean(app.restaurant.api.restaurant.SearchRequest.class);
+        http().bean(CreateRestaurantRequest.class);
+        http().bean(SearchRestaurantRequest.class);
         http().bean(app.restaurant.api.restaurant.SearchResponse.class);
-        http().bean(app.restaurant.api.restaurant.UpdateRequest.class);
+        http().bean(UpdateRestaurantRequest.class);
 
         bind(MealService.class);
         bind(RestaurantService.class);

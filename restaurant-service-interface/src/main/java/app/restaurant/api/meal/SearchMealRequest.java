@@ -6,7 +6,7 @@ import core.framework.api.validate.NotNull;
 /**
  * @author steve
  */
-public class SearchRequest {
+public class SearchMealRequest {
     @NotNull
     @Property(name = "skip")
     public Integer skip = 0;

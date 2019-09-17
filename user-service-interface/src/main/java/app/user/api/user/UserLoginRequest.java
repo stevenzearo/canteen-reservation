@@ -5,7 +5,7 @@ import core.framework.api.json.Property;
 /**
  * @author steve
  */
-public class LoginRequest {
+public class UserLoginRequest {
     @Property(name = "email")
     public String email;
 

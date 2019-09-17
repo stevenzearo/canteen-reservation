@@ -25,6 +25,24 @@ configure(project(':reservation-notification-service')) {
     apply from: file("${rootDir}/gradle/app.gradle")
     dependencies {
         implementation "core.framework:core-ng-api:${coreNGVersion}"
+        implementation project(':reservation-service-interface')
+        implementation project(':user-service-interface')
+    }
+}
+
+configure(project(':reservation-service')) {
+    apply from: file("${rootDir}/gradle/app.gradle")
+    dependencies {
+        implementation "core.framework:core-ng-api:${coreNGVersion}"
+        implementation project(':reservation-service-interface')
+        runtimeOnly 'mysql:mysql-connector-java:8.0.17'
+    }
+}
+
+configure(project(':reservation-service-interface')) {
+    apply from: file("${rootDir}/gradle/lib.gradle")
+    dependencies {
+        implementation "core.framework:core-ng-api:${coreNGVersion}"
     }
 }
 
@@ -57,6 +75,24 @@ configure(project(':restaurant-service')) {
         runtimeOnly 'mysql:mysql-connector-java:8.0.17'
         testImplementation "core.framework:core-ng-mongo-test:${coreNGVersion}"
         implementation "core.framework:core-ng-mongo:${coreNGVersion}"
+        implementation project(':restaurant-service-interface')
+    }
+}
+
+configure(project(':canteen-bo-service')) {
+    apply from: file("${rootDir}/gradle/app.gradle")
+    dependencies {
+        implementation project(':user-service-interface')
+        implementation project(':reservation-service-interface')
+        implementation project(':restaurant-service-interface')
+    }
+}
+
+configure(project(':canteen-web-service')) {
+    apply from: file("${rootDir}/gradle/app.gradle")
+    dependencies {
+        implementation project(':user-service-interface')
+        implementation project(':reservation-service-interface')
         implementation project(':restaurant-service-interface')
     }
 }
