@@ -1,12 +1,12 @@
 package app.restaurant.service;
 
 import app.restaurant.api.meal.CreateMealRequest;
-import app.restaurant.api.meal.MealStatus;
 import app.restaurant.api.meal.MealView;
 import app.restaurant.api.meal.SearchMealRequest;
 import app.restaurant.api.meal.SearchMealResponse;
 import app.restaurant.api.meal.UpdateMealRequest;
 import app.restaurant.domain.Meal;
+import app.restaurant.domain.MealStatus;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Updates;
 import core.framework.inject.Inject;
@@ -51,7 +51,7 @@ public class MealService {
         }
         if (request.status != null) {
             combineFilter = Filters.and(combineFilter, Filters.eq("status", meal.status));
-            combineUpdate = Updates.combine(combineUpdate, Updates.set("status", app.restaurant.domain.RestaurantStatus.valueOf(request.status.name())));
+            combineUpdate = Updates.combine(combineUpdate, Updates.set("status", app.restaurant.domain.MealStatus.valueOf(request.status.name())));
         }
         if (request.restaurantId != null) {
             combineFilter = Filters.and(combineFilter, Filters.eq("restaurant_id", meal.restaurantId));
@@ -85,7 +85,7 @@ public class MealService {
         mealView.id = meal.id;
         mealView.name = meal.name;
         mealView.price = meal.price;
-        mealView.status = meal.status == null ? null : MealStatus.valueOf(meal.status.name());
+        mealView.status = meal.status == null ? null : app.restaurant.api.meal.MealStatus.valueOf(meal.status.name());
         return mealView;
     }
 }

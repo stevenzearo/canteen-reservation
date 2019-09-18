@@ -1,5 +1,6 @@
 package app.user.api.admin;
 
+import app.user.api.user.LoginStatus;
 import core.framework.api.json.Property;
 
 /**

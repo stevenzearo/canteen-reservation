@@ -1,4 +1,4 @@
-package app.user.api.admin;
+package app.user.api.user;
 
 import core.framework.api.json.Property;
 

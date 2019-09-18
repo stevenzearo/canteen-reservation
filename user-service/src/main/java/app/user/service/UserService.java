@@ -1,6 +1,7 @@
 package app.user.service;
 
 import app.user.api.user.CreateUserRequest;
+import app.user.api.user.LoginStatus;
 import app.user.api.user.UserLoginRequest;
 import app.user.api.user.UserLoginResponse;
 import app.user.api.user.SearchUserRequest;
@@ -60,8 +61,9 @@ public class UserService {
         String sha256HexPassword = Hash.sha256Hex(request.password);
         List<User> userList = repository.select("email = ?", request.email);
         UserLoginResponse userLoginResponse = new UserLoginResponse();
+        userLoginResponse.status = LoginStatus.FAILED;
         if (userList.size() == 1 && userList.get(0).password.equals(sha256HexPassword)) {
-            userLoginResponse.status = true;
+            userLoginResponse.status = LoginStatus.SUCCESS;
             userLoginResponse.userView = view(userList.get(0));
         }
         return userLoginResponse;
@@ -73,7 +75,7 @@ public class UserService {
         user.password = request.password;
         user.status = request.status == null ? null : UserStatus.valueOf(request.status.name());
         user.email = request.email;
-        repository.update(user);
+        repository.partialUpdate(user);
     }
 
     public UserView get(Long id) {

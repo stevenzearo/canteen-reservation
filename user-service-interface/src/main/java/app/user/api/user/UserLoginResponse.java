@@ -7,7 +7,7 @@ import core.framework.api.json.Property;
  */
 public class UserLoginResponse {
     @Property(name = "status")
-    public Boolean status;
+    public LoginStatus status;
 
     @Property(name = "user")
     public UserView userView;

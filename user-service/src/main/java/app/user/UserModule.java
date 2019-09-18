@@ -3,7 +3,7 @@ package app.user;
 import app.user.api.AdminWebService;
 import app.user.api.UserWebService;
 import app.user.api.admin.AdminLoginRequest;
-import app.user.api.admin.LoginStatus;
+import app.user.api.user.LoginStatus;
 import app.user.api.user.CreateUserRequest;
 import app.user.api.user.UserLoginRequest;
 import app.user.api.user.UserLoginResponse;

@@ -12,7 +12,7 @@ import core.framework.db.Table;
 public class Admin {
     @PrimaryKey(autoIncrement = true)
     @Column(name = "id")
-    public Integer id;
+    public Long id;
 
     @NotNull
     @Column(name = "name")
