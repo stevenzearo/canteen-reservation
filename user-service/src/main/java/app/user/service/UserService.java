@@ -39,7 +39,7 @@ public class UserService {
         return view(user);
     }
 
-    public SearchResponse searchByConditions(SearchUserRequest request) {
+    public SearchResponse searchListByConditions(SearchUserRequest request) {
         Query<User> query = repository.select();
         query.skip(request.skip);
         query.limit(request.limit);
@@ -51,16 +51,16 @@ public class UserService {
             query.where("status = ?", UserStatus.valueOf(request.status.name()));
         List<UserView> userViewList = query.fetch().stream().map(this::view).collect(Collectors.toList());
         SearchResponse response = new SearchResponse();
-        response.total = query.count();
+        response.total = (long) query.count();
         response.userViewList = userViewList;
         return response;
     }
 
     public UserLoginResponse login(UserLoginRequest request) {
-        String sha256Hex = Hash.sha256Hex(request.password);
+        String sha256HexPassword = Hash.sha256Hex(request.password);
         List<User> userList = repository.select("email = ?", request.email);
         UserLoginResponse userLoginResponse = new UserLoginResponse();
-        if (userList.size() == 1 && userList.get(0).password.equals(sha256Hex)) {
+        if (userList.size() == 1 && userList.get(0).password.equals(sha256HexPassword)) {
             userLoginResponse.status = true;
             userLoginResponse.userView = view(userList.get(0));
         }
@@ -76,10 +76,14 @@ public class UserService {
         repository.update(user);
     }
 
-    public UserView getEmail(String id) {
+    public UserView get(Long id) {
         User user = repository.get(id).orElseThrow(() -> new NotFoundException(Strings.format("user not found, id = {}", id)));
         UserView userView = new UserView();
+        userView.id = user.id;
+        userView.name = user.name;
+        userView.password = user.password;
         userView.email = user.email;
+        userView.status = app.user.api.user.UserStatus.valueOf(user.status.name());
         return userView;
     }
 

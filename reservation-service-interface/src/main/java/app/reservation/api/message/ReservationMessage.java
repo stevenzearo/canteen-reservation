@@ -10,5 +10,5 @@ public class ReservationMessage {
     public String reservationId;
 
     @Property(name = "user_id")
-    public String userId;
+    public Long userId;
 }

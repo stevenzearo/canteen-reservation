@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class SearchResponse {
     @Property(name = "total")
-    public Integer total;
+    public Long total;
 
     @Property(name = "user_list")
     public List<UserView> userViewList;

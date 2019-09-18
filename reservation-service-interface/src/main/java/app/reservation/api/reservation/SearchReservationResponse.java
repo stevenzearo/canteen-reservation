@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class SearchReservationResponse {
     @Property(name = "total")
-    public Integer total;
+    public Long total;
 
     @Property(name = "reservation_list")
     public List<ReservationView> reservationViewList;

@@ -13,11 +13,11 @@ import java.util.Map;
 /**
  * @author steve
  */
-public class MealController {
+public class MealBOController {
     @Inject
     MealWebService service;
 
-    Response create(Request request) {
+    public Response create(Request request) {
         CreateMealRequest createMealRequest = new CreateMealRequest();
         Map<String, String> paramMap = request.queryParams();
         createMealRequest.name = paramMap.get("name");

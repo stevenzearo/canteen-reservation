@@ -26,7 +26,7 @@ public interface UserWebService {
 
     @PUT
     @Path("/user")
-    SearchResponse searchByConditions(SearchUserRequest request);
+    SearchResponse searchListByConditions(SearchUserRequest request);
 
     @POST
     @Path("/user/login")
@@ -38,5 +38,5 @@ public interface UserWebService {
 
     @GET
     @Path("/user/:id")
-    UserView getEmail(@PathParam("id") String id);
+    UserView get(@PathParam("id") Long id);
 }

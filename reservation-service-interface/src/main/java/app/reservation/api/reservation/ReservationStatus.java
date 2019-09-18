@@ -7,8 +7,8 @@ import core.framework.db.DBEnumValue;
  * @author steve
  */
 public enum ReservationStatus {
-    @Property(name = "LOCKED")
-    LOCKED,
-    @Property(name = "UNLOCKED")
-    UNLOCKED
+    @Property(name = "OK")
+    OK,
+    @Property(name = "CANCEL")
+    CANCEL
 }

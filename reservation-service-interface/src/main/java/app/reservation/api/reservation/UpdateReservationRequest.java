@@ -21,7 +21,7 @@ public class UpdateReservationRequest {
     public ZonedDateTime eatTime;
 
     @Property(name = "user_id")
-    public String userId;
+    public Long userId;
 
     @Property(name = "restaurant_id")
     public String restaurantId;

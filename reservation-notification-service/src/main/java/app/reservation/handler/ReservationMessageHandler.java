@@ -1,6 +1,10 @@
 package app.reservation.handler;
 
+import app.reservation.api.ReservationWebService;
 import app.reservation.api.message.ReservationMessage;
+import app.reservation.api.reservation.ReservationStatus;
+import app.reservation.api.reservation.ReservationView;
+import app.reservation.api.reservation.UpdateReservationRequest;
 import app.reservation.job.ReservationJob;
 import app.user.api.UserWebService;
 import app.user.api.user.UserView;
@@ -15,12 +19,18 @@ public class ReservationMessageHandler implements MessageHandler<ReservationMess
     UserWebService userWebService;
 
     @Inject
+    ReservationWebService reservationWebService;
+
+    @Inject
     ReservationJob job;
 
     @Override
     public void handle(String key, ReservationMessage value) throws Exception {
-        job.email = userWebService.getEmail(value.userId).email;
+        job.email = userWebService.get(value.userId).email;
         job.reservationId = value.reservationId;
         job.execute();
+        UpdateReservationRequest updateRequest = new UpdateReservationRequest();
+        updateRequest.status = ReservationStatus.OK;
+        reservationWebService.update(value.reservationId, updateRequest);
     }
 }

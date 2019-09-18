@@ -5,6 +5,7 @@ import app.reservation.api.reservation.ReservationView;
 import app.reservation.api.reservation.SearchReservationRequest;
 import app.reservation.api.reservation.SearchReservationResponse;
 import app.reservation.api.reservation.UpdateReservationRequest;
+import core.framework.api.web.service.GET;
 import core.framework.api.web.service.POST;
 import core.framework.api.web.service.PUT;
 import core.framework.api.web.service.Path;
@@ -17,6 +18,10 @@ public interface ReservationWebService {
     @POST
     @Path("/reservation")
     ReservationView reserve(ReserveRequest request);
+
+    @GET
+    @Path("/reservation/:id")
+    ReservationView get(@PathParam("id") String id);
 
     @PUT
     @Path("/reservation")

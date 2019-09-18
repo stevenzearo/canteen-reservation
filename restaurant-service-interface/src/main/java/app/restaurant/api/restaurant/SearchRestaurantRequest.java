@@ -31,5 +31,5 @@ public class SearchRestaurantRequest {
     public ZonedDateTime reserveDeadline;
 
     @Property(name = "status")
-    public MealStatus status;
+    public RestaurantStatus status;
 }

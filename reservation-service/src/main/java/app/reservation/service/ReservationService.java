@@ -65,6 +65,10 @@ public class ReservationService {
         return view(reservation, mealIdList);
     }
 
+    public ReservationView get(String id) {
+        return view(reservationRepository.get(id).orElseThrow(() -> new NotFoundException(Strings.format("Reservation not found, id = {}", id))));
+    }
+
     public SearchReservationResponse searchListByConditions(SearchReservationRequest request) {
         Query<Reservation> reservationQuery = reservationRepository.select();
         reservationQuery.skip(request.skip);
@@ -74,7 +78,7 @@ public class ReservationService {
         if (request.reserveTime != null)
             reservationQuery.where("reserve_time > ?", request.reserveTime);
         if (request.eatTime != null)
-            reservationQuery.where("eat_time > ?", request.reserveTime);
+            reservationQuery.where("eat_time > ?", request.eatTime);
         if (request.amount != null)
             reservationQuery.where("amount < ?", request.amount);
         if (request.userId != null)
@@ -93,7 +97,7 @@ public class ReservationService {
             }
         ).collect(Collectors.toList());
         SearchReservationResponse response = new SearchReservationResponse();
-        response.total = reservationQuery.count();
+        response.total = (long) reservationQuery.count();
         response.reservationViewList = reservationViewList;
         return response;
     }

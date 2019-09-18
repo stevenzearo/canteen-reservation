@@ -35,7 +35,7 @@ public class Reservation {
 
     @NotNull
     @Column(name = "user_id")
-    public String userId;
+    public Long userId;
 
     @NotNull
     @Column(name = "restaurant_id")

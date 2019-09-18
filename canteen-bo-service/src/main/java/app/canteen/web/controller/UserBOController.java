@@ -30,34 +30,31 @@ public class UserBOController {
     }
 
     // use email and pre_password to reset password
-    public void resetPassword(Request request) {
+    public Response resetPassword(Request request) {
         Map<String, String> paramMap = request.queryParams();
         SearchUserRequest searchUserRequest = new SearchUserRequest();
         searchUserRequest.email = paramMap.get("email");
-        SearchResponse searchResponse = userWebService.searchByConditions(searchUserRequest);
+        SearchResponse searchResponse = userWebService.searchListByConditions(searchUserRequest);
         UpdateUserRequest updateUserRequest = new UpdateUserRequest();
+        String status = "failed";
         if (searchResponse.userViewList.size() == 1
             && searchResponse.userViewList.get(0).email.equals(searchUserRequest.email)
             && searchResponse.userViewList.get(0).password.equals(paramMap.get("pre_password"))
         ) {
             updateUserRequest.password = paramMap.get("new_password");
             userWebService.update(searchResponse.userViewList.get(0).id, updateUserRequest);
+            status = "success";
         }
+        return Response.text(status);
     }
 
-    // use user email to change user status
+    // use user id to change user status
     public void changeUserStatus(Request request) {
         Map<String, String> paramMap = request.queryParams();
         UpdateUserRequest updateUserRequest = new UpdateUserRequest();
-        SearchUserRequest searchUserRequest = new SearchUserRequest();
-        searchUserRequest.email = paramMap.get("email");
-        SearchResponse searchResponse = userWebService.searchByConditions(searchUserRequest);
-        if (searchResponse.userViewList.size() == 1
-            && searchResponse.userViewList.get(0).email.equals(searchUserRequest.email)
-            && searchResponse.userViewList.get(0).password.equals(paramMap.get("pre_password"))
-        ) {
-            updateUserRequest.status = (JSON.fromJSON(UserStatus.class, paramMap.get("status")));
-            userWebService.update(JSON.fromJSON(Long.class, paramMap.get("id")), updateUserRequest);
-        }
+        Long id = Long.valueOf(paramMap.get("id"));
+        userWebService.get(id);
+        updateUserRequest.status = (JSON.fromJSON(UserStatus.class, paramMap.get("status")));
+        userWebService.update(JSON.fromJSON(Long.class, paramMap.get("id")), updateUserRequest);
     }
 }

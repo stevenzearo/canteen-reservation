@@ -24,8 +24,8 @@ public class UserWebServiceImpl implements UserWebService {
     }
 
     @Override
-    public SearchResponse searchByConditions(SearchUserRequest request) {
-        return service.searchByConditions(request);
+    public SearchResponse searchListByConditions(SearchUserRequest request) {
+        return service.searchListByConditions(request);
     }
 
     @Override
@@ -39,7 +39,7 @@ public class UserWebServiceImpl implements UserWebService {
     }
 
     @Override
-    public UserView getEmail(String id) {
-        return service.getEmail(id);
+    public UserView get(Long id) {
+        return service.get(id);
     }
 }

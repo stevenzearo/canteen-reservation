@@ -28,7 +28,7 @@ public class ReserveRequest {
 
     @NotNull
     @Property(name = "user_id")
-    public String userId;
+    public Long userId;
 
     @NotNull
     @Property(name = "restaurant_id")

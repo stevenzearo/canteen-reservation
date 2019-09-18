@@ -20,6 +20,11 @@ public class ReservationWebServiceImpl implements app.reservation.api.Reservatio
     }
 
     @Override
+    public ReservationView get(String id) {
+        return null;
+    }
+
+    @Override
     public SearchReservationResponse searchListByConditions(SearchReservationRequest request) {
         return service.searchListByConditions(request);
     }

@@ -2,7 +2,7 @@ apply from: file("${rootDir}/gradle/project.gradle")
 
 def coreNGVersion = '7.0.0'
 //def hsqlVersion = '2.4.1'
-
+def jacksonVersion = '2.9.8'
 subprojects {
     group = 'steve.canteen.reservation'
     version = '1.0.0'
@@ -17,7 +17,8 @@ subprojects {
     }
     dependencies {
         implementation "core.framework:core-ng:${coreNGVersion}"
-        testImplementation "core.framework:core-ng-test:${coreNGVersion}"
+        implementation "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
+        implementation "core.framework:core-ng-test:${coreNGVersion}"
     }
 }
 
