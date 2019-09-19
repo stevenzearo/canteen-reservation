@@ -22,7 +22,7 @@ public class ReservationAJAXController {
         SearchReservationRequest reservationRequest = new SearchReservationRequest();
         reservationRequest.skip = Integer.valueOf(paramMap.get("skip"));
         reservationRequest.limit = Integer.valueOf(paramMap.get("limit"));
-        reservationRequest.reserveTime = JSON.fromJSON(ZonedDateTime.class, paramMap.get("now_time"));
+        reservationRequest.reserveTimeEqualLaterThan = JSON.fromJSON(ZonedDateTime.class, paramMap.get("now_time"));
         reservationRequest.userId = Long.valueOf(paramMap.get("user_id"));
         return Response.bean(service.searchListByConditions(reservationRequest));
     }

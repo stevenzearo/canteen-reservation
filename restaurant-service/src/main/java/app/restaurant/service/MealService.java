@@ -67,8 +67,13 @@ public class MealService {
         Bson conditions = Filters.and();
         if (!Strings.isBlank(request.name))
             conditions = Filters.and(conditions, Filters.regex("name", request.name));
-        if (request.price != null)
-            conditions = Filters.and(conditions, Filters.eq("price", request.price));
+        if (request.priceEq != null) {
+            conditions = Filters.and(conditions, Filters.eq("price", request.priceEq));
+        } else if (request.priceLte != null) {
+            conditions = Filters.and(conditions, Filters.lte("price", request.priceLte));
+        } else if (request.priceGte != null) {
+            conditions = Filters.and(conditions, Filters.gte("price", request.priceGte));
+        }
         if (request.status != null)
             conditions = Filters.and(conditions, Filters.eq("status", MealStatus.valueOf(request.status.name())));
         if (request.restaurantId != null)

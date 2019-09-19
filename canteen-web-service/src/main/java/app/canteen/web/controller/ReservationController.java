@@ -40,6 +40,7 @@ public class ReservationController {
         reserveRequest.status = ReservationStatus.OK;
         reserveRequest.eatTime = JSON.fromJSON(ZonedDateTime.class, paramMap.get("eat_time"));
         reserveRequest.reserveTime = JSON.fromJSON(ZonedDateTime.class, paramMap.get("reserve_time"));
+        reserveRequest.reserveDeadline = JSON.fromJSON(ZonedDateTime.class, paramMap.get("reserve_deadline"));
         reserveRequest.amount = Double.valueOf(paramMap.get("amount"));
         try {
             reserveRequest.mealIdList = OBJECT_MAPPER.readValue(paramMap.get("meal_id_list"), new TypeReference<List<String>>(){});

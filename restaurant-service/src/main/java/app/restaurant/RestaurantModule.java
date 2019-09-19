@@ -9,7 +9,6 @@ import app.restaurant.api.meal.SearchMealRequest;
 import app.restaurant.api.meal.SearchMealResponse;
 import app.restaurant.api.meal.UpdateMealRequest;
 import app.restaurant.api.restaurant.CreateRestaurantRequest;
-import app.restaurant.api.restaurant.RestaurantStatus;
 import app.restaurant.api.restaurant.RestaurantView;
 import app.restaurant.api.restaurant.SearchRestaurantRequest;
 import app.restaurant.api.restaurant.UpdateRestaurantRequest;
@@ -33,7 +32,7 @@ public class RestaurantModule extends Module {
         http().bean(UpdateMealRequest.class);
 
         http().bean(RestaurantView.class);
-        http().bean(RestaurantStatus.class);
+        http().bean(app.restaurant.api.restaurant.RestaurantStatus.class);
         http().bean(CreateRestaurantRequest.class);
         http().bean(SearchRestaurantRequest.class);
         http().bean(app.restaurant.api.restaurant.SearchResponse.class);

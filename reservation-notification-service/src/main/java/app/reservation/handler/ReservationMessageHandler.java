@@ -19,18 +19,13 @@ public class ReservationMessageHandler implements MessageHandler<ReservationMess
     UserWebService userWebService;
 
     @Inject
-    ReservationWebService reservationWebService;
-
-    @Inject
     ReservationJob job;
 
     @Override
     public void handle(String key, ReservationMessage value) throws Exception {
         job.email = userWebService.get(value.userId).email;
         job.reservationId = value.reservationId;
+        job.reserveDeadline = value.reservationDeadline;
         job.execute();
-        UpdateReservationRequest updateRequest = new UpdateReservationRequest();
-        updateRequest.status = ReservationStatus.OK;
-        reservationWebService.update(value.reservationId, updateRequest);
     }
 }

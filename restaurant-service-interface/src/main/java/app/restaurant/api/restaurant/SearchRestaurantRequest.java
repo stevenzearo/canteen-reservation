@@ -1,6 +1,5 @@
 package app.restaurant.api.restaurant;
 
-import app.restaurant.api.meal.MealStatus;
 import core.framework.api.json.Property;
 import core.framework.api.validate.NotNull;
 
@@ -27,8 +26,14 @@ public class SearchRestaurantRequest {
     @Property(name = "phone")
     public String phone;
 
-    @Property(name = "reserve_deadline")
-    public ZonedDateTime reserveDeadline;
+    @Property(name = "reserve_deadline_lt")
+    public ZonedDateTime reserveDeadlineLaterThan;
+
+    @Property(name = "reserve_deadline_eq")
+    public ZonedDateTime reserveDeadlineEqual;
+
+    @Property(name = "reserve_deadline_bt")
+    public ZonedDateTime reserveDeadlineBeforeThan;
 
     @Property(name = "status")
     public RestaurantStatus status;

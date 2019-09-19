@@ -60,6 +60,7 @@ public class ReservationService {
         ReservationMessage message = new ReservationMessage();
         message.reservationId = reservation.restaurantId;
         message.userId = reservation.userId;
+        message.reservationDeadline = request.reserveDeadline;
         publishMessage(message);
         List<String> mealIdList = request.mealIdList;
         return view(reservation, mealIdList);
@@ -75,12 +76,27 @@ public class ReservationService {
         reservationQuery.limit(request.limit);
         if (request.status != null)
             reservationQuery.where("status = ?", app.reservation.domain.ReservationStatus.valueOf(request.status.name()));
-        if (request.reserveTime != null)
-            reservationQuery.where("reserve_time > ?", request.reserveTime);
-        if (request.eatTime != null)
-            reservationQuery.where("eat_time > ?", request.eatTime);
-        if (request.amount != null)
-            reservationQuery.where("amount < ?", request.amount);
+        if (request.reserveTimeEqualLaterThan != null) {
+            reservationQuery.where("reserve_time >= ?", request.reserveTimeEqualLaterThan);
+        } else if (request.reserveTimeEqualBeforeThan != null) {
+            reservationQuery.where("reserve_time <= ?", request.reserveTimeEqualBeforeThan);
+        } else if (request.reserveTimeEqual != null) {
+            reservationQuery.where("reserve_time = ?", request.reserveTimeEqual);
+        }
+        if (request.eatTimeEqual != null) {
+            reservationQuery.where("eat_time = ?", request.eatTimeEqual);
+        } else if (request.eatTimeEqualLaterThan != null) {
+            reservationQuery.where("eat_time >= ?", request.eatTimeEqualLaterThan);
+        } else if (request.eatTimeEqualBeforeThan != null) {
+            reservationQuery.where("eat_time <= ?", request.eatTimeEqualBeforeThan);
+        }
+        if (request.amountEqual != null) {
+            reservationQuery.where("amount = ?", request.amountEqual);
+        } else if (request.amountEqualGreaterThan != null) {
+            reservationQuery.where("amount >= ?", request.amountEqualGreaterThan);
+        } else if (request.amountEqualLimitThan != null) {
+            reservationQuery.where("amount <= ?", request.amountEqualLimitThan);
+        }
         if (request.userId != null)
             reservationQuery.where("user_id = ?", request.userId);
         if (!Strings.isBlank(request.restaurantId))

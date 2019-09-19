@@ -92,7 +92,7 @@ public class ReservationBOAJAXController {
         List<ReservationView> reservationViewList = Lists.newArrayList();
         AtomicReference<Long> total = new AtomicReference<>(0L);
         SearchReservationRequest reservationRequest = new SearchReservationRequest();
-        reservationRequest.reserveTime = reserveTime;
+        reservationRequest.reserveTimeEqualLaterThan = reserveTime;
         if (userIdList != null) {
             List<String> finalRestaurantIdList1 = restaurantIdList;
             userIdList.forEach(userId -> {

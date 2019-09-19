@@ -19,6 +19,10 @@ public class ReserveRequest {
     public ZonedDateTime reserveTime;
 
     @NotNull
+    @Property(name = "reserve_deadline")
+    public ZonedDateTime reserveDeadline;
+
+    @NotNull
     @Property(name = "status")
     public ReservationStatus status;
 

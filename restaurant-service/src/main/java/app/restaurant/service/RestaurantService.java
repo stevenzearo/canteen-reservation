@@ -1,12 +1,12 @@
 package app.restaurant.service;
 
 import app.restaurant.api.restaurant.CreateRestaurantRequest;
-import app.restaurant.api.restaurant.RestaurantStatus;
 import app.restaurant.api.restaurant.RestaurantView;
-import app.restaurant.api.restaurant.SearchRestaurantRequest;
 import app.restaurant.api.restaurant.SearchResponse;
+import app.restaurant.api.restaurant.SearchRestaurantRequest;
 import app.restaurant.api.restaurant.UpdateRestaurantRequest;
 import app.restaurant.domain.Restaurant;
+import app.restaurant.domain.RestaurantStatus;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Updates;
 import core.framework.inject.Inject;
@@ -53,8 +53,13 @@ public class RestaurantService {
             conditions = Filters.and(conditions, Filters.regex("address", request.address));
         if (!Strings.isBlank(request.phone))
             conditions = Filters.and(conditions, Filters.regex("phone", request.phone));
-        if (request.reserveDeadline != null)
-            conditions = Filters.and(conditions, Filters.lte("reserve_deadline", request.reserveDeadline));
+        if (request.reserveDeadlineLaterThan != null) {
+            conditions = Filters.and(conditions, Filters.gt("reserve_deadline", request.reserveDeadlineLaterThan));
+        } else if (request.reserveDeadlineBeforeThan != null) {
+            conditions = Filters.and(conditions, Filters.lt("reserve_deadline", request.reserveDeadlineBeforeThan));
+        } else if (request.reserveDeadlineEqual != null) {
+            conditions = Filters.and(conditions, Filters.eq("reserve_deadline", request.reserveDeadlineEqual));
+        }
         if (request.status != null)
             conditions = Filters.and(conditions, Filters.eq("status", RestaurantStatus.valueOf(request.status.name())));
         query.filter = conditions;
@@ -97,7 +102,7 @@ public class RestaurantService {
         restaurantView.name = restaurant.name;
         restaurantView.address = restaurant.address;
         restaurantView.phone = restaurant.phone;
-        restaurantView.status = restaurant.status == null ? null : RestaurantStatus.valueOf(restaurant.status.name());
+        restaurantView.status = restaurant.status == null ? null : app.restaurant.api.restaurant.RestaurantStatus.valueOf(restaurant.status.name());
         restaurantView.reserveDeadline = restaurant.reserveDeadline;
         return restaurantView;
     }
