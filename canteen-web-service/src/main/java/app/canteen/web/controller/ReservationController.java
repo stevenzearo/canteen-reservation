@@ -12,11 +12,11 @@ import core.framework.inject.Inject;
 import core.framework.json.JSON;
 import core.framework.web.Request;
 import core.framework.web.Response;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.time.ZonedDateTime;
-import java.time.temporal.TemporalAmount;
-import java.time.zone.ZoneOffsetTransition;
 import java.util.List;
 import java.util.Map;
 
@@ -26,9 +26,9 @@ import static core.framework.internal.json.JSONMapper.OBJECT_MAPPER;
  * @author steve
  */
 public class ReservationController {
+    private final Logger logger = LoggerFactory.getLogger(ReservationController.class);
     @Inject
     ReservationWebService reservationWebService;
-
     @Inject
     RestaurantWebService restaurantWebService;
 
@@ -43,9 +43,9 @@ public class ReservationController {
         reserveRequest.reserveDeadline = JSON.fromJSON(ZonedDateTime.class, paramMap.get("reserve_deadline"));
         reserveRequest.amount = Double.valueOf(paramMap.get("amount"));
         try {
-            reserveRequest.mealIdList = OBJECT_MAPPER.readValue(paramMap.get("meal_id_list"), new TypeReference<List<String>>(){});
+            reserveRequest.mealIdList = OBJECT_MAPPER.readValue(paramMap.get("meal_id_list"), new ListTypeReference());
         } catch (IOException e) {
-            e.printStackTrace();
+            logger.error("OBJECT_MAPPER ERROR");
         }
         ReservationView reserve = reservationWebService.reserve(reserveRequest);
         return Response.bean(reserve);
@@ -64,5 +64,8 @@ public class ReservationController {
             cancelStatus = true;
         }
         return Response.bean(cancelStatus);
+    }
+
+    private static class ListTypeReference extends TypeReference<List<String>> {
     }
 }

@@ -8,8 +8,8 @@ import core.framework.api.web.service.Path;
 /**
  * @author steve
  */
-public interface AdminWebService {
+public interface BOAdminWebService {
     @PUT
-    @Path("/login/admin")
+    @Path("/admin/login")
     AdminLoginResponse login(AdminLoginRequest request);
 }

@@ -28,12 +28,12 @@ public class RestaurantBOController {
         return Response.bean(service.create(createRestaurantRequest));
     }
 
-    public Response setDeadline(Request request) {
+    public Response updateDeadline(Request request) {
         Map<String, String> paramMap = request.queryParams();
         String id = paramMap.get("id");
         UpdateRestaurantRequest updateRestaurantRequest = new UpdateRestaurantRequest();
         updateRestaurantRequest.reserveDeadline = JSON.fromJSON(ZonedDateTime.class, paramMap.get("reserve_deadline"));
         service.update(id, updateRestaurantRequest);
-        return Response.text("set deadline successfully");
+        return Response.text("SUCCESS");
     }
 }

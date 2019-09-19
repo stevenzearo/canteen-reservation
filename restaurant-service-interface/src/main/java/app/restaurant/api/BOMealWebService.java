@@ -13,16 +13,16 @@ import core.framework.api.web.service.PathParam;
 /**
  * @author steve
  */
-public interface MealWebService {
+public interface BOMealWebService {
     @POST
     @Path("/restaurant/:id/meal")
-    MealView create(@PathParam("id") String restaurantId, CreateMealRequest request);
+    MealView create(CreateMealRequest request);
 
     @PUT
-    @Path("/meal/:id")
-    void update(@PathParam("id") String id, UpdateMealRequest request);
+    @Path("/restaurant/:restaurantId/meal/:id")
+    void update(@PathParam("restaurantId") String restaurantId, @PathParam("id") String id, UpdateMealRequest request);
 
     @PUT
-    @Path("/meal")
+    @Path("/restaurant/meal")
     SearchMealResponse searchListByConditions(SearchMealRequest request);
 }

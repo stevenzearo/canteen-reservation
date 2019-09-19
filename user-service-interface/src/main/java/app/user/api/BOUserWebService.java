@@ -4,7 +4,6 @@ import app.user.api.user.CreateUserRequest;
 import app.user.api.user.CreateUserResponse;
 import app.user.api.user.SearchUserRequest;
 import app.user.api.user.SearchUserResponse;
-import app.user.api.user.UserLoginRequest;
 import app.user.api.user.UpdateUserRequest;
 import app.user.api.user.UserView;
 import core.framework.api.http.HTTPStatus;
@@ -18,25 +17,21 @@ import core.framework.api.web.service.ResponseStatus;
 /**
  * @author steve
  */
-public interface UserWebService {
+public interface BOUserWebService {
     @POST
-    @Path("/user")
+    @Path("/user/bo")
     @ResponseStatus(HTTPStatus.CREATED)
     CreateUserResponse create(CreateUserRequest request);
 
-    @PUT
-    @Path("/user/login")
-    UserView login(UserLoginRequest request);
-
-    @PUT
-    @Path("/user/:id")
-    void update(@PathParam("id") Long id, UpdateUserRequest request);
-
     @GET
-    @Path("/user/:id")
+    @Path("/user/bo/:id")
     UserView get(@PathParam("id") Long id);
 
     @PUT
-    @Path("/user")
+    @Path("/user/bo")
     SearchUserResponse search(SearchUserRequest request);
+
+    @PUT
+    @Path("/user/bo/:id")
+    void update(@PathParam("id") Long id, UpdateUserRequest request);
 }

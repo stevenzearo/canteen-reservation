@@ -1,11 +1,12 @@
 package app.canteen.web.controller;
 
+import app.user.api.BOUserWebService;
 import app.user.api.UserWebService;
 import app.user.api.user.CreateUserRequest;
-import app.user.api.user.SearchResponse;
+import app.user.api.user.SearchUserResponse;
 import app.user.api.user.SearchUserRequest;
 import app.user.api.user.UpdateUserRequest;
-import app.user.api.user.UserStatus;
+import app.user.api.user.UserStatusView;
 import core.framework.inject.Inject;
 import core.framework.json.JSON;
 import core.framework.web.Request;
@@ -18,10 +19,10 @@ import java.util.Map;
  */
 public class UserBOController {
     @Inject
-    UserWebService userWebService;
+    BOUserWebService userWebService;
 
     public Response createUser(Request request) {
-        Map<String, String> paramMap = request.queryParams();
+        Map<String, String> paramMap = request.formParams();
         CreateUserRequest createUserRequest = new CreateUserRequest();
         createUserRequest.name = paramMap.get("name");
         createUserRequest.password = paramMap.get("password");
@@ -34,16 +35,16 @@ public class UserBOController {
         Map<String, String> paramMap = request.queryParams();
         SearchUserRequest searchUserRequest = new SearchUserRequest();
         searchUserRequest.email = paramMap.get("email");
-        SearchResponse searchResponse = userWebService.searchListByConditions(searchUserRequest);
-        UpdateUserRequest updateUserRequest = new UpdateUserRequest();
-        String status = "failed";
-        if (searchResponse.userViewList.size() == 1
-            && searchResponse.userViewList.get(0).email.equals(searchUserRequest.email)
-            && searchResponse.userViewList.get(0).password.equals(paramMap.get("pre_password"))
+        SearchUserResponse searchUserResponse = userWebService.search(searchUserRequest);
+        String status = "FAILED";
+        if (searchUserResponse.userList.size() == 1
+            && searchUserResponse.userList.get(0).email.equals(searchUserRequest.email)
+            && searchUserResponse.userList.get(0).password.equals(paramMap.get("pre_password"))
         ) {
+            UpdateUserRequest updateUserRequest = new UpdateUserRequest();
             updateUserRequest.password = paramMap.get("new_password");
-            userWebService.update(searchResponse.userViewList.get(0).id, updateUserRequest);
-            status = "success";
+            userWebService.update(searchUserResponse.userList.get(0).id, updateUserRequest);
+            status = "SUCCESS";
         }
         return Response.text(status);
     }
@@ -54,7 +55,7 @@ public class UserBOController {
         UpdateUserRequest updateUserRequest = new UpdateUserRequest();
         Long id = Long.valueOf(paramMap.get("id"));
         userWebService.get(id);
-        updateUserRequest.status = (JSON.fromJSON(UserStatus.class, paramMap.get("status")));
+        updateUserRequest.status = JSON.fromJSON(UserStatusView.class, paramMap.get("status"));
         userWebService.update(JSON.fromJSON(Long.class, paramMap.get("id")), updateUserRequest);
     }
 }

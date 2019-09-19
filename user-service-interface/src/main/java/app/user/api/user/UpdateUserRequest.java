@@ -16,5 +16,5 @@ public class UpdateUserRequest {
     public String email;
 
     @Property(name = "status")
-    public UserStatus status;
+    public UserStatusView status;
 }

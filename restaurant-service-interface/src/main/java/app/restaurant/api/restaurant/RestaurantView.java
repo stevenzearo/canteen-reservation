@@ -22,12 +22,9 @@ public class RestaurantView {
     @Property(name = "phone")
     public String phone;
 
-    @Property(name = "Status")
+    @Property(name = "status")
     public RestaurantStatus status;
 
-    @Property(name = "reserve_deadline")
+    @Property(name = "reserving_deadline")
     public ZonedDateTime reserveDeadline;
-
-    @Property(name = "meal_list")
-    public List<MealView> mealViewList;
 }

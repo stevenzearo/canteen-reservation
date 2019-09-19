@@ -7,6 +7,7 @@ import app.restaurant.api.meal.SearchMealRequest;
 import app.restaurant.api.meal.SearchMealResponse;
 import app.restaurant.api.meal.UpdateMealRequest;
 import app.restaurant.service.MealService;
+import core.framework.api.web.service.PathParam;
 import core.framework.inject.Inject;
 
 /**
@@ -17,7 +18,7 @@ public class MealWebServiceImpl implements MealWebService {
     MealService service;
 
     @Override
-    public MealView create(CreateMealRequest request) {
+    public MealView create(String restaurantId, CreateMealRequest request) {
         return service.create(request);
     }
 

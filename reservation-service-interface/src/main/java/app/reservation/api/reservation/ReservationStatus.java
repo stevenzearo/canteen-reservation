@@ -1,7 +1,6 @@
 package app.reservation.api.reservation;
 
 import core.framework.api.json.Property;
-import core.framework.db.DBEnumValue;
 
 /**
  * @author steve

@@ -7,10 +7,10 @@ import java.util.List;
 /**
  * @author steve
  */
-public class SearchResponse {
+public class SearchUserResponse {
     @Property(name = "total")
     public Long total;
 
     @Property(name = "user_list")
-    public List<UserView> userViewList;
+    public List<UserView> userList;
 }

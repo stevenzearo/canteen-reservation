@@ -1,9 +1,8 @@
 package app.user.web;
 
-import app.user.api.UserWebService;
+import app.user.api.BOUserWebService;
 import app.user.api.user.CreateUserRequest;
 import app.user.api.user.CreateUserResponse;
-import app.user.api.user.UserLoginRequest;
 import app.user.api.user.SearchUserRequest;
 import app.user.api.user.SearchUserResponse;
 import app.user.api.user.UpdateUserRequest;
@@ -14,7 +13,7 @@ import core.framework.inject.Inject;
 /**
  * @author steve
  */
-public class UserWebServiceImpl implements UserWebService {
+public class BOUserWebServiceImpl implements BOUserWebService {
     @Inject
     UserService service;
 
@@ -26,11 +25,6 @@ public class UserWebServiceImpl implements UserWebService {
     @Override
     public SearchUserResponse search(SearchUserRequest request) {
         return service.searchListByConditions(request);
-    }
-
-    @Override
-    public UserView login(UserLoginRequest request) {
-        return service.login(request);
     }
 
     @Override

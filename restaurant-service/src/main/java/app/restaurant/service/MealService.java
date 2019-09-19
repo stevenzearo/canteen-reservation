@@ -26,13 +26,13 @@ public class MealService {
     @Inject
     MongoCollection<Meal> mealCollection;
 
-    public MealView create(CreateMealRequest request) {
+    public MealView create(String restaurantId, CreateMealRequest request) {
         Meal meal = new Meal();
         meal.name = request.name;
         meal.price = request.price;
         meal.status = app.restaurant.domain.MealStatus.VALID;
         meal.id = UUID.randomUUID().toString();
-        meal.restaurantId = request.restaurantId;
+        meal.restaurantId = restaurantId;
         mealCollection.insert(meal);
         return view(meal);
     }

@@ -22,8 +22,7 @@ public class MealBOController {
         Map<String, String> paramMap = request.queryParams();
         createMealRequest.name = paramMap.get("name");
         createMealRequest.price = JSON.fromJSON(Double.class, paramMap.get("price"));
-        createMealRequest.restaurantId = paramMap.get("restaurant_id");
-        MealView mealView = service.create(createMealRequest);
+        MealView mealView = service.create(paramMap.get("restaurant_id"), createMealRequest);
         return Response.bean(mealView);
     }
 }

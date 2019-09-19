@@ -2,8 +2,8 @@ package app.restaurant.api;
 
 import app.restaurant.api.restaurant.CreateRestaurantRequest;
 import app.restaurant.api.restaurant.RestaurantView;
-import app.restaurant.api.restaurant.SearchRestaurantRequest;
 import app.restaurant.api.restaurant.SearchResponse;
+import app.restaurant.api.restaurant.SearchRestaurantRequest;
 import app.restaurant.api.restaurant.UpdateRestaurantRequest;
 import core.framework.api.web.service.GET;
 import core.framework.api.web.service.POST;
@@ -14,7 +14,7 @@ import core.framework.api.web.service.PathParam;
 /**
  * @author steve
  */
-public interface RestaurantWebService {
+public interface BORestaurantWebService {
     @POST
     @Path("/restaurant")
     RestaurantView create(CreateRestaurantRequest createRestaurantRequest);

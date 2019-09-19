@@ -3,9 +3,7 @@ package app.canteen.web.ajax;
 import app.restaurant.api.MealWebService;
 import app.restaurant.api.meal.MealStatus;
 import app.restaurant.api.meal.SearchMealRequest;
-import app.restaurant.api.meal.SearchMealResponse;
 import core.framework.inject.Inject;
-import core.framework.json.JSON;
 import core.framework.web.Request;
 import core.framework.web.Response;
 

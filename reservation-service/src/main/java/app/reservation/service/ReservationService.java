@@ -34,10 +34,10 @@ public class ReservationService {
     Database database;
 
     @Inject
-    Repository<ReservationMeal> mealRepository;
+    Repository<Reservation> reservationRepository;
 
     @Inject
-    Repository<Reservation> reservationRepository;
+    Repository<ReservationMeal> reservationMealRepository;
 
     public ReservationView reserve(ReserveRequest request) {
         Reservation reservation = new Reservation();
@@ -47,13 +47,14 @@ public class ReservationService {
         reservation.eatTime = request.eatTime;
         reservation.userId = request.userId;
         reservation.restaurantId = request.restaurantId;
+        reservation.status = app.reservation.domain.ReservationStatus.OK;
         try (Transaction transaction = database.beginTransaction()) {
             reservationRepository.insert(reservation);
             request.mealIdList.forEach(mealId -> {
                 ReservationMeal reservationMeal = new ReservationMeal();
                 reservationMeal.mealId = mealId;
                 reservationMeal.userReservationId = reservation.id;
-                mealRepository.insert(reservationMeal);
+                reservationMealRepository.insert(reservationMeal);
             });
             transaction.commit();
         }
@@ -104,7 +105,7 @@ public class ReservationService {
         List<Reservation> reservationList = reservationQuery.fetch();
         List<ReservationView> reservationViewList = reservationList.stream().map(
             reservation -> {
-                Query<ReservationMeal> mealQuery = mealRepository.select();
+                Query<ReservationMeal> mealQuery = reservationMealRepository.select();
                 mealQuery.where("reservation_id = ?", reservation.id);
                 List<ReservationMeal> reservationMealList = mealQuery.fetch();
                 List<String> mealIdList = Lists.newArrayList();

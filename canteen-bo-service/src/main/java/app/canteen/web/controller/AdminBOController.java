@@ -1,8 +1,7 @@
 package app.canteen.web.controller;
 
-import app.user.api.AdminWebService;
+import app.user.api.BOAdminWebService;
 import app.user.api.admin.AdminLoginRequest;
-import core.framework.impl.log.LogManager;
 import core.framework.inject.Inject;
 import core.framework.log.ActionLogContext;
 import core.framework.web.Request;
@@ -15,10 +14,10 @@ import java.util.Map;
  */
 public class AdminBOController {
     @Inject
-    AdminWebService service;
+    BOAdminWebService service;
 
     public Response login(Request request) {
-        Map<String, String> paramMap = request.queryParams();
+        Map<String, String> paramMap = request.formParams();
         String name = paramMap.get("name");
         String password = paramMap.get("password");
         AdminLoginRequest adminLoginRequest = new AdminLoginRequest();

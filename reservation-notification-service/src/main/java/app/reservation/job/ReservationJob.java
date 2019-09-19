@@ -4,6 +4,7 @@ import app.reservation.task.SendEmailTask;
 import core.framework.async.Executor;
 import core.framework.inject.Inject;
 import core.framework.inject.Named;
+import core.framework.log.ActionLogContext;
 import core.framework.scheduler.Job;
 
 import java.time.Duration;
@@ -21,15 +22,14 @@ public class ReservationJob implements Job {
 
     @Inject
     @Named("reservation-executor")
-    private Executor executor;
+    Executor executor;
 
     @Override
     public void execute() throws Exception {
         SendEmailTask sendEmailTask = new SendEmailTask();
         sendEmailTask.reservationId = reservationId;
         sendEmailTask.email = email;
-        executor.submit("async", sendEmailTask, Duration.between(ZonedDateTime.now().plusSeconds(3), reserveDeadline));
-
-//        executor.submit("async", sendEmailTask, Duration.between(ZonedDateTime.now().plusMinutes(10), reserveDeadline));
+        ActionLogContext.put("submitSendEmailTask", email);
+        executor.submit("async", sendEmailTask, Duration.between(ZonedDateTime.now().plusMinutes(10), reserveDeadline));
     }
 }
