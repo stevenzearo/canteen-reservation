@@ -40,6 +40,7 @@ public class ReservationController {
         Long userId = Long.valueOf(paramMap.get("user_id"));
         reserveRequest.status = ReservationStatusView.OK;
         reserveRequest.reservingTime = ZonedDateTime.now();
+        reserveRequest.eatingTime = JSON.fromJSON(ZonedDateTime.class, paramMap.get("eating_time"));
         reserveRequest.reservingDeadline = JSON.fromJSON(ZonedDateTime.class, paramMap.get("reserve_deadline"));
         reserveRequest.amount = Double.valueOf(paramMap.get("amount"));
         try {

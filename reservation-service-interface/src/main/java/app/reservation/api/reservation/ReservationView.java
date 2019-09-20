@@ -18,6 +18,9 @@ public class ReservationView {
     @Property(name = "reserving_time")
     public ZonedDateTime reservingTime;
 
+    @Property(name = "eating_time")
+    public ZonedDateTime eatingTime;
+
     @Property(name = "status")
     public ReservationStatusView status;
 

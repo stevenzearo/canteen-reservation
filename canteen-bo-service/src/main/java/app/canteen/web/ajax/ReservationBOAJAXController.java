@@ -1,7 +1,6 @@
 package app.canteen.web.ajax;
 
 import app.reservation.api.BOReservationWebService;
-import app.reservation.api.ReservationWebService;
 import app.reservation.api.reservation.ReservationView;
 import app.reservation.api.reservation.SearchReservationRequest;
 import app.reservation.api.reservation.SearchReservationResponse;

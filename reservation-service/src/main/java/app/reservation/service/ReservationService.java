@@ -46,6 +46,7 @@ public class ReservationService {
         reservation.id = UUID.randomUUID().toString();
         reservation.amount = request.amount;
         reservation.reservingTime = request.reservingTime;
+        reservation.eatingTime = request.eatingTime;
         reservation.userId = userId;
         reservation.restaurantId = request.restaurantId;
         reservation.status = app.reservation.domain.ReservationStatus.OK;
@@ -69,6 +70,7 @@ public class ReservationService {
         response.id = reservation.id;
         response.amount = reservation.amount;
         response.reservingTime = reservation.reservingTime;
+        response.eatingTime = reservation.eatingTime;
         response.userId = reservation.userId;
         response.restaurantId = reservation.restaurantId;
         response.status = ReservationStatusView.valueOf(reservation.status.name());
@@ -134,6 +136,7 @@ public class ReservationService {
         Reservation reservation = reservationRepository.get(id).orElseThrow(() -> new NotFoundException(Strings.format("Reservation not found, id = {}", id)));
         reservation.amount = update.amount;
         reservation.reservingTime = update.reservingTime;
+        reservation.eatingTime = update.eatingTime;
         reservation.restaurantId = update.restaurantId;
         reservation.status = app.reservation.domain.ReservationStatus.valueOf(update.status.name());
         reservation.userId = update.userId;
@@ -149,6 +152,7 @@ public class ReservationService {
         reservationView.id = reservation.id;
         reservationView.amount = reservation.amount;
         reservationView.reservingTime = reservation.reservingTime;
+        reservationView.eatingTime = reservation.eatingTime;
         reservationView.userId = reservation.userId;
         reservationView.restaurantId = reservation.restaurantId;
         reservationView.status = ReservationStatusView.valueOf(reservation.status.name());

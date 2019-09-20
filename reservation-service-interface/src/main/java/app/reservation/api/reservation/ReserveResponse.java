@@ -20,7 +20,7 @@ public class ReserveResponse {
 
     @Property(name = "eating_time")
     public ZonedDateTime eatingTime;
-    
+
     @Property(name = "status")
     public ReservationStatusView status;
 
