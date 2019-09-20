@@ -5,7 +5,7 @@ import core.framework.api.json.Property;
 /**
  * @author steve
  */
-public enum RestaurantStatus {
+public enum RestaurantStatusView {
     @Property(name = "OPEN")
     OPEN,
     @Property(name = "CLOSE")

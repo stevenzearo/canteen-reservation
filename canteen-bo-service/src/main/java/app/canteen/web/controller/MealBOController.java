@@ -1,7 +1,9 @@
 package app.canteen.web.controller;
 
+import app.restaurant.api.BOMealWebService;
 import app.restaurant.api.MealWebService;
 import app.restaurant.api.meal.CreateMealRequest;
+import app.restaurant.api.meal.CreateMealResponse;
 import app.restaurant.api.meal.MealView;
 import core.framework.inject.Inject;
 import core.framework.json.JSON;
@@ -15,14 +17,14 @@ import java.util.Map;
  */
 public class MealBOController {
     @Inject
-    MealWebService service;
+    BOMealWebService service;
 
     public Response create(Request request) {
         CreateMealRequest createMealRequest = new CreateMealRequest();
-        Map<String, String> paramMap = request.queryParams();
+        Map<String, String> paramMap = request.formParams();
         createMealRequest.name = paramMap.get("name");
         createMealRequest.price = JSON.fromJSON(Double.class, paramMap.get("price"));
-        MealView mealView = service.create(paramMap.get("restaurant_id"), createMealRequest);
-        return Response.bean(mealView);
+        CreateMealResponse response = service.create(paramMap.get("restaurant_id"), createMealRequest);
+        return Response.bean(response);
     }
 }

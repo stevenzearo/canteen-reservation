@@ -9,7 +9,7 @@ import core.framework.mongo.Id;
  * @author steve
  */
 
-@Collection(name = "meal")
+@Collection(name = "meals")
 public class Meal {
     @NotNull
     @Id

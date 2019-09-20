@@ -11,6 +11,6 @@ public class SearchResponse {
     @Property(name = "total")
     public Long total;
 
-    @Property(name = "restaurantList")
-    public List<RestaurantView> restaurantViewList;
+    @Property(name = "restaurant_list")
+    public List<RestaurantView> restaurantList;
 }

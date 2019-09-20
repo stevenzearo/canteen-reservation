@@ -1,0 +1,57 @@
+package app.reservation.task;
+
+import app.reservation.domain.EmailNotification;
+import app.reservation.domain.EmailNotificationStatus;
+import app.reservation.job.SendingEmailSchedulerJob;
+import core.framework.async.Task;
+import core.framework.db.Query;
+import core.framework.db.Repository;
+import core.framework.inject.Inject;
+import core.framework.util.Strings;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.List;
+
+/**
+ * @author steve
+ */
+public class SendingEmailTask implements Task {
+    private final Logger logger = LoggerFactory.getLogger(SendingEmailSchedulerJob.class);
+
+    @Inject
+    Repository<EmailNotification> repository;
+
+    @Override
+    public void execute() throws Exception {
+        Query<EmailNotification> query = repository.select();
+        int skip = 0;
+        int limit = 10;
+        int count = 0;
+        do {
+            query.where("sending_status = ?", EmailNotificationStatus.READY);
+            query.orderBy("notifying_time ASC");
+            query.skip(skip);
+            query.limit(limit);
+            List<EmailNotification> emailNotificationList = query.fetch();
+            count = query.count();
+            if (count > 0) {
+                emailNotificationList.forEach(notification -> {
+                    sendEmail(notification.userEmail, notification.reservationId);
+                    changeNotificationStatus(notification);
+                });
+            }
+            limit = (skip + 1) * limit;
+            skip++;
+        } while (count > skip * limit);
+    }
+
+    private void sendEmail(String email, String reservationId) {
+        logger.warn(Strings.format("according to notification id = {}, sending email to {}", reservationId, email));
+    }
+
+    private void changeNotificationStatus(EmailNotification notification) {
+        notification.sendingStatus = EmailNotificationStatus.SENT;
+        repository.update(notification);
+    }
+}

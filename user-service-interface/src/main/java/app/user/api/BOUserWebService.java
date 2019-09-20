@@ -19,19 +19,19 @@ import core.framework.api.web.service.ResponseStatus;
  */
 public interface BOUserWebService {
     @POST
-    @Path("/user/bo")
+    @Path("/bo/user")
     @ResponseStatus(HTTPStatus.CREATED)
     CreateUserResponse create(CreateUserRequest request);
 
     @GET
-    @Path("/user/bo/:id")
+    @Path("/bo/user/:id")
     UserView get(@PathParam("id") Long id);
 
     @PUT
-    @Path("/user/bo")
+    @Path("/bo/user")
     SearchUserResponse search(SearchUserRequest request);
 
     @PUT
-    @Path("/user/bo/:id")
+    @Path("/bo/user/:id")
     void update(@PathParam("id") Long id, UpdateUserRequest request);
 }

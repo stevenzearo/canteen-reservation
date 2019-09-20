@@ -1,7 +1,7 @@
 package app.canteen.web.ajax;
 
 import app.restaurant.api.RestaurantWebService;
-import app.restaurant.api.restaurant.RestaurantStatus;
+import app.restaurant.api.restaurant.RestaurantStatusView;
 import app.restaurant.api.restaurant.SearchRestaurantRequest;
 import core.framework.inject.Inject;
 import core.framework.json.JSON;
@@ -19,12 +19,12 @@ public class RestaurantAJAXController {
     RestaurantWebService service;
 
     public Response searchAvailableListByDate(Request request) {
-        Map<String, String> paramMap = request.queryParams();
+        Map<String, String> paramMap = request.formParams();
         SearchRestaurantRequest restaurantRequest = new SearchRestaurantRequest();
         restaurantRequest.skip = Integer.valueOf(paramMap.get("skip"));
         restaurantRequest.limit = Integer.valueOf(paramMap.get("limit"));
-        restaurantRequest.reserveDeadlineLaterThan = JSON.fromJSON(ZonedDateTime.class, paramMap.get("reserve_deadline_lt"));
-        restaurantRequest.status = RestaurantStatus.OPEN;
-        return Response.bean(service.searchListByConditions(restaurantRequest));
+        restaurantRequest.reservingDeadlineLaterThan = JSON.fromJSON(ZonedDateTime.class, paramMap.get("reserve_deadline_lt"));
+        restaurantRequest.status = RestaurantStatusView.OPEN;
+        return Response.bean(service.search(restaurantRequest));
     }
 }

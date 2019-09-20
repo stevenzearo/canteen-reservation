@@ -1,10 +1,8 @@
 package app.restaurant.api.restaurant;
 
-import app.restaurant.api.meal.MealView;
 import core.framework.api.json.Property;
 
 import java.time.ZonedDateTime;
-import java.util.List;
 
 /**
  * @author steve
@@ -23,8 +21,8 @@ public class RestaurantView {
     public String phone;
 
     @Property(name = "status")
-    public RestaurantStatus status;
+    public RestaurantStatusView status;
 
     @Property(name = "reserving_deadline")
-    public ZonedDateTime reserveDeadline;
+    public ZonedDateTime reservingDeadline;
 }

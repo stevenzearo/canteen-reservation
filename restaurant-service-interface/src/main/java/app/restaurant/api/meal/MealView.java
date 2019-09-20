@@ -16,5 +16,5 @@ public class MealView {
     public Double price;
 
     @Property(name = "status")
-    public MealStatus status;
+    public MealStatusView status;
 }

@@ -11,7 +11,7 @@ import java.time.ZonedDateTime;
 /**
  * @author steve
  */
-@Collection(name = "restaurant")
+@Collection(name = "restaurants")
 public class Restaurant {
     @NotNull
     @Id
@@ -34,8 +34,8 @@ public class Restaurant {
     public String phone;
 
     @NotNull
-    @Field(name = "reserve_deadline")
-    public ZonedDateTime reserveDeadline;
+    @Field(name = "reserving_deadline")
+    public ZonedDateTime reservingDeadline;
 
     @NotNull
     @Field(name = "status")

@@ -1,9 +1,16 @@
 package app.reservation;
 
-import app.reservation.job.ReservationJob;
+import app.reservation.domain.EmailNotification;
+import app.reservation.job.SavingNotificationJob;
+import app.reservation.job.SendingEmailSchedulerJob;
+import app.reservation.service.EmailNotificationService;
+import app.reservation.task.SendingEmailTask;
 import app.user.api.UserWebService;
 import core.framework.module.ExecutorConfig;
 import core.framework.module.Module;
+import core.framework.module.SchedulerConfig;
+
+import java.time.Duration;
 
 /**
  * @author steve
@@ -11,10 +18,15 @@ import core.framework.module.Module;
 public class ReservationNotificationModule extends Module {
     @Override
     protected void initialize() {
-        ExecutorConfig executorConfig = executor();
-        executorConfig.add("reservation-executor", 5);
-        bind(ReservationJob.class);
+        db().repository(EmailNotification.class);
         api().client(UserWebService.class, requiredProperty("app.user.serviceURL"));
-
+        bind(EmailNotificationService.class);
+        bind(SavingNotificationJob.class);
+        bind(SendingEmailTask.class);
+        ExecutorConfig executorConfig = executor();
+        executorConfig.add("executor", 5);
+        SchedulerConfig schedulerConfig = schedule();
+        SendingEmailSchedulerJob sendingEmailSchedulerJob = bind(SendingEmailSchedulerJob.class);
+        schedulerConfig.fixedRate("scheduler", sendingEmailSchedulerJob, Duration.ofMinutes(1));
     }
 }

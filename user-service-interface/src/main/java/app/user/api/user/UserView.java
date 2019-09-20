@@ -15,9 +15,6 @@ public class UserView {
     @Property(name = "name")
     public String name;
 
-    @Property(name = "password")
-    public String password;
-
     @Property(name = "status")
     public UserStatusView status;
 }

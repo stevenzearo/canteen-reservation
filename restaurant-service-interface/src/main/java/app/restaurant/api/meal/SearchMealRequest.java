@@ -18,18 +18,15 @@ public class SearchMealRequest {
     @Property(name = "name")
     public String name;
 
-    @Property(name = "price_eq")
-    public Double priceEq;
+    @Property(name = "price_equal")
+    public Double priceEqual;
 
-    @Property(name = "price_lte")
-    public Double priceLte;
+    @Property(name = "price_less_than_equal")
+    public Double priceLessThanEqual;
 
-    @Property(name = "price_gte")
-    public Double priceGte;
+    @Property(name = "price_grater_than_equal")
+    public Double priceGreaterThanEqual;
 
     @Property(name = "status")
-    public MealStatus status;
-
-    @Property(name = "restaurant_id")
-    public String restaurantId;
+    public MealStatusView status;
 }

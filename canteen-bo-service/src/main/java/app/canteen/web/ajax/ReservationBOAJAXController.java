@@ -1,5 +1,6 @@
 package app.canteen.web.ajax;
 
+import app.reservation.api.BOReservationWebService;
 import app.reservation.api.ReservationWebService;
 import app.reservation.api.reservation.ReservationView;
 import app.reservation.api.reservation.SearchReservationRequest;
@@ -7,7 +8,6 @@ import app.reservation.api.reservation.SearchReservationResponse;
 import app.restaurant.api.RestaurantWebService;
 import app.restaurant.api.restaurant.SearchRestaurantRequest;
 import app.user.api.BOUserWebService;
-import app.user.api.UserWebService;
 import app.user.api.user.SearchUserRequest;
 import app.user.api.user.SearchUserResponse;
 import core.framework.inject.Inject;
@@ -27,7 +27,7 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 public class ReservationBOAJAXController {
     @Inject
-    ReservationWebService reservationWebService;
+    BOReservationWebService reservationWebService;
 
     @Inject
     BOUserWebService userWebService;
@@ -48,12 +48,12 @@ public class ReservationBOAJAXController {
         SearchReservationRequest searchRequest = new SearchReservationRequest();
         searchRequest.limit = limit;
         searchRequest.skip = skip;
-        return Response.bean(reservationWebService.searchListByConditions(searchRequest));
+        return Response.bean(reservationWebService.search(searchRequest));
     }
 
     // search reservation via username/restaurant name/booking date
     public Response searchListByConditionsAndPage(Request request) {
-        Map<String, String> paramMap = request.queryParams();
+        Map<String, String> paramMap = request.formParams();
         String userName = paramMap.get("user_name");
         String restaurantName = paramMap.get("restaurant_name");
         ZonedDateTime searchTime = JSON.fromJSON(ZonedDateTime.class, paramMap.get("reserve_date"));
@@ -76,15 +76,15 @@ public class ReservationBOAJAXController {
             restaurantRequest.name = restaurantName;
             restaurantRequest.skip = 0;
             restaurantRequest.limit = 10;
-            app.restaurant.api.restaurant.SearchResponse restaurantResponse = restaurantWebService.searchListByConditions(restaurantRequest); // this search result size can be very big, restricted by skip(0) and limit(10)
+            app.restaurant.api.restaurant.SearchResponse restaurantResponse = restaurantWebService.search(restaurantRequest); // this search result size can be very big, restricted by skip(0) and limit(10)
             restaurantTotal = restaurantResponse.total;
-            if (restaurantResponse.restaurantViewList.size() > 0)
-                restaurantResponse.restaurantViewList.forEach(restaurantView -> restaurantIdList.add(restaurantView.id));
+            if (restaurantResponse.restaurantList.size() > 0)
+                restaurantResponse.restaurantList.forEach(restaurantView -> restaurantIdList.add(restaurantView.id));
         }
         List<ReservationView> reservationViewList = Lists.newArrayList();
         AtomicReference<Long> reservationTotal = new AtomicReference<>(0L);
         SearchReservationRequest reservationRequest = new SearchReservationRequest();
-        reservationRequest.reserveTimeEqualLaterThan = searchTime;
+        reservationRequest.reservingTimeEqualLaterThan = searchTime;
         if (!userIdList.isEmpty()) {
             userIdList.forEach(userId -> {
                 reservationRequest.userId = userId;
@@ -93,7 +93,7 @@ public class ReservationBOAJAXController {
                         reservationRequest.restaurantId = restaurantId;
                         reservationRequest.skip = 0;
                         reservationRequest.limit = 10;
-                        SearchReservationResponse reservationResponse = reservationWebService.searchListByConditions(reservationRequest); // this search result size can be very big, restricted by skip(0) and limit(10)
+                        SearchReservationResponse reservationResponse = reservationWebService.search(reservationRequest); // this search result size can be very big, restricted by skip(0) and limit(10)
                         reservationTotal.updateAndGet(v -> v + reservationResponse.total);
                         reservationViewList.addAll(reservationResponse.reservationViewList);
                     });

@@ -8,7 +8,7 @@ import core.framework.db.Table;
 /**
  * @author steve
  */
-@Table(name = "reservation_meal")
+@Table(name = "reservation_meals")
 public class ReservationMeal {
     @PrimaryKey(autoIncrement = true)
     @Column(name = "id")

@@ -1,6 +1,6 @@
 package app.reservation;
 
-import app.reservation.api.message.ReservationMessage;
+import app.reservation.api.message.SendEmailReservationMessage;
 import app.reservation.handler.ReservationMessageHandler;
 import core.framework.module.App;
 import core.framework.module.SystemModule;
@@ -14,6 +14,6 @@ public class ReservationNotificationApp extends App {
         load(new SystemModule("sys.properties"));
         load(new ReservationNotificationModule());
         kafka().groupId("group1");
-        kafka().subscribe("reservation", ReservationMessage.class, bind(ReservationMessageHandler.class));
+        kafka().subscribe("reservation", SendEmailReservationMessage.class, bind(ReservationMessageHandler.class));
     }
 }

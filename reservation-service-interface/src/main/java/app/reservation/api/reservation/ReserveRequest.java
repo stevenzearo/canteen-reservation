@@ -15,24 +15,20 @@ public class ReserveRequest {
     public Double amount;
 
     @NotNull
-    @Property(name = "reserve_time")
-    public ZonedDateTime reserveTime;
+    @Property(name = "reserving_time")
+    public ZonedDateTime reservingTime;
 
     @NotNull
-    @Property(name = "reserve_deadline")
-    public ZonedDateTime reserveDeadline;
+    @Property(name = "eating_time")
+    public ZonedDateTime eatingTime;
+
+    @NotNull
+    @Property(name = "reserving_deadline")
+    public ZonedDateTime reservingDeadline;
 
     @NotNull
     @Property(name = "status")
-    public ReservationStatus status;
-
-    @NotNull
-    @Property(name = "eat_time")
-    public ZonedDateTime eatTime;
-
-    @NotNull
-    @Property(name = "user_id")
-    public Long userId;
+    public ReservationStatusView status;
 
     @NotNull
     @Property(name = "restaurant_id")

@@ -15,19 +15,11 @@ import core.framework.api.web.service.PathParam;
  * @author steve
  */
 public interface RestaurantWebService {
-    @POST
-    @Path("/restaurant")
-    RestaurantView create(CreateRestaurantRequest createRestaurantRequest);
-
-    @GET
-    @Path("/restaurant/:id")
-    RestaurantView get(@PathParam("id") String id);
+   @GET
+    @Path("/restaurant/:restaurantId")
+    RestaurantView get(@PathParam("restaurantId") String restaurantId);
 
     @PUT
     @Path("/restaurant")
-    SearchResponse searchListByConditions(SearchRestaurantRequest request);
-
-    @PUT
-    @Path("/restaurant/:id")
-    void update(@PathParam("id") String id, UpdateRestaurantRequest request);
+    SearchResponse search(SearchRestaurantRequest request);
 }

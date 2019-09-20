@@ -2,7 +2,7 @@ package app.restaurant.service;
 
 import app.restaurant.RestaurantIntegrationExtension;
 import app.restaurant.api.restaurant.CreateRestaurantRequest;
-import app.restaurant.api.restaurant.RestaurantStatus;
+import app.restaurant.api.restaurant.RestaurantStatusView;
 import app.restaurant.api.restaurant.RestaurantView;
 import app.restaurant.api.restaurant.SearchResponse;
 import app.restaurant.api.restaurant.SearchRestaurantRequest;
@@ -64,7 +64,7 @@ class RestaurantServiceTest extends RestaurantIntegrationExtension {
     void searchListByConditions() {
         SearchRestaurantRequest request = new SearchRestaurantRequest();
         request.reserveDeadlineLaterThan = ZonedDateTime.now().plusDays(2);
-        request.status = RestaurantStatus.OPEN;
+        request.status = RestaurantStatusView.OPEN;
         SearchResponse response = restaurantService.searchListByConditions(request);
         assertThat(response.total).isGreaterThan(0);
         assertThat(response.restaurantViewList).size().isGreaterThan(0);
@@ -76,7 +76,7 @@ class RestaurantServiceTest extends RestaurantIntegrationExtension {
         updateRequest.reserveDeadline = ZonedDateTime.now().plusDays(2);
         restaurantService.update(restaurantId, updateRequest);
         SearchRestaurantRequest searchRequest = new SearchRestaurantRequest();
-        searchRequest.status = RestaurantStatus.OPEN;
+        searchRequest.status = RestaurantStatusView.OPEN;
         searchRequest.reserveDeadlineLaterThan = ZonedDateTime.now().plusDays(2);
         SearchResponse response = restaurantService.searchListByConditions(searchRequest);
         assertThat(response.total).isEqualTo(0);

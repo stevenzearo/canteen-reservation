@@ -1,12 +1,15 @@
 package app.restaurant.service;
 
 import app.restaurant.api.meal.CreateMealRequest;
+import app.restaurant.api.meal.CreateMealResponse;
+import app.restaurant.api.meal.MealStatusView;
 import app.restaurant.api.meal.MealView;
 import app.restaurant.api.meal.SearchMealRequest;
 import app.restaurant.api.meal.SearchMealResponse;
 import app.restaurant.api.meal.UpdateMealRequest;
 import app.restaurant.domain.Meal;
 import app.restaurant.domain.MealStatus;
+import app.restaurant.domain.Restaurant;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Updates;
 import core.framework.inject.Inject;
@@ -26,7 +29,10 @@ public class MealService {
     @Inject
     MongoCollection<Meal> mealCollection;
 
-    public MealView create(String restaurantId, CreateMealRequest request) {
+    @Inject
+    MongoCollection<Restaurant> restaurantCollection;
+
+    public CreateMealResponse create(String restaurantId, CreateMealRequest request) {
         Meal meal = new Meal();
         meal.name = request.name;
         meal.price = request.price;
@@ -34,10 +40,16 @@ public class MealService {
         meal.id = UUID.randomUUID().toString();
         meal.restaurantId = restaurantId;
         mealCollection.insert(meal);
-        return view(meal);
+        CreateMealResponse response = new CreateMealResponse();
+        response.id = meal.id;
+        response.name = meal.name;
+        response.price = meal.price;
+        response.status = MealStatusView.valueOf(meal.status.name());
+        return response;
     }
 
-    public void update(String id, UpdateMealRequest request) {
+    public void update(String restaurantId, String id, UpdateMealRequest request) {
+        restaurantCollection.get(restaurantId).orElseThrow(() -> new NotFoundException(Strings.format("Restaurant not found, id = {}", restaurantId)));
         Meal meal = mealCollection.get(id).orElseThrow(() -> new NotFoundException(Strings.format("Meal not found, id = {}", id)));
         Bson combineFilter = Filters.and();
         Bson combineUpdate = Updates.combine();
@@ -53,31 +65,25 @@ public class MealService {
             combineFilter = Filters.and(combineFilter, Filters.eq("status", meal.status));
             combineUpdate = Updates.combine(combineUpdate, Updates.set("status", app.restaurant.domain.MealStatus.valueOf(request.status.name())));
         }
-        if (request.restaurantId != null) {
-            combineFilter = Filters.and(combineFilter, Filters.eq("restaurant_id", meal.restaurantId));
-            combineUpdate = Updates.combine(combineUpdate, Updates.set("status", request.restaurantId));
-        }
         mealCollection.update(combineFilter, combineUpdate);
     }
 
-    public SearchMealResponse searchListByConditions(SearchMealRequest request) {
+    public SearchMealResponse search(String restaurantId, SearchMealRequest request) {
         Query query = new Query();
         query.skip = request.skip;
         query.limit = request.limit;
-        Bson conditions = Filters.and();
+        Bson conditions = Filters.and(Filters.eq("restaurant_id", restaurantId));
         if (!Strings.isBlank(request.name))
             conditions = Filters.and(conditions, Filters.regex("name", request.name));
-        if (request.priceEq != null) {
-            conditions = Filters.and(conditions, Filters.eq("price", request.priceEq));
-        } else if (request.priceLte != null) {
-            conditions = Filters.and(conditions, Filters.lte("price", request.priceLte));
-        } else if (request.priceGte != null) {
-            conditions = Filters.and(conditions, Filters.gte("price", request.priceGte));
+        if (request.priceEqual != null) {
+            conditions = Filters.and(conditions, Filters.eq("price", request.priceEqual));
+        } else if (request.priceLessThanEqual != null) {
+            conditions = Filters.and(conditions, Filters.lte("price", request.priceLessThanEqual));
+        } else if (request.priceGreaterThanEqual != null) {
+            conditions = Filters.and(conditions, Filters.gte("price", request.priceGreaterThanEqual));
         }
         if (request.status != null)
             conditions = Filters.and(conditions, Filters.eq("status", MealStatus.valueOf(request.status.name())));
-        if (request.restaurantId != null)
-            conditions = Filters.and(conditions, Filters.eq("restaurant_id", request.restaurantId));
         query.filter = conditions;
         SearchMealResponse response = new SearchMealResponse();
         response.total = mealCollection.count(query.filter);
@@ -90,7 +96,7 @@ public class MealService {
         mealView.id = meal.id;
         mealView.name = meal.name;
         mealView.price = meal.price;
-        mealView.status = meal.status == null ? null : app.restaurant.api.meal.MealStatus.valueOf(meal.status.name());
+        mealView.status = meal.status == null ? null : MealStatusView.valueOf(meal.status.name());
         return mealView;
     }
 }

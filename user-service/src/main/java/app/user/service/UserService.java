@@ -99,7 +99,6 @@ public class UserService {
         userView.id = user.id;
         userView.name = user.name;
         userView.email = user.email;
-        userView.password = user.password;
         userView.status = user.status == null ? null : UserStatusView.valueOf(user.status.name());
         return userView;
     }

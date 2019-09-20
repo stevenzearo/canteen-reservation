@@ -1,16 +1,17 @@
 package app.canteen.web.controller;
 
 import app.user.api.BOUserWebService;
-import app.user.api.UserWebService;
 import app.user.api.user.CreateUserRequest;
-import app.user.api.user.SearchUserResponse;
-import app.user.api.user.SearchUserRequest;
 import app.user.api.user.UpdateUserRequest;
 import app.user.api.user.UserStatusView;
+import app.user.api.user.UserView;
 import core.framework.inject.Inject;
 import core.framework.json.JSON;
+import core.framework.util.Strings;
 import core.framework.web.Request;
 import core.framework.web.Response;
+import core.framework.web.exception.BadRequestException;
+import core.framework.web.exception.NotFoundException;
 
 import java.util.Map;
 
@@ -30,23 +31,24 @@ public class UserBOController {
         return Response.bean(userWebService.create(createUserRequest));
     }
 
-    // use email and pre_password to reset password
+    // use user_id to reset password
     public Response resetPassword(Request request) {
-        Map<String, String> paramMap = request.queryParams();
-        SearchUserRequest searchUserRequest = new SearchUserRequest();
-        searchUserRequest.email = paramMap.get("email");
-        SearchUserResponse searchUserResponse = userWebService.search(searchUserRequest);
-        String status = "FAILED";
-        if (searchUserResponse.userList.size() == 1
-            && searchUserResponse.userList.get(0).email.equals(searchUserRequest.email)
-            && searchUserResponse.userList.get(0).password.equals(paramMap.get("pre_password"))
-        ) {
+        Map<String, String> paramMap = request.formParams();
+        Long userId;
+        try {
+            userId = Long.valueOf(paramMap.get("user_id"));
+        } catch (NumberFormatException e) {
+            throw new BadRequestException(Strings.format("invalid user id, user id must be Long, user_id = {}", paramMap.get("user_id")));
+        }
+        UserView userView = userWebService.get(userId);
+        if (userView != null) {
             UpdateUserRequest updateUserRequest = new UpdateUserRequest();
             updateUserRequest.password = paramMap.get("new_password");
-            userWebService.update(searchUserResponse.userList.get(0).id, updateUserRequest);
-            status = "SUCCESS";
+            userWebService.update(userView.id, updateUserRequest);
+        } else {
+            throw new NotFoundException(Strings.format("user not found, id = {}", paramMap.get("user_id")));
         }
-        return Response.text(status);
+        return Response.bean(userView);
     }
 
     // use user id to change user status

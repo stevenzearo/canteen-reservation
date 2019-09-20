@@ -1,6 +1,6 @@
 package app.reservation;
 
-import app.reservation.api.message.ReservationMessage;
+import app.reservation.api.message.SendEmailReservationMessage;
 import core.framework.module.App;
 import core.framework.module.KafkaConfig;
 import core.framework.module.SystemModule;
@@ -14,7 +14,7 @@ public class ReservationApp extends App {
         load(new SystemModule("sys.properties"));
         KafkaConfig kafkaConfig = kafka();
 //        kafkaConfig.uri(requiredProperty("sys.kafka.URI"));
-        kafkaConfig.publish("reservation", ReservationMessage.class);
+        kafkaConfig.publish("reservation", SendEmailReservationMessage.class);
         load(new ReservationModule());
     }
 }

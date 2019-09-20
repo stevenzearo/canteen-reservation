@@ -1,7 +1,7 @@
 package app.canteen.web.ajax;
 
 import app.restaurant.api.MealWebService;
-import app.restaurant.api.meal.MealStatus;
+import app.restaurant.api.meal.MealStatusView;
 import app.restaurant.api.meal.SearchMealRequest;
 import core.framework.inject.Inject;
 import core.framework.web.Request;
@@ -17,12 +17,11 @@ public class MealAJAXController {
     MealWebService service;
 
     public Response searchValidListByRestaurantId(Request request) {
-        Map<String, String> paramMap = request.queryParams();
+        Map<String, String> paramMap = request.formParams();
         SearchMealRequest mealRequest = new SearchMealRequest();
         mealRequest.skip = Integer.valueOf(paramMap.get("skip"));
         mealRequest.limit = Integer.valueOf(paramMap.get("limit"));
-        mealRequest.restaurantId = paramMap.get("restaurant_id");
-        mealRequest.status = MealStatus.VALID;
-        return Response.bean(service.searchListByConditions(mealRequest));
+        mealRequest.status = MealStatusView.VALID;
+        return Response.bean(service.search(paramMap.get("restaurant_id"), mealRequest));
     }
 }

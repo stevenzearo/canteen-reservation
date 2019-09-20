@@ -26,15 +26,15 @@ public class SearchRestaurantRequest {
     @Property(name = "phone")
     public String phone;
 
-    @Property(name = "reserve_deadline_lt")
-    public ZonedDateTime reserveDeadlineLaterThan;
+    @Property(name = "reserving_deadline_later_than")
+    public ZonedDateTime reservingDeadlineLaterThan;
 
-    @Property(name = "reserve_deadline_eq")
-    public ZonedDateTime reserveDeadlineEqual;
+    @Property(name = "reserving_deadline_equal")
+    public ZonedDateTime reservingDeadlineEqual;
 
-    @Property(name = "reserve_deadline_bt")
-    public ZonedDateTime reserveDeadlineBeforeThan;
+    @Property(name = "reserving_deadline_before_than")
+    public ZonedDateTime reservingDeadlineBeforeThan;
 
     @Property(name = "status")
-    public RestaurantStatus status;
+    public RestaurantStatusView status;
 }

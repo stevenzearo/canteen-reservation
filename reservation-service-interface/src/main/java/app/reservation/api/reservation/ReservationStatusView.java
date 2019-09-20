@@ -5,7 +5,7 @@ import core.framework.api.json.Property;
 /**
  * @author steve
  */
-public enum ReservationStatus {
+public enum ReservationStatusView {
     @Property(name = "OK")
     OK,
     @Property(name = "CANCEL")

@@ -5,7 +5,7 @@ import core.framework.api.json.Property;
 /**
  * @author steve
  */
-public enum MealStatus {
+public enum MealStatusView {
     @Property(name = "VALID")
     VALID,
     @Property(name = "INVALID")

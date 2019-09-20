@@ -11,14 +11,11 @@ public class UpdateReservationRequest {
     @Property(name = "amount")
     public Double amount;
 
-    @Property(name = "reserve_time")
-    public ZonedDateTime reserveTime;
+    @Property(name = "reserving_time")
+    public ZonedDateTime reservingTime;
 
     @Property(name = "status")
-    public ReservationStatus status;
-
-    @Property(name = "eat_time")
-    public ZonedDateTime eatTime;
+    public ReservationStatusView status;
 
     @Property(name = "user_id")
     public Long userId;

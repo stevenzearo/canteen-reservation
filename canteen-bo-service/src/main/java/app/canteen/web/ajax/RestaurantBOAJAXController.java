@@ -29,7 +29,7 @@ public class RestaurantBOAJAXController {
         SearchRestaurantRequest restaurantRequest = new SearchRestaurantRequest();
         restaurantRequest.skip = skip;
         restaurantRequest.limit = limit;
-        SearchResponse response = service.searchListByConditions(restaurantRequest);
+        SearchResponse response = service.search(restaurantRequest);
         return Response.bean(response);
     }
 }

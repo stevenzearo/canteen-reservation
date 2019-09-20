@@ -2,7 +2,7 @@ package app.restaurant.service;
 
 import app.restaurant.RestaurantIntegrationExtension;
 import app.restaurant.api.meal.CreateMealRequest;
-import app.restaurant.api.meal.MealStatus;
+import app.restaurant.api.meal.MealStatusView;
 import app.restaurant.api.meal.MealView;
 import app.restaurant.api.meal.SearchMealRequest;
 import app.restaurant.api.meal.SearchMealResponse;
@@ -71,13 +71,13 @@ class MealServiceTest extends RestaurantIntegrationExtension {
     @Test
     void update() {
         UpdateMealRequest updateMealRequest = new UpdateMealRequest();
-        updateMealRequest.status = MealStatus.INVALID;
+        updateMealRequest.status = MealStatusView.INVALID;
         mealService.update(mealId, updateMealRequest);
         SearchMealRequest searchMealRequest = new SearchMealRequest();
-        searchMealRequest.status = MealStatus.INVALID;
+        searchMealRequest.status = MealStatusView.INVALID;
         SearchMealResponse searchMealResponse = mealService.searchListByConditions(searchMealRequest);
         assertThat(searchMealResponse.mealViewList).size().isGreaterThan(0);
-        searchMealRequest.status = MealStatus.VALID;
+        searchMealRequest.status = MealStatusView.VALID;
         SearchMealResponse searchMealResponse1 = mealService.searchListByConditions(searchMealRequest);
         assertThat(searchMealResponse1.mealViewList).size().isEqualTo(0);
     }
@@ -85,10 +85,10 @@ class MealServiceTest extends RestaurantIntegrationExtension {
     @Test
     void searchListByConditions() {
         SearchMealRequest searchMealRequest = new SearchMealRequest();
-        searchMealRequest.status = MealStatus.VALID;
+        searchMealRequest.status = MealStatusView.VALID;
         SearchMealResponse searchMealResponse = mealService.searchListByConditions(searchMealRequest);
         assertThat(searchMealResponse.mealViewList).size().isGreaterThan(0);
-        searchMealRequest.status = MealStatus.INVALID;
+        searchMealRequest.status = MealStatusView.INVALID;
         SearchMealResponse searchMealResponse1 = mealService.searchListByConditions(searchMealRequest);
         assertThat(searchMealResponse1.mealViewList).size().isEqualTo(0);
     }

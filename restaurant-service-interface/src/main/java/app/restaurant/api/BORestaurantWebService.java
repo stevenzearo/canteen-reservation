@@ -1,6 +1,7 @@
 package app.restaurant.api;
 
 import app.restaurant.api.restaurant.CreateRestaurantRequest;
+import app.restaurant.api.restaurant.CreateRestaurantResponse;
 import app.restaurant.api.restaurant.RestaurantView;
 import app.restaurant.api.restaurant.SearchResponse;
 import app.restaurant.api.restaurant.SearchRestaurantRequest;
@@ -16,18 +17,18 @@ import core.framework.api.web.service.PathParam;
  */
 public interface BORestaurantWebService {
     @POST
-    @Path("/restaurant")
-    RestaurantView create(CreateRestaurantRequest createRestaurantRequest);
+    @Path("/bo/restaurant")
+    CreateRestaurantResponse create(CreateRestaurantRequest createRestaurantRequest);
 
     @GET
-    @Path("/restaurant/:id")
-    RestaurantView get(@PathParam("id") String id);
+    @Path("/bo/restaurant/:restaurantId")
+    RestaurantView get(@PathParam("restaurantId") String restaurantId);
 
     @PUT
-    @Path("/restaurant")
-    SearchResponse searchListByConditions(SearchRestaurantRequest request);
+    @Path("/bo/restaurant")
+    SearchResponse search(SearchRestaurantRequest request);
 
     @PUT
-    @Path("/restaurant/:id")
-    void update(@PathParam("id") String id, UpdateRestaurantRequest request);
+    @Path("/bo/restaurant/:restaurantId")
+    void update(@PathParam("restaurantId") String restaurantId, UpdateRestaurantRequest request);
 }

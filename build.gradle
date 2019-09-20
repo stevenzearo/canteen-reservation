@@ -28,6 +28,7 @@ configure(project(':reservation-notification-service')) {
         implementation "core.framework:core-ng-api:${coreNGVersion}"
         implementation project(':reservation-service-interface')
         implementation project(':user-service-interface')
+        runtimeOnly 'mysql:mysql-connector-java:8.0.17'
     }
 }
 

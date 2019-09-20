@@ -6,9 +6,6 @@ import core.framework.api.json.Property;
  * @author steve
  */
 public class UpdateMealRequest {
-    @Property(name = "id")
-    public String id;
-
     @Property(name = "name")
     public String name;
 
@@ -16,8 +13,5 @@ public class UpdateMealRequest {
     public Double price;
 
     @Property(name = "status")
-    public MealStatus status;
-
-    @Property(name = "restaurant_id")
-    public String restaurantId;
+    public MealStatusView status;
 }

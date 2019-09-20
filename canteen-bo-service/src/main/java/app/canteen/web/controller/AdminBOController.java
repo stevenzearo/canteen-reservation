@@ -2,10 +2,13 @@ package app.canteen.web.controller;
 
 import app.user.api.BOAdminWebService;
 import app.user.api.admin.AdminLoginRequest;
+import app.user.api.admin.AdminLoginResponse;
 import core.framework.inject.Inject;
 import core.framework.log.ActionLogContext;
+import core.framework.util.Strings;
 import core.framework.web.Request;
 import core.framework.web.Response;
+import core.framework.web.exception.ConflictException;
 
 import java.util.Map;
 
@@ -18,12 +21,23 @@ public class AdminBOController {
 
     public Response login(Request request) {
         Map<String, String> paramMap = request.formParams();
-        String name = paramMap.get("name");
-        String password = paramMap.get("password");
-        AdminLoginRequest adminLoginRequest = new AdminLoginRequest();
-        adminLoginRequest.name = name;
-        adminLoginRequest.password = password;
-        ActionLogContext.put("adminName", adminLoginRequest.name);
-        return Response.bean(service.login(adminLoginRequest));
+        AdminLoginResponse response = null;
+        if (!isLogin(request)) {
+            String name = paramMap.get("name");
+            String password = paramMap.get("password");
+            AdminLoginRequest adminLoginRequest = new AdminLoginRequest();
+            adminLoginRequest.name = name;
+            adminLoginRequest.password = password;
+            response = service.login(adminLoginRequest);
+            request.session().set("admin_id", response.id.toString());
+            ActionLogContext.put("adminName", adminLoginRequest.name);
+        } else {
+            throw new ConflictException(Strings.format("admin has already login, name = {}", paramMap.get("name")));
+        }
+        return Response.bean(response);
+    }
+
+    private boolean isLogin(Request request) {
+        return request.session().get("admin_id").isPresent();
     }
 }
