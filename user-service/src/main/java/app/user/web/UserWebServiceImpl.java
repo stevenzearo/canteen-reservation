@@ -3,6 +3,7 @@ package app.user.web;
 import app.user.api.UserWebService;
 import app.user.api.user.CreateUserRequest;
 import app.user.api.user.CreateUserResponse;
+import app.user.api.user.GetUserResponse;
 import app.user.api.user.UserLoginRequest;
 import app.user.api.user.SearchUserRequest;
 import app.user.api.user.SearchUserResponse;
@@ -39,7 +40,7 @@ public class UserWebServiceImpl implements UserWebService {
     }
 
     @Override
-    public UserView get(Long id) {
+    public GetUserResponse get(Long id) {
         return service.get(id);
     }
 }

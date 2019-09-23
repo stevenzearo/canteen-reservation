@@ -16,7 +16,7 @@ public class RestaurantBOAJAXController {
     @Inject
     RestaurantWebService service;
 
-    public Response searchListByPage(Request request) {
+    public Response searchByPage(Request request) {
         Map<String, String> paramMap = request.queryParams();
         Integer pageNumber = Integer.valueOf(paramMap.get("page_number"));
         Integer pageSize = Integer.valueOf(paramMap.get("page_size"));

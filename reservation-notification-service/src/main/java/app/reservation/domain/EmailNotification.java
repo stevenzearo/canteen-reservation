@@ -5,7 +5,6 @@ import core.framework.db.Column;
 import core.framework.db.PrimaryKey;
 import core.framework.db.Table;
 
-import javax.xml.namespace.QName;
 import java.time.ZonedDateTime;
 
 /**
@@ -32,5 +31,5 @@ public class EmailNotification {
 
     @NotNull
     @Column(name = "sending_status")
-    public EmailNotificationStatus sendingStatus;
+    public EmailSendingStatus sendingStatus;
 }

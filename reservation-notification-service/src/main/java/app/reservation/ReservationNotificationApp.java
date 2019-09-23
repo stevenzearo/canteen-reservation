@@ -13,7 +13,5 @@ public class ReservationNotificationApp extends App {
     protected void initialize() {
         load(new SystemModule("sys.properties"));
         load(new ReservationNotificationModule());
-        kafka().groupId("group1");
-        kafka().subscribe("reservation", SendEmailReservationMessage.class, bind(ReservationMessageHandler.class));
     }
 }

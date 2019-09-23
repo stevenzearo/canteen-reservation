@@ -2,6 +2,7 @@ package app.restaurant.service;
 
 import app.restaurant.api.restaurant.CreateRestaurantRequest;
 import app.restaurant.api.restaurant.CreateRestaurantResponse;
+import app.restaurant.api.restaurant.GetRestaurantResponse;
 import app.restaurant.api.restaurant.RestaurantStatusView;
 import app.restaurant.api.restaurant.RestaurantView;
 import app.restaurant.api.restaurant.SearchResponse;
@@ -18,7 +19,6 @@ import core.framework.util.Strings;
 import core.framework.web.exception.NotFoundException;
 import org.bson.conversions.Bson;
 
-import java.time.ZonedDateTime;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -48,8 +48,16 @@ public class RestaurantService {
         return response;
     }
 
-    public RestaurantView get(String id) {
-        return view(restaurantCollection.get(id).orElseThrow(() -> new NotFoundException(Strings.format("Restaurant not found, id = {}", id))));
+    public GetRestaurantResponse get(String id) {
+        Restaurant restaurant = restaurantCollection.get(id).orElseThrow(() -> new NotFoundException(Strings.format("Restaurant not found, id = {}", id)));
+        GetRestaurantResponse response = new GetRestaurantResponse();
+        response.id = restaurant.id;
+        response.name = restaurant.name;
+        response.address = restaurant.address;
+        response.phone = restaurant.phone;
+        response.status = RestaurantStatusView.valueOf(restaurant.status.name());
+        response.reservingDeadline = restaurant.reservingDeadline;
+        return response;
     }
 
     public SearchResponse search(SearchRestaurantRequest request) {
@@ -63,13 +71,10 @@ public class RestaurantService {
             conditions = Filters.and(conditions, Filters.regex("address", request.address));
         if (!Strings.isBlank(request.phone))
             conditions = Filters.and(conditions, Filters.regex("phone", request.phone));
-        if (request.reservingDeadlineLaterThan != null) {
-            conditions = Filters.and(conditions, Filters.gt("reserve_deadline", request.reservingDeadlineLaterThan));
-        } else if (request.reservingDeadlineBeforeThan != null) {
-            conditions = Filters.and(conditions, Filters.lt("reserve_deadline", request.reservingDeadlineBeforeThan));
-        } else if (request.reservingDeadlineEqual != null) {
-            conditions = Filters.and(conditions, Filters.eq("reserve_deadline", request.reservingDeadlineEqual));
-        }
+        if (request.reservingDeadlineStart != null)
+            conditions = Filters.and(conditions, Filters.gt("reserving_deadline", request.reservingDeadlineStart));
+        if (request.reservingDeadlineEnd != null)
+            conditions = Filters.and(conditions, Filters.lt("reserving_deadline", request.reservingDeadlineEnd));
         if (request.status != null)
             conditions = Filters.and(conditions, Filters.eq("status", RestaurantStatus.valueOf(request.status.name())));
         query.filter = conditions;
@@ -100,8 +105,8 @@ public class RestaurantService {
             combineUpdate = Updates.combine(combineUpdate, Updates.set("status", app.restaurant.domain.RestaurantStatus.valueOf(request.status.name())));
         }
         if (request.reservingDeadline != null) {
-            combineFilter = Filters.and(combineFilter, Filters.eq("reserve_deadline", restaurant.reservingDeadline));
-            combineUpdate = Updates.combine(combineUpdate, Updates.set("reserve_deadline", request.reservingDeadline));
+            combineFilter = Filters.and(combineFilter, Filters.eq("reserving_deadline", restaurant.reservingDeadline));
+            combineUpdate = Updates.combine(combineUpdate, Updates.set("reserving_deadline", request.reservingDeadline));
         }
         restaurantCollection.update(combineFilter, combineUpdate);
     }

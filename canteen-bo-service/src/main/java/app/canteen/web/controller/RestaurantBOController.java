@@ -34,6 +34,6 @@ public class RestaurantBOController {
         UpdateRestaurantRequest updateRestaurantRequest = new UpdateRestaurantRequest();
         updateRestaurantRequest.reservingDeadline = JSON.fromJSON(ZonedDateTime.class, paramMap.get("reserve_deadline"));
         service.update(id, updateRestaurantRequest);
-        return Response.text("SUCCESS");
+        return Response.text("SUCCESS"); // should return a module, return text for test.
     }
 }

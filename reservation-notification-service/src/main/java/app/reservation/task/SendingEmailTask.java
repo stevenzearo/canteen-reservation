@@ -1,7 +1,7 @@
 package app.reservation.task;
 
 import app.reservation.domain.EmailNotification;
-import app.reservation.domain.EmailNotificationStatus;
+import app.reservation.domain.EmailSendingStatus;
 import app.reservation.job.SendingEmailSchedulerJob;
 import core.framework.async.Task;
 import core.framework.db.Query;
@@ -11,6 +11,7 @@ import core.framework.util.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 
 /**
@@ -27,9 +28,10 @@ public class SendingEmailTask implements Task {
         Query<EmailNotification> query = repository.select();
         int skip = 0;
         int limit = 10;
-        int count = 0;
+        int count;
         do {
-            query.where("sending_status = ?", EmailNotificationStatus.READY);
+            query.where("sending_status = ?", EmailSendingStatus.READY);
+            query.where("notifying_time <= ?", ZonedDateTime.now());
             query.orderBy("notifying_time ASC");
             query.skip(skip);
             query.limit(limit);
@@ -51,7 +53,7 @@ public class SendingEmailTask implements Task {
     }
 
     private void changeNotificationStatus(EmailNotification notification) {
-        notification.sendingStatus = EmailNotificationStatus.SENT;
+        notification.sendingStatus = EmailSendingStatus.SENT;
         repository.update(notification);
     }
 }

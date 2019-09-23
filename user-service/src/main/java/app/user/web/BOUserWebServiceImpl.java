@@ -3,6 +3,7 @@ package app.user.web;
 import app.user.api.BOUserWebService;
 import app.user.api.user.CreateUserRequest;
 import app.user.api.user.CreateUserResponse;
+import app.user.api.user.GetUserResponse;
 import app.user.api.user.SearchUserRequest;
 import app.user.api.user.SearchUserResponse;
 import app.user.api.user.UpdateUserRequest;
@@ -33,7 +34,7 @@ public class BOUserWebServiceImpl implements BOUserWebService {
     }
 
     @Override
-    public UserView get(Long id) {
+    public GetUserResponse get(Long id) {
         return service.get(id);
     }
 }

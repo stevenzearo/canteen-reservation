@@ -2,6 +2,7 @@ package app.user.service;
 
 import app.user.api.user.CreateUserRequest;
 import app.user.api.user.CreateUserResponse;
+import app.user.api.user.GetUserResponse;
 import app.user.api.user.UserLoginRequest;
 import app.user.api.user.SearchUserRequest;
 import app.user.api.user.SearchUserResponse;
@@ -84,14 +85,14 @@ public class UserService {
         repository.partialUpdate(user);
     }
 
-    public UserView get(Long id) {
+    public GetUserResponse get(Long id) {
         User user = repository.get(id).orElseThrow(() -> new NotFoundException(Strings.format("user not found, id = {}", id)));
-        UserView userView = new UserView();
-        userView.id = user.id;
-        userView.name = user.name;
-        userView.email = user.email;
-        userView.status = UserStatusView.valueOf(user.status.name());
-        return userView;
+        GetUserResponse response = new GetUserResponse();
+        response.id = user.id;
+        response.name = user.name;
+        response.email = user.email;
+        response.status = UserStatusView.valueOf(user.status.name());
+        return response;
     }
 
     private UserView view(User user) {

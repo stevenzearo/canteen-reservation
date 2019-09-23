@@ -2,6 +2,7 @@ package app.restaurant.api;
 
 import app.restaurant.api.restaurant.CreateRestaurantRequest;
 import app.restaurant.api.restaurant.CreateRestaurantResponse;
+import app.restaurant.api.restaurant.GetRestaurantResponse;
 import app.restaurant.api.restaurant.RestaurantView;
 import app.restaurant.api.restaurant.SearchResponse;
 import app.restaurant.api.restaurant.SearchRestaurantRequest;
@@ -22,7 +23,7 @@ public interface BORestaurantWebService {
 
     @GET
     @Path("/bo/restaurant/:restaurantId")
-    RestaurantView get(@PathParam("restaurantId") String restaurantId);
+    GetRestaurantResponse get(@PathParam("restaurantId") String restaurantId);
 
     @PUT
     @Path("/bo/restaurant")

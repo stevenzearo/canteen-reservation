@@ -18,12 +18,12 @@ public class RestaurantAJAXController {
     @Inject
     RestaurantWebService service;
 
-    public Response searchAvailableListByDate(Request request) {
+    public Response searchAvailableByDate(Request request) {
         Map<String, String> paramMap = request.formParams();
         SearchRestaurantRequest restaurantRequest = new SearchRestaurantRequest();
         restaurantRequest.skip = Integer.valueOf(paramMap.get("skip"));
         restaurantRequest.limit = Integer.valueOf(paramMap.get("limit"));
-        restaurantRequest.reservingDeadlineLaterThan = JSON.fromJSON(ZonedDateTime.class, paramMap.get("reserve_deadline_lt"));
+        restaurantRequest.reservingDeadlineStart = JSON.fromJSON(ZonedDateTime.class, paramMap.get("reserve_deadline_lt"));
         restaurantRequest.status = RestaurantStatusView.OPEN;
         return Response.bean(service.search(restaurantRequest));
     }

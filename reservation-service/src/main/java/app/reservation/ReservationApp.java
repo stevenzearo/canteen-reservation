@@ -14,7 +14,7 @@ public class ReservationApp extends App {
         load(new SystemModule("sys.properties"));
         KafkaConfig kafkaConfig = kafka();
 //        kafkaConfig.uri(requiredProperty("sys.kafka.URI"));
-        kafkaConfig.publish("reservation", SendEmailReservationMessage.class);
+        kafkaConfig.publish("notification", SendEmailReservationMessage.class);
         load(new ReservationModule());
     }
 }

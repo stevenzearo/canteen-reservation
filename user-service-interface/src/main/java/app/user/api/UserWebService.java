@@ -2,6 +2,7 @@ package app.user.api;
 
 import app.user.api.user.CreateUserRequest;
 import app.user.api.user.CreateUserResponse;
+import app.user.api.user.GetUserResponse;
 import app.user.api.user.SearchUserRequest;
 import app.user.api.user.SearchUserResponse;
 import app.user.api.user.UserLoginRequest;
@@ -34,7 +35,7 @@ public interface UserWebService {
 
     @GET
     @Path("/user/:id")
-    UserView get(@PathParam("id") Long id);
+    GetUserResponse get(@PathParam("id") Long id);
 
     @PUT
     @Path("/user")

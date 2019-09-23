@@ -1,13 +1,11 @@
-package app.reservation.service.reservation;
+package app.reservation.service.notification;
 
 import java.time.ZonedDateTime;
 
 /**
  * @author steve
  */
-public class EmailNotificationView {
-    public Long id;
-
+public class CreateEmailNotificationRequest {
     public String userEmail;
 
     public String reservationId;

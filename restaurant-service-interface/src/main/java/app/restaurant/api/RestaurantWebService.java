@@ -1,12 +1,10 @@
 package app.restaurant.api;
 
-import app.restaurant.api.restaurant.CreateRestaurantRequest;
+import app.restaurant.api.restaurant.GetRestaurantResponse;
 import app.restaurant.api.restaurant.RestaurantView;
-import app.restaurant.api.restaurant.SearchRestaurantRequest;
 import app.restaurant.api.restaurant.SearchResponse;
-import app.restaurant.api.restaurant.UpdateRestaurantRequest;
+import app.restaurant.api.restaurant.SearchRestaurantRequest;
 import core.framework.api.web.service.GET;
-import core.framework.api.web.service.POST;
 import core.framework.api.web.service.PUT;
 import core.framework.api.web.service.Path;
 import core.framework.api.web.service.PathParam;
@@ -15,9 +13,9 @@ import core.framework.api.web.service.PathParam;
  * @author steve
  */
 public interface RestaurantWebService {
-   @GET
+    @GET
     @Path("/restaurant/:restaurantId")
-    RestaurantView get(@PathParam("restaurantId") String restaurantId);
+    GetRestaurantResponse get(@PathParam("restaurantId") String restaurantId);
 
     @PUT
     @Path("/restaurant")

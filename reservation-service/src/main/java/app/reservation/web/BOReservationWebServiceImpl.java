@@ -2,6 +2,7 @@ package app.reservation.web;
 
 import app.reservation.api.BOReservationWebService;
 import app.reservation.api.ReservationWebService;
+import app.reservation.api.reservation.GetReservationResponse;
 import app.reservation.api.reservation.ReservationView;
 import app.reservation.api.reservation.ReserveRequest;
 import app.reservation.api.reservation.ReserveResponse;
@@ -19,7 +20,7 @@ public class BOReservationWebServiceImpl implements BOReservationWebService {
     ReservationService service;
 
     @Override
-    public ReservationView get(String id) {
+    public GetReservationResponse get(String id) {
         return service.get(id);
     }
 

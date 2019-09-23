@@ -12,5 +12,5 @@ public class SearchReservationResponse {
     public Long total;
 
     @Property(name = "reservation_list")
-    public List<ReservationView> reservationViewList;
+    public List<ReservationView> reservationList;
 }

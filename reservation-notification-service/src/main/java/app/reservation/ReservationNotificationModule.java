@@ -1,7 +1,8 @@
 package app.reservation;
 
+import app.reservation.api.message.SendEmailReservationMessage;
 import app.reservation.domain.EmailNotification;
-import app.reservation.job.SavingNotificationJob;
+import app.reservation.handler.ReservationMessageHandler;
 import app.reservation.job.SendingEmailSchedulerJob;
 import app.reservation.service.EmailNotificationService;
 import app.reservation.task.SendingEmailTask;
@@ -20,9 +21,13 @@ public class ReservationNotificationModule extends Module {
     protected void initialize() {
         db().repository(EmailNotification.class);
         api().client(UserWebService.class, requiredProperty("app.user.serviceURL"));
+
         bind(EmailNotificationService.class);
-        bind(SavingNotificationJob.class);
         bind(SendingEmailTask.class);
+
+        kafka().groupId("group1");
+        kafka().subscribe("notification", SendEmailReservationMessage.class, bind(ReservationMessageHandler.class));
+
         ExecutorConfig executorConfig = executor();
         executorConfig.add("executor", 5);
         SchedulerConfig schedulerConfig = schedule();

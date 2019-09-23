@@ -19,7 +19,7 @@ public class UserBOAJAXController {
     BOUserWebService service;
 
     private final Logger logger = LoggerFactory.getLogger(UserBOAJAXController.class);
-    public Response searchListByPage(Request request) {
+    public Response searchByPage(Request request) {
         Map<String, String> paramMap = request.queryParams();
         int pageNumber = 1;
         int pageSize = 10;

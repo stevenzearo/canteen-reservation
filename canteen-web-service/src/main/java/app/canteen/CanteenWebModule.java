@@ -32,11 +32,11 @@ public class CanteenWebModule extends Module {
         MealAJAXController mealAJAX = bind(MealAJAXController.class);
         ReservationAJAXController reservationAJAX = bind(ReservationAJAXController.class);
         http().route(POST, "/canteen/login", user::login);
-        http().route(POST, "/canteen/register", user::register);
-        http().route(POST, "/canteen/reservation/reserve", reservation::reserve);
-        http().route(POST, "/canteen/reservation/cancel", reservation::cancel);
-        http().route(PUT, "/canteen/ajax/reservation", reservationAJAX::searchListInFutureByUserId);
-        http().route(PUT, "/canteen/ajax/meal", mealAJAX::searchValidListByRestaurantId);
-        http().route(PUT, "/canteen/ajax/restaurant/search", restaurantAJAX::searchAvailableListByDate);
+        http().route(POST, "/canteen/registry", user::register);
+        http().route(POST, "/canteen/reservation", reservation::reserve);
+        http().route(PUT, "/canteen/reservation/canceling", reservation::cancel);
+        http().route(PUT, "/canteen/ajax/reservation", reservationAJAX::searchInFutureByUserId);
+        http().route(PUT, "/canteen/ajax/meal", mealAJAX::searchValidByRestaurantId);
+        http().route(PUT, "/canteen/ajax/restaurant", restaurantAJAX::searchAvailableByDate);
     }
 }

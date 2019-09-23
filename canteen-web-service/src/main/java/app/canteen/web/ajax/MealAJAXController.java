@@ -16,7 +16,7 @@ public class MealAJAXController {
     @Inject
     MealWebService service;
 
-    public Response searchValidListByRestaurantId(Request request) {
+    public Response searchValidByRestaurantId(Request request) {
         Map<String, String> paramMap = request.formParams();
         SearchMealRequest mealRequest = new SearchMealRequest();
         mealRequest.skip = Integer.valueOf(paramMap.get("skip"));

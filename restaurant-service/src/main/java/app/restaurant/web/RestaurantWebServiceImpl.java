@@ -1,6 +1,7 @@
 package app.restaurant.web;
 
 import app.restaurant.api.RestaurantWebService;
+import app.restaurant.api.restaurant.GetRestaurantResponse;
 import app.restaurant.api.restaurant.RestaurantView;
 import app.restaurant.api.restaurant.SearchResponse;
 import app.restaurant.api.restaurant.SearchRestaurantRequest;
@@ -15,7 +16,7 @@ public class RestaurantWebServiceImpl implements RestaurantWebService {
     RestaurantService service;
 
     @Override
-    public RestaurantView get(String id) {
+    public GetRestaurantResponse get(String id) {
         return service.get(id);
     }
 

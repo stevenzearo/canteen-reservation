@@ -1,8 +1,4 @@
-package app.reservation.service.reservation;
-
-import core.framework.api.json.Property;
-import core.framework.api.validate.NotNull;
-import core.framework.db.Column;
+package app.reservation.service.notification;
 
 import java.time.ZonedDateTime;
 
@@ -18,5 +14,5 @@ public class CreateEmailNotificationResponse {
 
     public ZonedDateTime notifyingTime;
 
-    public EmailNotificationStatusView sendingStatus;
+    public EmailSendingStatusView sendingStatus;
 }

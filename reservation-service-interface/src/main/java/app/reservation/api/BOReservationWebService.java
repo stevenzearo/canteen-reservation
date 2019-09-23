@@ -1,5 +1,6 @@
 package app.reservation.api;
 
+import app.reservation.api.reservation.GetReservationResponse;
 import app.reservation.api.reservation.ReservationView;
 import app.reservation.api.reservation.SearchReservationRequest;
 import app.reservation.api.reservation.SearchReservationResponse;
@@ -16,7 +17,7 @@ import core.framework.api.web.service.PathParam;
 public interface BOReservationWebService {
     @GET
     @Path("/bo/reservation/:id")
-    ReservationView get(@PathParam("id") String id);
+    GetReservationResponse get(@PathParam("id") String id);
 
     @PUT
     @Path("/bo/reservation")

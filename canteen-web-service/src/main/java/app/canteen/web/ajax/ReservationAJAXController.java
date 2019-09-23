@@ -17,12 +17,12 @@ public class ReservationAJAXController {
     @Inject
     ReservationWebService service;
 
-    public Response searchListInFutureByUserId(Request request) {
+    public Response searchInFutureByUserId(Request request) {
         Map<String, String> paramMap = request.formParams();
         SearchReservationRequest reservationRequest = new SearchReservationRequest();
         reservationRequest.skip = Integer.valueOf(paramMap.get("skip"));
         reservationRequest.limit = Integer.valueOf(paramMap.get("limit"));
-        reservationRequest.reservingTimeEqualLaterThan = JSON.fromJSON(ZonedDateTime.class, paramMap.get("now_time"));
+        reservationRequest.reservingTimeStart = JSON.fromJSON(ZonedDateTime.class, paramMap.get("now_time"));
         return Response.bean(service.search(Long.valueOf(paramMap.get("user_id")), reservationRequest));
     }
 }

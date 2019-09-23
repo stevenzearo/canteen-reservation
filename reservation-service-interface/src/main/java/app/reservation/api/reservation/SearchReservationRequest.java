@@ -26,14 +26,11 @@ public class SearchReservationRequest {
     @Property(name = "amount_equal_greater_than")
     public Double amountEqualGreaterThan;
 
-    @Property(name = "reserving_time_equal_later_than")
-    public ZonedDateTime reservingTimeEqualLaterThan;
+    @Property(name = "reserving_time_start")
+    public ZonedDateTime reservingTimeStart;
 
-    @Property(name = "reserving_time_equal_before_than")
-    public ZonedDateTime reservingTimeEqualBeforeThan;
-
-    @Property(name = "reserving_time_equal")
-    public ZonedDateTime reservingTimeEqual;
+    @Property(name = "reserving_time_end")
+    public ZonedDateTime reservingTimeEnd;
 
     @Property(name = "status")
     public ReservationStatusView status;

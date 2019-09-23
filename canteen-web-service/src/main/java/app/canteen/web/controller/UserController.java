@@ -1,5 +1,6 @@
 package app.canteen.web.controller;
 
+import app.canteen.web.page.IndexPage;
 import app.user.api.UserWebService;
 import app.user.api.user.CreateUserRequest;
 import app.user.api.user.SearchUserRequest;
@@ -22,7 +23,7 @@ public class UserController {
     UserWebService service;
 
     public Response register(Request request) {
-        Response response = null;
+        Response response;
         Map<String, String> paramMap = request.formParams();
         if (!isRegistered(paramMap)) {
             CreateUserRequest createRequest = new CreateUserRequest();
@@ -44,18 +45,19 @@ public class UserController {
     }
 
     public Response login(Request request) {
-        Response response = null;
+        Response response;
         Map<String, String> paramMap = request.formParams();
-        if (!isLogin(request)) {
+//        if (!isLogin(request)) {
             UserLoginRequest loginRequest = new UserLoginRequest();
             loginRequest.email = paramMap.get("email");
             loginRequest.password = paramMap.get("password");
             UserView userView = service.login(loginRequest);
             response = Response.bean(userView);
-            request.session().set("user_id", String.valueOf(userView.id));
-        } else {
-            throw new ConflictException(Strings.format("user has already login, email = {}", paramMap.get("email")));
-        }
+//            request.session().set("user_id", String.valueOf(userView.id));
+//        } else {
+//            throw new ConflictException(Strings.format("user has already login, email = {}", paramMap.get("email")));
+//            response = Response.html("/index.html", new IndexPage());
+//        }
         return response;
     }
 

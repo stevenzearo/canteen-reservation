@@ -5,9 +5,12 @@ import core.framework.db.DBEnumValue;
 /**
  * @author steve
  */
-public enum EmailNotificationStatus {
+public enum EmailSendingStatus {
     @DBEnumValue("READY")
     READY,
     @DBEnumValue("SENT")
-    SENT
+    SENT,
+    @DBEnumValue("CANCEL")
+    CANCEL
+
 }

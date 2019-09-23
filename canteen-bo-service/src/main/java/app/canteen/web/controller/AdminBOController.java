@@ -21,7 +21,7 @@ public class AdminBOController {
 
     public Response login(Request request) {
         Map<String, String> paramMap = request.formParams();
-        AdminLoginResponse response = null;
+        AdminLoginResponse response;
         if (!isLogin(request)) {
             String name = paramMap.get("name");
             String password = paramMap.get("password");
@@ -34,7 +34,7 @@ public class AdminBOController {
         } else {
             throw new ConflictException(Strings.format("admin has already login, name = {}", paramMap.get("name")));
         }
-        return Response.bean(response);
+        return Response.bean(response); // should return a module, return a bean for test.
     }
 
     private boolean isLogin(Request request) {

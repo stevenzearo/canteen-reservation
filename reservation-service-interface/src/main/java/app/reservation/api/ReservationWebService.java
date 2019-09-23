@@ -1,5 +1,6 @@
 package app.reservation.api;
 
+import app.reservation.api.reservation.GetReservationResponse;
 import app.reservation.api.reservation.ReserveRequest;
 import app.reservation.api.reservation.ReservationView;
 import app.reservation.api.reservation.ReserveResponse;
@@ -17,18 +18,18 @@ import core.framework.api.web.service.PathParam;
  */
 public interface ReservationWebService {
     @POST
-    @Path("/reservation/:userId")
+    @Path("/user/:userId/reservation")
     ReserveResponse reserve(@PathParam("userId") Long userId, ReserveRequest request);
 
     @GET
-    @Path("/reservation/:userId/:id")
-    ReservationView get(@PathParam("userId") Long userId, @PathParam("id") String id);
+    @Path("/user/:userId/reservation/:id")
+    GetReservationResponse get(@PathParam("userId") Long userId, @PathParam("id") String id);
 
     @PUT
-    @Path("/reservation/:userId")
+    @Path("/user/:userId/reservation")
     SearchReservationResponse search(@PathParam("userId") Long userId, SearchReservationRequest request);
 
     @POST
-    @Path("/reservation/:userId/:id")
+    @Path("/user/:userId/reservation/:id")
     void update(@PathParam("userId") Long userId, @PathParam("id") String id, UpdateReservationRequest update);
 }

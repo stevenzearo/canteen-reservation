@@ -1,6 +1,8 @@
 package app.reservation.service;
 
+import app.reservation.api.message.MessageStatus;
 import app.reservation.api.message.SendEmailReservationMessage;
+import app.reservation.api.reservation.GetReservationResponse;
 import app.reservation.api.reservation.ReservationStatusView;
 import app.reservation.api.reservation.ReservationView;
 import app.reservation.api.reservation.ReserveRequest;
@@ -55,15 +57,16 @@ public class ReservationService {
             request.mealIdList.forEach(mealId -> {
                 ReservationMeal reservationMeal = new ReservationMeal();
                 reservationMeal.mealId = mealId;
-                reservationMeal.userReservationId = reservation.id;
+                reservationMeal.reservationId = reservation.id;
                 reservationMealRepository.insert(reservationMeal);
             });
             transaction.commit();
         }
         SendEmailReservationMessage message = new SendEmailReservationMessage();
-        message.reservationId = reservation.restaurantId;
+        message.reservationId = reservation.id;
         message.userId = reservation.userId;
         message.reservationDeadline = request.reservingDeadline;
+        message.status = MessageStatus.CREATE;
         publishMessage(message);
         List<String> mealIdList = request.mealIdList;
         ReserveResponse response = new ReserveResponse();
@@ -78,17 +81,26 @@ public class ReservationService {
         return response;
     }
 
-    public ReservationView get(String id) {
-        ReservationView view = view(reservationRepository.get(id).orElseThrow(() -> new NotFoundException(Strings.format("Reservation not found, id = {}", id))));
-        return view(reservationRepository.get(id).orElseThrow(() -> new NotFoundException(Strings.format("Reservation not found, id = {}", id))));
+    public GetReservationResponse get(String id) {
+        Reservation reservation = reservationRepository.get(id).orElseThrow(() -> new NotFoundException(Strings.format("Reservation not found, id = {}", id)));
+        GetReservationResponse response = new GetReservationResponse();
+        response.id = reservation.id;
+        response.amount = reservation.amount;
+        response.reservingTime = reservation.reservingTime;
+        response.eatingTime = reservation.eatingTime;
+        response.userId = reservation.userId;
+        response.restaurantId = reservation.restaurantId;
+        response.status = ReservationStatusView.valueOf(reservation.status.name());
+        response.mealIdList = searchMealIdList(reservation.id);
+        return response;
     }
 
-    public ReservationView get(Long userId, String id) {
-        ReservationView view = view(reservationRepository.get(id).orElseThrow(() -> new NotFoundException(Strings.format("Reservation not found, id = {}", id))));
-        if (!view.userId.equals(userId)) {
-            throw new ConflictException(Strings.format("Miss match with the user id under the reservation, user id = {}", userId));
+    public GetReservationResponse get(Long userId, String id) {
+        GetReservationResponse response = get(id);
+        if (!response.userId.equals(userId)) {
+            throw new ConflictException(Strings.format("Miss match with the user id under the notification, user id = {}", userId));
         }
-        return view(reservationRepository.get(id).orElseThrow(() -> new NotFoundException(Strings.format("Reservation not found, id = {}", id))));
+        return response;
     }
 
     public SearchReservationResponse search(SearchReservationRequest request) {
@@ -99,13 +111,10 @@ public class ReservationService {
             reservationQuery.where("user_id = ?", request.userId);
         if (request.status != null)
             reservationQuery.where("status = ?", app.reservation.domain.ReservationStatus.valueOf(request.status.name()));
-        if (request.reservingTimeEqualLaterThan != null) {
-            reservationQuery.where("reserve_time >= ?", request.reservingTimeEqualLaterThan);
-        } else if (request.reservingTimeEqualBeforeThan != null) {
-            reservationQuery.where("reserve_time <= ?", request.reservingTimeEqualBeforeThan);
-        } else if (request.reservingTimeEqual != null) {
-            reservationQuery.where("reserve_time = ?", request.reservingTimeEqual);
-        }
+        if (request.reservingTimeStart != null)
+            reservationQuery.where("reserving_time >= ?", request.reservingTimeStart);
+        if (request.reservingTimeEnd != null)
+            reservationQuery.where("reserving_time <= ?", request.reservingTimeEnd);
         if (request.amountEqual != null) {
             reservationQuery.where("amount = ?", request.amountEqual);
         } else if (request.amountEqualGreaterThan != null) {
@@ -116,30 +125,30 @@ public class ReservationService {
         if (!Strings.isBlank(request.restaurantId))
             reservationQuery.where("restaurant_id = ?", request.restaurantId);
         List<Reservation> reservationList = reservationQuery.fetch();
-        List<ReservationView> reservationViewList = reservationList.stream().map(
-            reservation -> {
-                Query<ReservationMeal> mealQuery = reservationMealRepository.select();
-                mealQuery.where("reservation_id = ?", reservation.id);
-                List<ReservationMeal> reservationMealList = mealQuery.fetch();
-                List<String> mealIdList = Lists.newArrayList();
-                reservationMealList.forEach(reservationMeal -> mealIdList.add(reservationMeal.mealId));
-                return view(reservation, mealIdList);
-            }
-        ).collect(Collectors.toList());
+        List<ReservationView> reservationViewList = reservationList.stream()
+            .map(reservation -> view(reservation, searchMealIdList(reservation.id))).collect(Collectors.toList());
         SearchReservationResponse response = new SearchReservationResponse();
         response.total = (long) reservationQuery.count();
-        response.reservationViewList = reservationViewList;
+        response.reservationList = reservationViewList;
         return response;
     }
 
     public void update(String id, UpdateReservationRequest update) {
         Reservation reservation = reservationRepository.get(id).orElseThrow(() -> new NotFoundException(Strings.format("Reservation not found, id = {}", id)));
+        if (update.status == ReservationStatusView.CANCEL) {
+            SendEmailReservationMessage message = new SendEmailReservationMessage();
+            message.reservationId = reservation.id;
+            message.userId = reservation.userId;
+            message.status = MessageStatus.CANCEL;
+            publishMessage(message);
+        }
         reservation.amount = update.amount;
         reservation.reservingTime = update.reservingTime;
         reservation.eatingTime = update.eatingTime;
         reservation.restaurantId = update.restaurantId;
         reservation.status = app.reservation.domain.ReservationStatus.valueOf(update.status.name());
         reservation.userId = update.userId;
+
         reservationRepository.partialUpdate(reservation);
     }
 
@@ -163,5 +172,14 @@ public class ReservationService {
         ReservationView view = view(reservation);
         view.mealIdList = mealIdList;
         return view;
+    }
+
+    private List<String> searchMealIdList(String reservationId) {
+        List<String> mealIdList = Lists.newArrayList();
+        Query<ReservationMeal> mealQuery = reservationMealRepository.select();
+        mealQuery.where("reservation_id = ?", reservationId);
+        List<ReservationMeal> reservationMealList = mealQuery.fetch();
+        reservationMealList.forEach(reservationMeal -> mealIdList.add(reservationMeal.mealId));
+        return mealIdList;
     }
 }

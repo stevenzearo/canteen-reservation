@@ -16,7 +16,7 @@ public class ReservationMeal {
 
     @NotNull
     @Column(name = "reservation_id")
-    public String userReservationId;
+    public String reservationId;
 
     @NotNull
     @Column(name = "meal_id")

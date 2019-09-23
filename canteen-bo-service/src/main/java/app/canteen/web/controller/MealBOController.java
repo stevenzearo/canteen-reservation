@@ -25,6 +25,6 @@ public class MealBOController {
         createMealRequest.name = paramMap.get("name");
         createMealRequest.price = JSON.fromJSON(Double.class, paramMap.get("price"));
         CreateMealResponse response = service.create(paramMap.get("restaurant_id"), createMealRequest);
-        return Response.bean(response);
+        return Response.bean(response); // should return a module, return a bean for test.
     }
 }

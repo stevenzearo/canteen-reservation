@@ -1,6 +1,7 @@
 package app.reservation.web;
 
 import app.reservation.api.ReservationWebService;
+import app.reservation.api.reservation.GetReservationResponse;
 import app.reservation.api.reservation.ReservationView;
 import app.reservation.api.reservation.ReserveRequest;
 import app.reservation.api.reservation.ReserveResponse;
@@ -23,7 +24,7 @@ public class ReservationWebServiceImpl implements ReservationWebService {
     }
 
     @Override
-    public ReservationView get(Long userId, String id) {
+    public GetReservationResponse get(Long userId, String id) {
         return service.get(userId, id);
     }
 
