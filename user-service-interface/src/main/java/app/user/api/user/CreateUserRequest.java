@@ -11,7 +11,6 @@ import core.framework.api.validate.Pattern;
 public class CreateUserRequest {
     @NotNull
     @NotBlank
-    @Pattern(value = "\\S+@\\w+\\.com")
     @Property(name = "email")
     public String email;
 

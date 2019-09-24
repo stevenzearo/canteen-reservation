@@ -13,7 +13,6 @@ public class UpdateUserRequest {
     @Property(name = "password")
     public String password;
 
-    @Pattern(value = "\\S+@\\[a-zA-Z0-9]+\\.com")
     @Property(name = "email")
     public String email;
 
