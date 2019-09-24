@@ -1,10 +1,8 @@
 package app.canteen.web.controller;
 
 import app.restaurant.api.BOMealWebService;
-import app.restaurant.api.MealWebService;
 import app.restaurant.api.meal.CreateMealRequest;
 import app.restaurant.api.meal.CreateMealResponse;
-import app.restaurant.api.meal.MealView;
 import core.framework.inject.Inject;
 import core.framework.json.JSON;
 import core.framework.web.Request;

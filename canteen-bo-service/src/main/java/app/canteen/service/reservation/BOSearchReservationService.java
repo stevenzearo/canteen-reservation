@@ -26,7 +26,6 @@ public class BOSearchReservationService {
     @Inject
     RestaurantWebService restaurantWebService;
 
-    // users -> db, notification -> db, restaurant
     public BOSearchReservationResponse search(BOSearchReservationRequest request) {
         SearchReservationRequest reservationRequest = new SearchReservationRequest();
         reservationRequest.skip = request.reservationSkip;
@@ -49,14 +48,14 @@ public class BOSearchReservationService {
         SearchUserResponse userResponse = userWebService.search(userRequest); // this search result size can be very big, restricted by skip(0) and limit(10)
         boSearchResponse.userTotal = userResponse.total;
         boSearchResponse.userIdList = userResponse.userList.stream().map(userView -> userView.id).collect(Collectors.toList());
-        SearchReservationRequest searchReservationRequest = new SearchReservationRequest();
         boSearchResponse.reservationList = Lists.newArrayList();
         boSearchResponse.total = 0L;
         if (userResponse.userList.size() > 0) {
+            SearchReservationRequest searchReservationRequest = new SearchReservationRequest();
             userResponse.userList.forEach(userView -> {
                 searchReservationRequest.userId = userView.id;
                 SearchReservationResponse search = reservationWebService.search(searchReservationRequest);
-                if (search.total > 0) {
+                if (reservationWebService.search(searchReservationRequest).total > 0) {
                     boSearchResponse.reservationList.addAll(search.reservationList);
                     boSearchResponse.total += search.total;
                 }
@@ -69,17 +68,16 @@ public class BOSearchReservationService {
     public BOSearchReservationResponse searchByRestaurantName(BOSearchReservationRequest request) {
         BOSearchReservationResponse boSearchResponse = new BOSearchReservationResponse();
         SearchRestaurantRequest restaurantRequest = new SearchRestaurantRequest();
-
         restaurantRequest.name = request.restaurantName;
         restaurantRequest.skip = request.restaurantSkip;
         restaurantRequest.limit = request.restaurantLimit;
         app.restaurant.api.restaurant.SearchResponse restaurantResponse = restaurantWebService.search(restaurantRequest); // this search result size can be very big, restricted by skip(0) and limit(10)
         boSearchResponse.restaurantTotal = restaurantResponse.total;
         boSearchResponse.restaurantIdList = restaurantResponse.restaurantList.stream().map(restaurantView -> restaurantView.id).collect(Collectors.toList());
-        SearchReservationRequest searchReservationRequest = new SearchReservationRequest();
         boSearchResponse.reservationList = Lists.newArrayList();
         boSearchResponse.total = 0L;
         if (restaurantResponse.restaurantList.size() > 0) {
+            SearchReservationRequest searchReservationRequest = new SearchReservationRequest();
             restaurantResponse.restaurantList.forEach(restaurantView -> {
                 searchReservationRequest.restaurantId = restaurantView.id;
                 SearchReservationResponse search = reservationWebService.search(searchReservationRequest);

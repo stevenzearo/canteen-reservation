@@ -5,13 +5,11 @@ import app.user.api.user.CreateUserRequest;
 import app.user.api.user.GetUserResponse;
 import app.user.api.user.UpdateUserRequest;
 import app.user.api.user.UserStatusView;
-import app.user.api.user.UserView;
 import core.framework.inject.Inject;
 import core.framework.json.JSON;
 import core.framework.util.Strings;
 import core.framework.web.Request;
 import core.framework.web.Response;
-import core.framework.web.exception.BadRequestException;
 import core.framework.web.exception.NotFoundException;
 
 import java.util.Map;
@@ -36,11 +34,7 @@ public class UserBOController {
     public Response resetPassword(Request request) {
         Map<String, String> paramMap = request.formParams();
         Long userId;
-        try {
-            userId = Long.valueOf(paramMap.get("user_id"));
-        } catch (NumberFormatException e) {
-            throw new BadRequestException(Strings.format("invalid user id, user id must be Long, user_id = {}", paramMap.get("user_id")));
-        }
+        userId = Long.valueOf(paramMap.get("user_id"));
         GetUserResponse response = userWebService.get(userId);
         if (response != null) {
             UpdateUserRequest updateUserRequest = new UpdateUserRequest();

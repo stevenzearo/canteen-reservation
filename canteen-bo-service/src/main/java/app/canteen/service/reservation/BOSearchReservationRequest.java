@@ -12,7 +12,7 @@ public class BOSearchReservationRequest {
     @NotNull
     @Property(name = "user_skip")
     public Integer userSkip = 0;
-    
+
     @NotNull
     @Property(name = "user_limit")
     public Integer userLimit = 10;

@@ -46,18 +46,17 @@ public class UserController {
 
     public Response login(Request request) {
         Response response;
-        Map<String, String> paramMap = request.formParams();
-//        if (!isLogin(request)) {
+        if (!isLogin(request)) {
+            Map<String, String> paramMap = request.formParams();
             UserLoginRequest loginRequest = new UserLoginRequest();
             loginRequest.email = paramMap.get("email");
             loginRequest.password = paramMap.get("password");
             UserView userView = service.login(loginRequest);
             response = Response.bean(userView);
-//            request.session().set("user_id", String.valueOf(userView.id));
-//        } else {
-//            throw new ConflictException(Strings.format("user has already login, email = {}", paramMap.get("email")));
-//            response = Response.html("/index.html", new IndexPage());
-//        }
+            request.session().set("user_id", String.valueOf(userView.id));
+        } else {
+            response = Response.html("/index.html", new IndexPage());
+        }
         return response;
     }
 
