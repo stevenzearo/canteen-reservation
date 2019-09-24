@@ -24,7 +24,7 @@ public class RestaurantBOController {
         createRestaurantRequest.name = paramMap.get("name");
         createRestaurantRequest.address = paramMap.get("address");
         createRestaurantRequest.phone = paramMap.get("phone");
-        createRestaurantRequest.reservingDeadline = JSON.fromJSON(ZonedDateTime.class, paramMap.get("reserve_deadline"));
+        createRestaurantRequest.reservingDeadline = JSON.fromJSON(ZonedDateTime.class, paramMap.get("reserving_deadline"));
         return Response.bean(service.create(createRestaurantRequest));
     }
 

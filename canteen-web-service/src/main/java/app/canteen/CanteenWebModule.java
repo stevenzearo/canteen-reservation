@@ -12,6 +12,9 @@ import app.user.api.BOAdminWebService;
 import app.user.api.UserWebService;
 import core.framework.module.Module;
 
+import java.time.Duration;
+
+import static core.framework.http.HTTPMethod.GET;
 import static core.framework.http.HTTPMethod.POST;
 import static core.framework.http.HTTPMethod.PUT;
 
@@ -31,7 +34,9 @@ public class CanteenWebModule extends Module {
         RestaurantAJAXController restaurantAJAX = bind(RestaurantAJAXController.class);
         MealAJAXController mealAJAX = bind(MealAJAXController.class);
         ReservationAJAXController reservationAJAX = bind(ReservationAJAXController.class);
-        http().route(POST, "/canteen/login", user::login);
+        site().session().timeout(Duration.ofMinutes(30));
+        http().route(PUT, "/canteen/login", user::login);
+        http().route(GET, "/canteen/logout", user::logout);
         http().route(POST, "/canteen/registry", user::register);
         http().route(POST, "/canteen/reservation", reservation::reserve);
         http().route(PUT, "/canteen/reservation/canceling", reservation::cancel);

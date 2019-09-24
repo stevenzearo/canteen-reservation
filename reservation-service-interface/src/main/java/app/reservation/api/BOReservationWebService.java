@@ -23,7 +23,7 @@ public interface BOReservationWebService {
     @Path("/bo/reservation")
     SearchReservationResponse search(SearchReservationRequest request);
 
-    @POST
+    @PUT
     @Path("/bo/reservation/:id")
     void update(@PathParam("id") String id, UpdateReservationRequest update);
 }

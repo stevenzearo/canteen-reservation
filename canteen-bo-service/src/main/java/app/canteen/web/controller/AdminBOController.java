@@ -40,4 +40,12 @@ public class AdminBOController {
     private boolean isLogin(Request request) {
         return request.session().get("admin_id").isPresent();
     }
+
+    public Response logout(Request request) {
+        if (isLogin(request)) {
+            request.session().set("admin_id", null);
+        }
+        return Response.text("LOGOUT SUCCESSFULLY"); // should return a module, return text for test.
+    }
+
 }

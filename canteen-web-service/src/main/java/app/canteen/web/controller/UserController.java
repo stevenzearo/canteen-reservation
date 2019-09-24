@@ -60,6 +60,13 @@ public class UserController {
         return response;
     }
 
+    public Response logout(Request request) {
+        if (isLogin(request)) {
+            request.session().set("user_id", null);
+        }
+        return Response.text("LOGOUT SUCCESSFULLY"); // should return a module, return text for test.
+    }
+
     private boolean isLogin(Request request) {
         return request.session().get("user_id").isPresent();
     }

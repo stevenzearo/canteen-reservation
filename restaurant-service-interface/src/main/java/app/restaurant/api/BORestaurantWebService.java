@@ -7,17 +7,20 @@ import app.restaurant.api.restaurant.RestaurantView;
 import app.restaurant.api.restaurant.SearchResponse;
 import app.restaurant.api.restaurant.SearchRestaurantRequest;
 import app.restaurant.api.restaurant.UpdateRestaurantRequest;
+import core.framework.api.http.HTTPStatus;
 import core.framework.api.web.service.GET;
 import core.framework.api.web.service.POST;
 import core.framework.api.web.service.PUT;
 import core.framework.api.web.service.Path;
 import core.framework.api.web.service.PathParam;
+import core.framework.api.web.service.ResponseStatus;
 
 /**
  * @author steve
  */
 public interface BORestaurantWebService {
     @POST
+    @ResponseStatus(HTTPStatus.CREATED)
     @Path("/bo/restaurant")
     CreateRestaurantResponse create(CreateRestaurantRequest createRestaurantRequest);
 
