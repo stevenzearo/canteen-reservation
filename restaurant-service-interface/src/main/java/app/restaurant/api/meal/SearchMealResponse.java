@@ -11,6 +11,7 @@ public class SearchMealResponse {
     @Property(name = "total")
     public Long total;
 
-    @Property(name = "mealList")
-    public List<MealView> mealViewList;
+    // todo
+    @Property(name = "meals")
+    public List<MealView> meals;
 }

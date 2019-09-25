@@ -17,6 +17,7 @@ public class SearchReservationRequest {
     @Property(name = "limit")
     public Integer limit = 10;
 
+    // todo
     @Property(name = "amount_equal")
     public Double amountEqual;
 
@@ -35,6 +36,7 @@ public class SearchReservationRequest {
     @Property(name = "status")
     public ReservationStatusView status;
 
+    // todo
     @Property(name = "user_id")
     public Long userId;
 

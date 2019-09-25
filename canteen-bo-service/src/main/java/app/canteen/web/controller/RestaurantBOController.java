@@ -25,7 +25,7 @@ public class RestaurantBOController {
         createRestaurantRequest.address = paramMap.get("address");
         createRestaurantRequest.phone = paramMap.get("phone");
         createRestaurantRequest.reservingDeadline = JSON.fromJSON(ZonedDateTime.class, paramMap.get("reserving_deadline"));
-        return Response.bean(service.create(createRestaurantRequest));
+        return Response.bean(service.create(createRestaurantRequest)); // should return a page, return text for test.
     }
 
     public Response updateDeadline(Request request) {
@@ -34,6 +34,6 @@ public class RestaurantBOController {
         UpdateRestaurantRequest updateRestaurantRequest = new UpdateRestaurantRequest();
         updateRestaurantRequest.reservingDeadline = JSON.fromJSON(ZonedDateTime.class, paramMap.get("reserve_deadline"));
         service.update(id, updateRestaurantRequest);
-        return Response.text("SUCCESS"); // should return a module, return text for test.
+        return Response.text("SUCCESS"); // should return a page, return text for test.
     }
 }

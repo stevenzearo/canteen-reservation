@@ -21,12 +21,14 @@ public class ReservationBOAJAXController {
 
     // search notification via username/restaurant name/booking date
     public Response search(Request request) {
+        // todo
         Map<String, String> paramMap = request.formParams();
         String userName = paramMap.get("user_name");
         String restaurantName = paramMap.get("restaurant_name");
         BOSearchReservationResponse boSearchResponse = new BOSearchReservationResponse();
         BOSearchReservationRequest boSearchRequest = new BOSearchReservationRequest();
         if (!Strings.isBlank(paramMap.get("reserving_date")))
+            // todo
             boSearchRequest.reservingDate = JSON.fromJSON(ZonedDateTime.class, paramMap.get("reserving_date"));
         if (Strings.isBlank(userName) && Strings.isBlank(restaurantName)) {
             boSearchRequest.reservationSkip = Integer.valueOf(paramMap.get("reservation_skip"));

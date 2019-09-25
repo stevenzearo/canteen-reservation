@@ -27,6 +27,7 @@ public class SendingEmailSchedulerJob implements Job {
     @Override
     public void execute() throws Exception {
         logger.warn("executing sending email task");
+        // todo
         executor.submit("async", task);
     }
 }

@@ -7,9 +7,11 @@ import core.framework.api.validate.NotNull;
  * @author steve
  */
 public class CreateMealRequest {
+    @NotNull
     @Property(name = "name")
     public String name;
 
+    @NotNull
     @Property(name = "price")
     public Double price;
 }

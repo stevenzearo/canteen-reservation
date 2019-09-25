@@ -15,6 +15,7 @@ public class UpdateUserRequest {
     @Property(name = "email")
     public String email;
 
+    // todo
     @Property(name = "status")
     public UserStatusView status;
 }

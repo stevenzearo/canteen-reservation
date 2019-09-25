@@ -46,7 +46,7 @@ public class ReservationService {
     public ReserveResponse reserve(Long userId, ReserveRequest request) {
         Reservation reservation = new Reservation();
         reservation.id = UUID.randomUUID().toString();
-        reservation.amount = request.amount;
+        reservation.reservingAmount = request.amount;
         reservation.reservingTime = request.reservingTime;
         reservation.eatingTime = request.eatingTime;
         reservation.userId = userId;
@@ -71,7 +71,7 @@ public class ReservationService {
         List<String> mealIdList = request.mealIdList;
         ReserveResponse response = new ReserveResponse();
         response.id = reservation.id;
-        response.amount = reservation.amount;
+        response.amount = reservation.reservingAmount;
         response.reservingTime = reservation.reservingTime;
         response.eatingTime = reservation.eatingTime;
         response.userId = reservation.userId;
@@ -85,7 +85,7 @@ public class ReservationService {
         Reservation reservation = reservationRepository.get(id).orElseThrow(() -> new NotFoundException(Strings.format("Reservation not found, id = {}", id)));
         GetReservationResponse response = new GetReservationResponse();
         response.id = reservation.id;
-        response.amount = reservation.amount;
+        response.amount = reservation.reservingAmount;
         response.reservingTime = reservation.reservingTime;
         response.eatingTime = reservation.eatingTime;
         response.userId = reservation.userId;
@@ -142,7 +142,7 @@ public class ReservationService {
             message.status = MessageStatus.CANCEL;
             publishMessage(message);
         }
-        reservation.amount = update.amount;
+        reservation.reservingAmount = update.amount;
         reservation.reservingTime = update.reservingTime;
         reservation.eatingTime = update.eatingTime;
         reservation.restaurantId = update.restaurantId;
@@ -159,7 +159,7 @@ public class ReservationService {
     private ReservationView view(Reservation reservation) {
         ReservationView reservationView = new ReservationView();
         reservationView.id = reservation.id;
-        reservationView.amount = reservation.amount;
+        reservationView.amount = reservation.reservingAmount;
         reservationView.reservingTime = reservation.reservingTime;
         reservationView.eatingTime = reservation.eatingTime;
         reservationView.userId = reservation.userId;

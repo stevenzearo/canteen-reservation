@@ -20,6 +20,7 @@ public class UpdateRestaurantRequest {
     @Property(name = "status")
     public RestaurantStatusView status;
 
+    // todo
     @Property(name = "reserving_deadline")
     public ZonedDateTime reservingDeadline;
 }

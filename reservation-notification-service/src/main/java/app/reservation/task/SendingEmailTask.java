@@ -36,6 +36,7 @@ public class SendingEmailTask implements Task {
             query.skip(skip);
             query.limit(limit);
             List<EmailNotification> emailNotificationList = query.fetch();
+            // todo
             count = query.count();
             if (count > 0) {
                 emailNotificationList.forEach(notification -> {
@@ -44,8 +45,9 @@ public class SendingEmailTask implements Task {
                 });
             }
             limit = (skip + 1) * limit;
+            // todo
             skip++;
-        } while (count > skip * limit);
+        } while (count < limit);
     }
 
     private void sendEmail(String email, String reservationId) {

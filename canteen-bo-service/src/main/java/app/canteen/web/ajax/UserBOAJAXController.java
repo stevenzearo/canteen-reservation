@@ -21,6 +21,7 @@ public class UserBOAJAXController {
     public Response searchByPage(Request request) {
         Map<String, String> paramMap = request.queryParams();
         SearchUserRequest userRequest = new SearchUserRequest();
+        // todo
         userRequest.skip = Integer.parseInt(paramMap.get("skip"));
         userRequest.limit = Integer.parseInt(paramMap.get("limit"));
         SearchUserResponse response = service.search(userRequest);

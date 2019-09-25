@@ -55,7 +55,7 @@ public class UserController {
             response = Response.bean(userView);
             request.session().set("user_id", String.valueOf(userView.id));
         } else {
-            response = Response.text("ALREADY LOGIN"); // should return a module, return text for test.
+            response = Response.text("ALREADY LOGIN"); // should return a page, return text for test.
         }
         return response;
     }
@@ -64,7 +64,7 @@ public class UserController {
         if (isLogin(request)) {
             request.session().set("user_id", null);
         }
-        return Response.text("LOGOUT SUCCESSFULLY"); // should return a module, return text for test.
+        return Response.text("LOGOUT SUCCESSFULLY"); // should return a page, return text for test.
     }
 
     private boolean isLogin(Request request) {

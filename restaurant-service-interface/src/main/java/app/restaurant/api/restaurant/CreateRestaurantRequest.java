@@ -21,6 +21,7 @@ public class CreateRestaurantRequest {
     @Property(name = "phone")
     public String phone;
 
+    @NotNull
     @Property(name = "reserving_deadline")
     public ZonedDateTime reservingDeadline;
 }

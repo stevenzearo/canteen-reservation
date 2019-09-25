@@ -27,7 +27,7 @@ public class UserBOController {
         createUserRequest.name = paramMap.get("name");
         createUserRequest.password = paramMap.get("password");
         createUserRequest.email = paramMap.get("email");
-        return Response.bean(userWebService.create(createUserRequest));
+        return Response.bean(userWebService.create(createUserRequest)); // should return a page, return text for test.
     }
 
     // use user_id to reset password
@@ -43,7 +43,7 @@ public class UserBOController {
         } else {
             throw new NotFoundException(Strings.format("user not found, id = {}", paramMap.get("user_id")));
         }
-        return Response.bean(response);
+        return Response.bean(response); // should return a page, return text for test.
     }
 
     // use user id to change user status
@@ -54,6 +54,6 @@ public class UserBOController {
         userWebService.get(id);
         updateUserRequest.status = JSON.fromJSON(UserStatusView.class, paramMap.get("status"));
         userWebService.update(JSON.fromJSON(Long.class, paramMap.get("id")), updateUserRequest);
-        return Response.text("SUCCESS"); // should return a module, return text for test.
+        return Response.text("SUCCESS"); // should return a page, return text for test.
     }
 }

@@ -13,6 +13,7 @@ import java.time.ZonedDateTime;
  */
 @Collection(name = "restaurants")
 public class Restaurant {
+    // todo
     @NotNull
     @Id
     @Field(name = "id")

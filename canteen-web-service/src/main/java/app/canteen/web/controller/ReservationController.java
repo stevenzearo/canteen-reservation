@@ -49,7 +49,7 @@ public class ReservationController {
             logger.error("OBJECT MAPPER ERROR");
         }
         ReserveResponse response = reservationWebService.reserve(userId, reserveRequest);
-        return Response.bean(response); // should return a module, return a bean for test.
+        return Response.bean(response); // should return a page, return a bean for test.
     }
 
     public Response cancel(Request request) {
@@ -65,7 +65,7 @@ public class ReservationController {
             reservationWebService.update(userId, reservationResponse.id, updateRequest);
             cancelStatus = "SUCCESS";
         }
-        return Response.text(cancelStatus); // should return a module, return text for test.
+        return Response.text(cancelStatus); // should return a page, return text for test.
     }
 
     private static class ListTypeReference extends TypeReference<List<String>> {

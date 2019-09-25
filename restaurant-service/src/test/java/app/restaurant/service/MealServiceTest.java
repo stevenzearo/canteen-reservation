@@ -76,10 +76,10 @@ class MealServiceTest extends RestaurantIntegrationExtension {
         SearchMealRequest searchMealRequest = new SearchMealRequest();
         searchMealRequest.status = MealStatusView.INVALID;
         SearchMealResponse searchMealResponse = mealService.searchListByConditions(searchMealRequest);
-        assertThat(searchMealResponse.mealViewList).size().isGreaterThan(0);
+        assertThat(searchMealResponse.meals).size().isGreaterThan(0);
         searchMealRequest.status = MealStatusView.VALID;
         SearchMealResponse searchMealResponse1 = mealService.searchListByConditions(searchMealRequest);
-        assertThat(searchMealResponse1.mealViewList).size().isEqualTo(0);
+        assertThat(searchMealResponse1.meals).size().isEqualTo(0);
     }
 
     @Test
@@ -87,10 +87,10 @@ class MealServiceTest extends RestaurantIntegrationExtension {
         SearchMealRequest searchMealRequest = new SearchMealRequest();
         searchMealRequest.status = MealStatusView.VALID;
         SearchMealResponse searchMealResponse = mealService.searchListByConditions(searchMealRequest);
-        assertThat(searchMealResponse.mealViewList).size().isGreaterThan(0);
+        assertThat(searchMealResponse.meals).size().isGreaterThan(0);
         searchMealRequest.status = MealStatusView.INVALID;
         SearchMealResponse searchMealResponse1 = mealService.searchListByConditions(searchMealRequest);
-        assertThat(searchMealResponse1.mealViewList).size().isEqualTo(0);
+        assertThat(searchMealResponse1.meals).size().isEqualTo(0);
     }
 
     @AfterEach

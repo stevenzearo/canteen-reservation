@@ -15,6 +15,8 @@ import java.util.Map;
 /**
  * @author steve
  */
+
+// todo
 public class AdminBOController {
     @Inject
     BOAdminWebService service;
@@ -32,9 +34,10 @@ public class AdminBOController {
             request.session().set("admin_id", response.id.toString());
             ActionLogContext.put("adminName", adminLoginRequest.name);
         } else {
+            // todo
             throw new ConflictException(Strings.format("admin has already login, name = {}", paramMap.get("name")));
         }
-        return Response.bean(response); // should return a module, return a bean for test.
+        return Response.bean(response); // should return a page, return a bean for test.
     }
 
     private boolean isLogin(Request request) {
@@ -45,7 +48,7 @@ public class AdminBOController {
         if (isLogin(request)) {
             request.session().set("admin_id", null);
         }
-        return Response.text("LOGOUT SUCCESSFULLY"); // should return a module, return text for test.
+        return Response.text("LOGOUT SUCCESSFULLY"); // should return a page, return text for test.
     }
 
 }

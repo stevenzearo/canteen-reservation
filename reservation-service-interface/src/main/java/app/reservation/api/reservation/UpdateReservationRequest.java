@@ -7,6 +7,7 @@ import java.time.ZonedDateTime;
 /**
  * @author steve
  */
+// todo
 public class UpdateReservationRequest {
     @Property(name = "amount")
     public Double amount;

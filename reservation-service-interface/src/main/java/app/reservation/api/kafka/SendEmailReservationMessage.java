@@ -7,6 +7,7 @@ import java.time.ZonedDateTime;
 /**
  * @author steve
  */
+// todo
 public class SendEmailReservationMessage {
     @Property(name = "status")
     public MessageStatus status;

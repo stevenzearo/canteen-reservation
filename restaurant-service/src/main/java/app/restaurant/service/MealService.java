@@ -87,7 +87,7 @@ public class MealService {
         query.filter = conditions;
         SearchMealResponse response = new SearchMealResponse();
         response.total = mealCollection.count(query.filter);
-        response.mealViewList = mealCollection.find(query).stream().map(this::view).collect(Collectors.toList());
+        response.meals = mealCollection.find(query).stream().map(this::view).collect(Collectors.toList());
         return response;
     }
 

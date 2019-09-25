@@ -18,6 +18,7 @@ public class ReservationMeal {
     @Column(name = "reservation_id")
     public String reservationId;
 
+    // todo
     @NotNull
     @Column(name = "meal_id")
     public String mealId;
