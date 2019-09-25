@@ -1,7 +1,7 @@
 package app.reservation.handler;
 
-import app.reservation.api.message.MessageStatus;
-import app.reservation.api.message.SendEmailReservationMessage;
+import app.reservation.api.kafka.MessageStatus;
+import app.reservation.api.kafka.SendEmailReservationMessage;
 import app.reservation.service.EmailNotificationService;
 import app.reservation.service.notification.CancelEmailNotificationRequest;
 import app.reservation.service.notification.CreateEmailNotificationRequest;

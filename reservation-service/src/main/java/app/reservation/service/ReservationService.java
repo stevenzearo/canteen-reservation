@@ -1,7 +1,7 @@
 package app.reservation.service;
 
-import app.reservation.api.message.MessageStatus;
-import app.reservation.api.message.SendEmailReservationMessage;
+import app.reservation.api.kafka.MessageStatus;
+import app.reservation.api.kafka.SendEmailReservationMessage;
 import app.reservation.api.reservation.GetReservationResponse;
 import app.reservation.api.reservation.ReservationStatusView;
 import app.reservation.api.reservation.ReservationView;

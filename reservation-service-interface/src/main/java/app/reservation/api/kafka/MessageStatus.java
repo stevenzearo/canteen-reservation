@@ -1,4 +1,4 @@
-package app.reservation.api.message;
+package app.reservation.api.kafka;
 
 import core.framework.api.json.Property;
 

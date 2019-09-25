@@ -1,7 +1,7 @@
 package app.canteen;
 
 import app.canteen.service.reservation.BOSearchReservationResponse;
-import app.canteen.service.reservation.BOSearchReservationService;
+import app.canteen.service.BOSearchReservationService;
 import app.canteen.web.ajax.ReservationBOAJAXController;
 import app.canteen.web.ajax.RestaurantBOAJAXController;
 import app.canteen.web.ajax.UserBOAJAXController;
@@ -9,6 +9,7 @@ import app.canteen.web.controller.AdminBOController;
 import app.canteen.web.controller.MealBOController;
 import app.canteen.web.controller.RestaurantBOController;
 import app.canteen.web.controller.UserBOController;
+import app.canteen.web.interceptor.CanteenBOServiceInterceptor;
 import app.reservation.api.BOReservationWebService;
 import app.reservation.api.ReservationWebService;
 import app.restaurant.api.BOMealWebService;
@@ -19,7 +20,6 @@ import app.user.api.BOAdminWebService;
 import app.user.api.BOUserWebService;
 import app.user.api.UserWebService;
 import core.framework.module.Module;
-import core.framework.module.SessionConfig;
 
 import java.time.Duration;
 
@@ -51,7 +51,7 @@ public class CanteenBoModule extends Module {
         RestaurantBOAJAXController restaurantAJAX = bind(RestaurantBOAJAXController.class);
         ReservationBOAJAXController reservationAJAX = bind(ReservationBOAJAXController.class);
         site().session().timeout(Duration.ofMinutes(30));
-//        site().session().cookie();
+        http().intercept(bind(CanteenBOServiceInterceptor.class));
         http().route(PUT, "/canteen/bo/admin/login", admin::login);
         http().route(GET, "/canteen/bo/admin/logout", admin::logout);
         http().route(POST, "/canteen/bo/meal", meal::create);

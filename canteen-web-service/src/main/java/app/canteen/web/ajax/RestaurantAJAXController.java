@@ -23,7 +23,7 @@ public class RestaurantAJAXController {
         SearchRestaurantRequest restaurantRequest = new SearchRestaurantRequest();
         restaurantRequest.skip = Integer.valueOf(paramMap.get("skip"));
         restaurantRequest.limit = Integer.valueOf(paramMap.get("limit"));
-        restaurantRequest.reservingDeadlineStart = JSON.fromJSON(ZonedDateTime.class, paramMap.get("reserve_deadline_lt"));
+        restaurantRequest.reservingDeadlineStart = JSON.fromJSON(ZonedDateTime.class, paramMap.get("reserve_deadline_start"));
         restaurantRequest.status = RestaurantStatusView.OPEN;
         return Response.bean(service.search(restaurantRequest));
     }

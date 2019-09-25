@@ -1,7 +1,5 @@
 package app.reservation;
 
-import app.reservation.api.message.SendEmailReservationMessage;
-import app.reservation.handler.ReservationMessageHandler;
 import core.framework.module.App;
 import core.framework.module.SystemModule;
 

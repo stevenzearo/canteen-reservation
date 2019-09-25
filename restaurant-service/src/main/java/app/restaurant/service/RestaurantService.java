@@ -64,7 +64,7 @@ public class RestaurantService {
         Query query = new Query();
         query.skip = request.skip;
         query.limit = request.limit;
-        Bson conditions = Filters.and();
+        Bson conditions = Filters.exists("_id");
         if (!Strings.isBlank(request.name))
             conditions = Filters.and(conditions, Filters.regex("name", request.name));
         if (!Strings.isBlank(request.address))

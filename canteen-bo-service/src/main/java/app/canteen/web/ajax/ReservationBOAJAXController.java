@@ -2,7 +2,7 @@ package app.canteen.web.ajax;
 
 import app.canteen.service.reservation.BOSearchReservationRequest;
 import app.canteen.service.reservation.BOSearchReservationResponse;
-import app.canteen.service.reservation.BOSearchReservationService;
+import app.canteen.service.BOSearchReservationService;
 import core.framework.inject.Inject;
 import core.framework.json.JSON;
 import core.framework.util.Strings;

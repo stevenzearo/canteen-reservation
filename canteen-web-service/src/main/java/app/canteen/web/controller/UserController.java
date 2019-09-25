@@ -55,7 +55,7 @@ public class UserController {
             response = Response.bean(userView);
             request.session().set("user_id", String.valueOf(userView.id));
         } else {
-            response = Response.html("/index.html", new IndexPage());
+            response = Response.text("ALREADY LOGIN"); // should return a module, return text for test.
         }
         return response;
     }

@@ -1,5 +1,7 @@
-package app.canteen.service.reservation;
+package app.canteen.service;
 
+import app.canteen.service.reservation.BOSearchReservationRequest;
+import app.canteen.service.reservation.BOSearchReservationResponse;
 import app.reservation.api.BOReservationWebService;
 import app.reservation.api.reservation.SearchReservationRequest;
 import app.reservation.api.reservation.SearchReservationResponse;

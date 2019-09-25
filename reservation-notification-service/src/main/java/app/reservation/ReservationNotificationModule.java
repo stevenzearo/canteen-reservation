@@ -1,6 +1,6 @@
 package app.reservation;
 
-import app.reservation.api.message.SendEmailReservationMessage;
+import app.reservation.api.kafka.SendEmailReservationMessage;
 import app.reservation.domain.EmailNotification;
 import app.reservation.handler.ReservationMessageHandler;
 import app.reservation.job.SendingEmailSchedulerJob;

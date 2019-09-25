@@ -1,6 +1,6 @@
 package app.reservation;
 
-import app.reservation.api.message.SendEmailReservationMessage;
+import app.reservation.api.kafka.SendEmailReservationMessage;
 import core.framework.module.App;
 import core.framework.module.KafkaConfig;
 import core.framework.module.SystemModule;
