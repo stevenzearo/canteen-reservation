@@ -13,6 +13,7 @@ import core.framework.inject.Inject;
 import core.framework.json.JSON;
 import core.framework.web.Request;
 import core.framework.web.Response;
+import core.framework.web.exception.BadRequestException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,6 +37,17 @@ public class ReservationController {
     public Response reserve(Request request) {
         Map<String, String> paramMap = request.formParams();
         ReserveRequest reserveRequest = new ReserveRequest();
+        try {
+            String restaurantId = paramMap.get("restaurant_id");
+            Long userId = Long.valueOf(paramMap.get("user_id"));
+            ZonedDateTime eatingTime = ZonedDateTime.parse(paramMap.get("eating_time"));
+            ZonedDateTime reservingDeadline = ZonedDateTime.parse(paramMap.get("reserving_deadline"));
+            Double amount = Double.valueOf(paramMap.get("amount"));
+            reserveRequest.mealIdList = OBJECT_MAPPER.readValue(paramMap.get("meal_id_list"), new ListTypeReference());
+        } catch (Exception e) {
+            throw new BadRequestException("");
+        }
+
         reserveRequest.restaurantId = paramMap.get("restaurant_id");
         Long userId = Long.valueOf(paramMap.get("user_id"));
         reserveRequest.status = ReservationStatusView.OK;

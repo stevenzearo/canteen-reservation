@@ -2,18 +2,13 @@ package app.canteen.web.controller;
 
 import app.user.api.BOUserWebService;
 import app.user.api.user.BOCreateUserRequest;
-import app.user.api.user.BOGetUserResponse;
 import app.user.api.user.BOUpdateUserRequest;
-import app.user.api.user.CreateUserRequest;
-import app.user.api.user.GetUserResponse;
-import app.user.api.user.UpdateUserRequest;
 import app.user.api.user.UserStatusView;
 import core.framework.inject.Inject;
-import core.framework.json.JSON;
 import core.framework.util.Strings;
 import core.framework.web.Request;
 import core.framework.web.Response;
-import core.framework.web.exception.NotFoundException;
+import core.framework.web.exception.BadRequestException;
 
 import java.util.Map;
 
@@ -36,28 +31,33 @@ public class UserBOController {
     // use user_id to reset password
     public Response resetPassword(Request request) {
         Map<String, String> paramMap = request.formParams();
-        Long userId;
-        userId = Long.valueOf(paramMap.get("user_id"));
-        BOGetUserResponse response = userWebService.get(userId);
-        if (response != null) {
-            BOUpdateUserRequest updateUserRequest = new BOUpdateUserRequest();
-            updateUserRequest.password = paramMap.get("new_password");
-            userWebService.update(response.id, updateUserRequest);
-        } else {
-            throw new NotFoundException(Strings.format("user not found, id = {}", paramMap.get("user_id")));
+        try {
+            Long userId = Long.valueOf(paramMap.get("user_id"));
+            String password = paramMap.get("password");
+            if (!Strings.isBlank(password)) {
+                userWebService.updatePassword(userId, password);
+            } else {
+                throw new BadRequestException("password can not be blank");
+            }
+        } catch (NumberFormatException e) {
+            throw new BadRequestException("user id should be Long");
         }
-        return Response.bean(response); // should return a page, return text for test.
+        return Response.text("SUCCESS"); // should return a page, return text for test.
     }
 
     // use user id to change user status
-    public Response changeUserStatus(Request request) {
+    public Response activate(Request request) {
         Map<String, String> paramMap = request.queryParams();
         BOUpdateUserRequest updateUserRequest = new BOUpdateUserRequest();
-        Long id = Long.valueOf(paramMap.get("id"));
-        userWebService.get(id);
-        // todo
-        updateUserRequest.status = JSON.fromJSON(UserStatusView.class, paramMap.get("status"));
-        userWebService.update(JSON.fromJSON(Long.class, paramMap.get("id")), updateUserRequest);
+        try {
+            Long id = Long.valueOf(paramMap.get("id"));
+            UserStatusView status = UserStatusView.valueOf(paramMap.get("status"));
+            userWebService.updateStatus(id, status);
+        } catch (NumberFormatException e) {
+            throw new BadRequestException("user id should be Long");
+        } catch (IllegalArgumentException e) {
+            throw new BadRequestException("status incorrect");
+        }
         return Response.text("SUCCESS"); // should return a page, return text for test.
     }
 }

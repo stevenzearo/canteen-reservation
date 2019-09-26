@@ -29,9 +29,6 @@ public class SearchRestaurantResponse {
         @Property(name = "phone")
         public String phone;
 
-        @Property(name = "status")
-        public RestaurantStatusView status;
-
         @Property(name = "reserving_deadline")
         public ZonedDateTime reservingDeadline;
     }

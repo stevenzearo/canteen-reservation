@@ -17,21 +17,10 @@ public class SearchReservationRequest {
     @Property(name = "limit")
     public Integer limit = 10;
 
-    @Property(name = "amount_start")
-    public Double amountStart;
-
-    @Property(name = "amount_end")
-    public Double amountEnd;
-
+    @NotNull
     @Property(name = "reserving_time_start")
     public ZonedDateTime reservingTimeStart;
 
     @Property(name = "reserving_time_end")
     public ZonedDateTime reservingTimeEnd;
-
-    @Property(name = "status")
-    public ReservationStatusView status;
-
-    @Property(name = "restaurant_id")
-    public String restaurantId;
 }

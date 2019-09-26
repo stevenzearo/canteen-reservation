@@ -58,11 +58,15 @@ public class BOUserService {
         return response;
     }
 
-    public void update(Long id, BOUpdateUserRequest request) {
+    public void updatePassword(Long id, String password) {
         User user = repository.get(id).orElseThrow(() -> new NotFoundException(Strings.format("user not found, id = {}", id)));
-        user.name = request.name;
-        user.password = Hash.sha256Hex(request.password);
-        user.email = request.email;
+        user.password = Hash.sha256Hex(password);
+        repository.partialUpdate(user);
+    }
+
+    public void updateStatus(Long id, UserStatusView status) {
+        User user = repository.get(id).orElseThrow(() -> new NotFoundException(Strings.format("user not found, id = {}", id)));
+        user.status = UserStatus.valueOf(status.name());
         repository.partialUpdate(user);
     }
 

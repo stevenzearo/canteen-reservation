@@ -18,5 +18,5 @@ public interface RestaurantWebService {
 
     @PUT
     @Path("/restaurant")
-    SearchRestaurantResponse search(SearchRestaurantRequest request); // must give reserving deadline start and reserving deadline start and status
+    SearchRestaurantResponse searchOpen(SearchRestaurantRequest request); // must give reserving deadline start and reserving deadline start and status
 }

@@ -27,10 +27,6 @@ public interface UserWebService {
     @Path("/user/login")
     UserLoginResponse login(UserLoginRequest request);
 
-    @PUT
-    @Path("/user/:id")
-    void update(@PathParam("id") Long id, UpdateUserRequest request); // user can change name/password(via email to confirm)/email(via new email to confirm)
-
     @GET
     @Path("/user/:id")
     GetUserResponse get(@PathParam("id") Long id);

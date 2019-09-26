@@ -35,11 +35,12 @@ public class RestaurantService {
         return response;
     }
 
-    public SearchRestaurantResponse search(SearchRestaurantRequest request) {
+    public SearchRestaurantResponse searchOpen(SearchRestaurantRequest request) {
         Query query = new Query();
         query.skip = request.skip;
         query.limit = request.limit;
         Bson conditions = Filters.exists("_id");
+        conditions = Filters.and(conditions, Filters.eq("status", RestaurantStatus.OPEN));
         if (!Strings.isBlank(request.name))
             conditions = Filters.and(conditions, Filters.regex("name", request.name));
         if (!Strings.isBlank(request.address))
@@ -49,9 +50,7 @@ public class RestaurantService {
         if (request.reservingDeadlineStart != null)
             conditions = Filters.and(conditions, Filters.gt("reserving_deadline", request.reservingDeadlineStart));
         if (request.reservingDeadlineEnd != null)
-            conditions = Filters.and(conditions, Filters.lt("reserving_deadline", request.reservingDeadlineEnd));
-        if (request.status != null)
-            conditions = Filters.and(conditions, Filters.eq("status", RestaurantStatus.valueOf(request.status.name())));
+            conditions = Filters.and(conditions, Filters.lt("reserving_deadline", request.reservingDeadlineEnd.plusMinutes(1)));
         query.filter = conditions;
         SearchRestaurantResponse response = new SearchRestaurantResponse();
         response.total = restaurantCollection.count(query.filter);
@@ -65,7 +64,6 @@ public class RestaurantService {
         restaurantView.name = restaurant.name;
         restaurantView.address = restaurant.address;
         restaurantView.phone = restaurant.phone;
-        restaurantView.status = restaurant.status == null ? null : RestaurantStatusView.valueOf(restaurant.status.name());
         restaurantView.reservingDeadline = restaurant.reservingDeadline;
         return restaurantView;
     }

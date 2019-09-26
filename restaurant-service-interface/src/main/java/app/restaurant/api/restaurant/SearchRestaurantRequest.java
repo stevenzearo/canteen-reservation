@@ -32,8 +32,4 @@ public class SearchRestaurantRequest {
 
     @Property(name = "reserving_deadline_end")
     public ZonedDateTime reservingDeadlineEnd;
-
-    @NotNull
-    @Property(name = "status")
-    public RestaurantStatusView status = RestaurantStatusView.OPEN;
 }

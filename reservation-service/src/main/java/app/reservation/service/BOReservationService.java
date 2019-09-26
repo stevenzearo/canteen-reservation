@@ -53,10 +53,6 @@ public class BOReservationService {
             reservationQuery.where("reserving_time >= ?", request.reservingTimeStart);
         if (request.reservingTimeEnd != null)
             reservationQuery.where("reserving_time <= ?", request.reservingTimeEnd);
-        if (request.amountStart != null)
-            reservationQuery.where("amount >= ?", request.amountStart);
-        if (request.amountEnd != null)
-            reservationQuery.where("amount <= ?", request.amountEnd);
         if (!Strings.isBlank(request.restaurantId))
             reservationQuery.where("restaurant_id = ?", request.restaurantId);
         List<Reservation> reservationList = reservationQuery.fetch();

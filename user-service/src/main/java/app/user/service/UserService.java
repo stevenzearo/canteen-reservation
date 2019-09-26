@@ -42,7 +42,7 @@ public class UserService {
             response.id = user.id;
             response.name = user.name;
             response.email = user.email;
-            response.status = CreateUserResponse.UserStatusView.valueOf(user.status.name());
+            response.status = UserStatusView.valueOf(user.status.name());
         } else {
             throw new ConflictException("email has been registered");
         }
@@ -65,14 +65,6 @@ public class UserService {
         return userView;
     }
 
-    public void update(Long id, UpdateUserRequest request) {
-        User user = repository.get(id).orElseThrow(() -> new NotFoundException(Strings.format("User not found, id = {}", id)));
-        user.name = request.name;
-        user.password = Hash.sha256Hex(request.password);
-        user.email = request.email;
-        repository.partialUpdate(user);
-    }
-
     public GetUserResponse get(Long id) {
         User user = repository.get(id).orElseThrow(() -> new NotFoundException(Strings.format("user not found, id = {}", id)));
         GetUserResponse response = new GetUserResponse();
@@ -88,16 +80,7 @@ public class UserService {
         userView.id = user.id;
         userView.name = user.name;
         userView.email = user.email;
-        userView.status = user.status == null ? null : UserLoginResponse.UserStatusView.valueOf(user.status.name());
-        return userView;
-    }
-
-    private SearchUserResponse.User viewSearch(User user) {
-        SearchUserResponse.User userView = new SearchUserResponse.User();
-        userView.id = user.id;
-        userView.name = user.name;
-        userView.email = user.email;
-        userView.status = user.status == null ? null : UserStatusView.valueOf(user.status.name());
+        userView.status = UserStatusView.valueOf(user.status.name());
         return userView;
     }
 }

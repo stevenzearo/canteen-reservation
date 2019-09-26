@@ -1,14 +1,16 @@
 package app.restaurant.api.restaurant;
 
 import core.framework.api.json.Property;
-import core.framework.api.validate.NotNull;
 
 import java.time.ZonedDateTime;
 
 /**
  * @author steve
  */
-public class BOUpdateRestaurantRequest {
+public class BOGetRestaurantResponse {
+    @Property(name = "id")
+    public String id;
+
     @Property(name = "name")
     public String name;
 
@@ -21,7 +23,6 @@ public class BOUpdateRestaurantRequest {
     @Property(name = "status")
     public RestaurantStatusView status;
 
-    @NotNull
     @Property(name = "reserving_deadline")
     public ZonedDateTime reservingDeadline;
 }

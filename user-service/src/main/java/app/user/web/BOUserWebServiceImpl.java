@@ -7,6 +7,7 @@ import app.user.api.user.BOGetUserResponse;
 import app.user.api.user.BOSearchUserRequest;
 import app.user.api.user.BOSearchUserResponse;
 import app.user.api.user.BOUpdateUserRequest;
+import app.user.api.user.UserStatusView;
 import app.user.service.BOUserService;
 import core.framework.inject.Inject;
 
@@ -33,7 +34,12 @@ public class BOUserWebServiceImpl implements BOUserWebService {
     }
 
     @Override
-    public void update(Long id, BOUpdateUserRequest request) {
-        service.update(id, request);
+    public void updatePassword(Long id, String password) {
+        service.updatePassword(id, password);
+    }
+
+    @Override
+    public void updateStatus(Long id, UserStatusView status) {
+        service.updateStatus(id, status);
     }
 }

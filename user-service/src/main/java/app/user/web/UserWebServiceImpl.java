@@ -28,11 +28,6 @@ public class UserWebServiceImpl implements UserWebService {
     }
 
     @Override
-    public void update(Long id, UpdateUserRequest request) {
-        service.update(id, request);
-    }
-
-    @Override
     public GetUserResponse get(Long id) {
         return service.get(id);
     }

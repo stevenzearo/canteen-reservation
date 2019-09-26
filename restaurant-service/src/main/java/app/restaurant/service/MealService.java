@@ -29,19 +29,18 @@ public class MealService {
     @Inject
     MongoCollection<Meal> mealCollection;
 
-    public SearchMealResponse search(String restaurantId, SearchMealRequest request) {
+    public SearchMealResponse searchValid(String restaurantId, SearchMealRequest request) {
         Query query = new Query();
         query.skip = request.skip;
         query.limit = request.limit;
         Bson conditions = Filters.and(Filters.eq("restaurant_id", restaurantId));
+        conditions = Filters.and(conditions, Filters.eq("status", MealStatus.VALID));
         if (!Strings.isBlank(request.name))
             conditions = Filters.and(conditions, Filters.regex("name", request.name));
         if (request.priceStart != null)
             conditions = Filters.and(conditions, Filters.gte("price", request.priceStart));
         if (request.priceEnd != null)
             conditions = Filters.and(conditions, Filters.lte("price", request.priceEnd));
-        if (request.status != null)
-            conditions = Filters.and(conditions, Filters.eq("status", MealStatus.valueOf(request.status.name())));
         query.filter = conditions;
         SearchMealResponse response = new SearchMealResponse();
         response.total = mealCollection.count(query.filter);
@@ -54,7 +53,7 @@ public class MealService {
         mealView.id = meal.id;
         mealView.name = meal.name;
         mealView.price = meal.price;
-        mealView.status = meal.status == null ? null : MealStatusView.valueOf(meal.status.name());
+        mealView.status = MealStatusView.valueOf(meal.status.name());
         return mealView;
     }
 }

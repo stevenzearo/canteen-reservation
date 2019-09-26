@@ -99,23 +99,14 @@ public class ReservationService {
         return response;
     }
 
-    public SearchReservationResponse search(Long userId, SearchReservationRequest request) {
+    public SearchReservationResponse searchByTime(Long userId, SearchReservationRequest request) {
         Query<Reservation> reservationQuery = reservationRepository.select();
         reservationQuery.skip(request.skip);
         reservationQuery.limit(request.limit);
         reservationQuery.where("user_id = ?", userId);
-        if (request.status != null)
-            reservationQuery.where("status = ?", app.reservation.domain.ReservationStatus.valueOf(request.status.name()));
-        if (request.reservingTimeStart != null)
-            reservationQuery.where("reserving_time >= ?", request.reservingTimeStart);
+        reservationQuery.where("reserving_time >= ?", request.reservingTimeStart);
         if (request.reservingTimeEnd != null)
             reservationQuery.where("reserving_time <= ?", request.reservingTimeEnd);
-        if (request.amountStart != null)
-            reservationQuery.where("amount >= ?", request.amountStart);
-        if (request.amountEnd != null)
-            reservationQuery.where("amount <= ?", request.amountEnd);
-        if (!Strings.isBlank(request.restaurantId))
-            reservationQuery.where("restaurant_id = ?", request.restaurantId);
         List<Reservation> reservationList = reservationQuery.fetch();
         List<SearchReservationResponse.Reservation> reservationViewList = reservationList.stream()
             .map(reservation -> view(reservation, searchMealIdList(reservation.id))).collect(Collectors.toList());

@@ -17,12 +17,6 @@ public class BOSearchReservationRequest {
     @Property(name = "limit")
     public Integer limit = 10;
 
-    @Property(name = "amount_start")
-    public Double amountStart;
-
-    @Property(name = "amount_end")
-    public Double amountEnd;
-
     @Property(name = "reserving_time_start")
     public ZonedDateTime reservingTimeStart;
 
@@ -32,7 +26,6 @@ public class BOSearchReservationRequest {
     @Property(name = "status")
     public ReservationStatusView status;
 
-    // todo
     @Property(name = "user_id")
     public Long userId;
 

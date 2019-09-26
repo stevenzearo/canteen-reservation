@@ -23,8 +23,4 @@ public class SearchMealRequest {
 
     @Property(name = "price_end")
     public Double priceEnd;
-
-    @NotNull
-    @Property(name = "status")
-    public MealStatusView status = MealStatusView.VALID;
 }

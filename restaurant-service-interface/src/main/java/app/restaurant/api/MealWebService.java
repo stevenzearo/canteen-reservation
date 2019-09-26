@@ -12,5 +12,5 @@ import core.framework.api.web.service.PathParam;
 public interface MealWebService {
     @PUT
     @Path("/restaurant/:restaurantId/meal")
-    SearchMealResponse search(@PathParam("restaurantId") String restaurantId, SearchMealRequest request);
+    SearchMealResponse searchValid(@PathParam("restaurantId") String restaurantId, SearchMealRequest request);
 }

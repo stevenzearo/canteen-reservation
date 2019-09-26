@@ -2,15 +2,18 @@ package app.reservation.service;
 
 import app.reservation.domain.EmailNotification;
 import app.reservation.domain.EmailSendingStatus;
+import app.reservation.domain.NotificationMeal;
+import app.reservation.domain.NotificationRestaurant;
 import app.reservation.service.notification.CancellingEmailNotificationRequest;
 import app.reservation.service.notification.CreateEmailNotificationRequest;
-import app.reservation.service.notification.CreateEmailNotificationResponse;
 import app.reservation.service.notification.EmailNotificationView;
 import app.reservation.service.notification.EmailSendingStatusView;
 import app.reservation.service.notification.SearchEmailNotificationRequest;
 import app.reservation.service.notification.SearchEmailNotificationResponse;
+import core.framework.db.Database;
 import core.framework.db.Query;
 import core.framework.db.Repository;
+import core.framework.db.Transaction;
 import core.framework.inject.Inject;
 import core.framework.util.Strings;
 import core.framework.web.exception.NotFoundException;
@@ -27,24 +30,45 @@ public class EmailNotificationService {
     private final Logger logger = LoggerFactory.getLogger(EmailNotificationService.class);
 
     @Inject
-    Repository<EmailNotification> repository;
+    Repository<EmailNotification> notificationRepository;
 
-    public CreateEmailNotificationResponse create(CreateEmailNotificationRequest request) {
+    @Inject
+    Repository<NotificationRestaurant> restaurantRepository;
+
+    @Inject
+    Repository<NotificationMeal> mealRepository;
+
+    @Inject
+    Database database;
+
+    public void create(CreateEmailNotificationRequest request) {
         EmailNotification notification = new EmailNotification();
         notification.userEmail = request.userEmail;
         notification.reservationId = request.reservationId;
         logger.warn(Strings.format("save message to db, notification id = {}", notification.reservationId));
         notification.notifyingTime = request.notifyingTime;
         notification.sendingStatus = EmailSendingStatus.READY;
-        OptionalLong insert = repository.insert(notification);
-        if (insert.isPresent()) notification.id = insert.getAsLong();
-        CreateEmailNotificationResponse response = new CreateEmailNotificationResponse();
-        response.id = notification.id;
-        response.userEmail = notification.userEmail;
-        response.reservationId = notification.reservationId;
-        response.notifyingTime = notification.notifyingTime;
-        response.sendingStatus = EmailSendingStatusView.valueOf(notification.sendingStatus.name());
-        return response;
+        try (Transaction transaction = database.beginTransaction()){
+            OptionalLong notificationId = notificationRepository.insert(notification);
+            if (notificationId.isPresent()) {
+                NotificationRestaurant notificationRestaurant = new NotificationRestaurant();
+                notificationRestaurant.restaurantId = request.restaurant.id;
+                notificationRestaurant.notificationId = notificationId.getAsLong();
+                notificationRestaurant.restaurantName = request.restaurant.name;
+                notificationRestaurant.restaurantPhone = request.restaurant.phone;
+                notificationRestaurant.restaurantAddress = request.restaurant.address;
+                restaurantRepository.insert(notificationRestaurant);
+                request.meals.forEach(meal -> {
+                    NotificationMeal notificationMeal = new NotificationMeal();
+                    notificationMeal.notificationId = notificationId.getAsLong();
+                    notificationMeal.mealId = meal.id;
+                    notificationMeal.mealName = meal.name;
+                    notificationMeal.mealPrice = meal.price;
+                    mealRepository.insert(notificationMeal);
+                });
+            }
+            transaction.commit();
+        }
     }
 
     public void cancel(CancellingEmailNotificationRequest request) {
@@ -61,7 +85,7 @@ public class EmailNotificationService {
                 notification.userEmail = search.notificationList.get(0).userEmail;
                 notification.notifyingTime = search.notificationList.get(0).notifyingTime;
                 notification.sendingStatus = EmailSendingStatus.CANCEL;
-                repository.update(notification);
+                notificationRepository.update(notification);
             } else {
                 throw new NotFoundException(Strings.format("Email Notification not found, reservation id = {} and user email = {} and notifying time = {}"
                     , request.reservationId, request.userEmail));
@@ -71,7 +95,7 @@ public class EmailNotificationService {
     }
 
     private SearchEmailNotificationResponse search(SearchEmailNotificationRequest request) {
-        Query<EmailNotification> query = repository.select();
+        Query<EmailNotification> query = notificationRepository.select();
         if (!Strings.isBlank(request.userEmail))
             query.where("user_email = ?", request.userEmail);
         if (!Strings.isBlank(request.reservationId))

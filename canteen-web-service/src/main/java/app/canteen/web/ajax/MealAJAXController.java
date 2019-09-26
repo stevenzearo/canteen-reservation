@@ -4,8 +4,10 @@ import app.restaurant.api.MealWebService;
 import app.restaurant.api.meal.MealStatusView;
 import app.restaurant.api.meal.SearchMealRequest;
 import core.framework.inject.Inject;
+import core.framework.util.Strings;
 import core.framework.web.Request;
 import core.framework.web.Response;
+import core.framework.web.exception.BadRequestException;
 
 import java.util.Map;
 
@@ -17,11 +19,15 @@ public class MealAJAXController {
     MealWebService service;
 
     public Response searchValidByRestaurantId(Request request) {
-        Map<String, String> paramMap = request.formParams();
-        SearchMealRequest mealRequest = new SearchMealRequest();
-        mealRequest.skip = Integer.valueOf(paramMap.get("skip"));
-        mealRequest.limit = Integer.valueOf(paramMap.get("limit"));
-        mealRequest.status = MealStatusView.VALID;
-        return Response.bean(service.search(paramMap.get("restaurant_id"), mealRequest));
+        Map<String, String> queryMap = request.queryParams();
+        String restaurantId = queryMap.get("restaurant_id");
+        Response response = null;
+        if (!Strings.isBlank(restaurantId)) {
+            SearchMealRequest searchMealRequest = request.bean(SearchMealRequest.class);
+            Response.bean(service.search(restaurantId, searchMealRequest));
+        } else {
+            throw new BadRequestException("restaurant id can not be blank");
+        }
+        return response;
     }
 }

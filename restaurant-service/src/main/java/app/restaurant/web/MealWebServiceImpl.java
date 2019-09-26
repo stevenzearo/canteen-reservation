@@ -14,7 +14,7 @@ public class MealWebServiceImpl implements MealWebService {
     MealService service;
 
     @Override
-    public SearchMealResponse search(String restaurantId, SearchMealRequest request) {
-        return service.search(restaurantId, request);
+    public SearchMealResponse searchValid(String restaurantId, SearchMealRequest request) {
+        return service.searchValid(restaurantId, request);
     }
 }

@@ -30,7 +30,7 @@ public interface ReservationWebService {
 
     @PUT
     @Path("/user/:userId/reservation")
-    SearchReservationResponse search(@PathParam("userId") Long userId, SearchReservationRequest request);
+    SearchReservationResponse searchByTime(@PathParam("userId") Long userId, SearchReservationRequest request);
 
     @PUT
     @Path("/user/:userId/reservation/:id")

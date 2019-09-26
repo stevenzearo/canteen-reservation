@@ -59,6 +59,7 @@ public class CanteenBoModule extends Module {
         http().route(PUT, "/canteen/bo/restaurant/deadline", restaurant::updateDeadline);
         http().route(POST, "/canteen/bo/user", user::createUser);
         http().route(PUT, "/canteen/bo/user/password", user::resetPassword);
+        http().route(PUT, "/canteen/bo/user/status", user::activate);
         http().route(PUT, "/canteen/bo/ajax/reservation", reservationAJAX::search);
         http().route(GET, "/canteen/bo/ajax/restaurant", restaurantAJAX::searchByPage);
         http().route(GET, "/canteen/bo/ajax/user", userJAX::searchByPage);

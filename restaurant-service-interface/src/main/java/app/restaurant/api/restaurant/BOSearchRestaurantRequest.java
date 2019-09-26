@@ -28,9 +28,8 @@ public class BOSearchRestaurantRequest {
 
     @NotNull
     @Property(name = "reserving_deadline_start")
-    public ZonedDateTime reservingDeadlineStart;
+    public ZonedDateTime reservingDeadlineStart = ZonedDateTime.now();
 
-    @NotNull
     @Property(name = "reserving_deadline_end")
     public ZonedDateTime reservingDeadlineEnd;
 

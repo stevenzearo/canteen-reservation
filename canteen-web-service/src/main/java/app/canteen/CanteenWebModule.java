@@ -46,6 +46,6 @@ public class CanteenWebModule extends Module {
         http().route(PUT, "/canteen/ajax/reservation", reservationAJAX::searchInFutureByUserId);
         http().route(PUT, "/canteen/ajax/meal", mealAJAX::searchValidByRestaurantId);
         http().route(GET, "/canteen/ajax/restaurant", restaurantAJAX::get);
-        http().route(PUT, "/canteen/ajax/restaurant", restaurantAJAX::searchAvailableByDate);
+        http().route(PUT, "/canteen/ajax/restaurant", restaurantAJAX::search);
     }
 }
