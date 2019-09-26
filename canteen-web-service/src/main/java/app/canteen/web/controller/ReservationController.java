@@ -62,7 +62,7 @@ public class ReservationController {
         if (reservationResponse.reservingTime.plusMinutes(10).isBefore(restaurantResponse.reservingDeadline)) {
             UpdateReservationRequest updateRequest = new UpdateReservationRequest();
             updateRequest.status = ReservationStatusView.CANCEL;
-            reservationWebService.update(userId, reservationResponse.id, updateRequest);
+            reservationWebService.cancel(userId, reservationResponse.id);
             cancelStatus = "SUCCESS";
         }
         return Response.text(cancelStatus); // should return a page, return text for test.

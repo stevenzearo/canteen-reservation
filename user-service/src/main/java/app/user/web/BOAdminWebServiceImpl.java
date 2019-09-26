@@ -1,9 +1,9 @@
 package app.user.web;
 
 import app.user.api.BOAdminWebService;
-import app.user.api.admin.AdminLoginRequest;
-import app.user.api.admin.AdminLoginResponse;
-import app.user.service.AdminService;
+import app.user.api.admin.BOAdminLoginRequest;
+import app.user.api.admin.BOAdminLoginResponse;
+import app.user.service.BOAdminService;
 import core.framework.inject.Inject;
 
 /**
@@ -11,11 +11,11 @@ import core.framework.inject.Inject;
  */
 public class BOAdminWebServiceImpl implements BOAdminWebService {
     @Inject
-    AdminService service;
+    BOAdminService service;
 
 
     @Override
-    public AdminLoginResponse login(AdminLoginRequest request) {
+    public BOAdminLoginResponse login(BOAdminLoginRequest request) {
         return service.login(request);
     }
 }

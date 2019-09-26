@@ -1,7 +1,7 @@
 package app.user.api;
 
-import app.user.api.admin.AdminLoginRequest;
-import app.user.api.admin.AdminLoginResponse;
+import app.user.api.admin.BOAdminLoginRequest;
+import app.user.api.admin.BOAdminLoginResponse;
 import core.framework.api.web.service.PUT;
 import core.framework.api.web.service.Path;
 
@@ -11,5 +11,5 @@ import core.framework.api.web.service.Path;
 public interface BOAdminWebService {
     @PUT
     @Path("/bo/admin/login")
-    AdminLoginResponse login(AdminLoginRequest request);
+    BOAdminLoginResponse login(BOAdminLoginRequest request);
 }

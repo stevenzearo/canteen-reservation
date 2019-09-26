@@ -2,6 +2,9 @@ package app.reservation.web;
 
 import app.reservation.api.BOReservationWebService;
 import app.reservation.api.ReservationWebService;
+import app.reservation.api.reservation.BOGetReservationResponse;
+import app.reservation.api.reservation.BOSearchReservationRequest;
+import app.reservation.api.reservation.BOSearchReservationResponse;
 import app.reservation.api.reservation.GetReservationResponse;
 import app.reservation.api.reservation.ReservationView;
 import app.reservation.api.reservation.ReserveRequest;
@@ -9,6 +12,7 @@ import app.reservation.api.reservation.ReserveResponse;
 import app.reservation.api.reservation.SearchReservationRequest;
 import app.reservation.api.reservation.SearchReservationResponse;
 import app.reservation.api.reservation.UpdateReservationRequest;
+import app.reservation.service.BOReservationService;
 import app.reservation.service.ReservationService;
 import core.framework.inject.Inject;
 
@@ -17,20 +21,16 @@ import core.framework.inject.Inject;
  */
 public class BOReservationWebServiceImpl implements BOReservationWebService {
     @Inject
-    ReservationService service;
+    BOReservationService service;
 
     @Override
-    public GetReservationResponse get(String id) {
+    public BOGetReservationResponse get(String id) {
         return service.get(id);
     }
 
     @Override
-    public SearchReservationResponse search(SearchReservationRequest request) {
+    public BOSearchReservationResponse search(BOSearchReservationRequest request) {
         return service.search(request);
     }
 
-    @Override
-    public void update(String id, UpdateReservationRequest update) {
-     service.update(id, update);
-    }
 }

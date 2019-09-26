@@ -1,7 +1,7 @@
 package app.user.service;
 
 import app.user.UserIntegrationExtension;
-import app.user.api.admin.AdminLoginRequest;
+import app.user.api.admin.BOAdminLoginRequest;
 import app.user.domain.Admin;
 import core.framework.crypto.Hash;
 import core.framework.db.Repository;
@@ -17,12 +17,12 @@ import static org.assertj.core.api.Assertions.assertThat;
 /**
  * @author steve
  */
-class AdminServiceTest extends UserIntegrationExtension {
+class BOAdminServiceTest extends UserIntegrationExtension {
     @Inject
     Repository<Admin> repository;
 
     @Inject
-    AdminService adminService;
+    BOAdminService BOAdminService;
 
     Admin admin;
 
@@ -37,10 +37,10 @@ class AdminServiceTest extends UserIntegrationExtension {
 
     @Test
     void login() {
-        AdminLoginRequest adminLoginRequest = new AdminLoginRequest();
-        adminLoginRequest.name = "steve";
-        adminLoginRequest.password = "1234";
-        assertThat(adminService.login(adminLoginRequest)).isNotNull();
+        BOAdminLoginRequest BOAdminLoginRequest = new BOAdminLoginRequest();
+        BOAdminLoginRequest.name = "steve";
+        BOAdminLoginRequest.password = "1234";
+        assertThat(BOAdminService.login(BOAdminLoginRequest)).isNotNull();
     }
 
     @AfterEach

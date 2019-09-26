@@ -1,17 +1,14 @@
 package app.canteen.web.controller;
 
-import app.canteen.web.page.IndexPage;
 import app.user.api.UserWebService;
 import app.user.api.user.CreateUserRequest;
-import app.user.api.user.SearchUserRequest;
-import app.user.api.user.SearchUserResponse;
 import app.user.api.user.UserLoginRequest;
-import app.user.api.user.UserView;
+import app.user.api.user.UserLoginResponse;
 import core.framework.inject.Inject;
 import core.framework.util.Strings;
 import core.framework.web.Request;
 import core.framework.web.Response;
-import core.framework.web.exception.ConflictException;
+import core.framework.web.exception.BadRequestException;
 
 import java.util.Map;
 
@@ -23,25 +20,21 @@ public class UserController {
     UserWebService service;
 
     public Response register(Request request) {
-        Response response;
         Map<String, String> paramMap = request.formParams();
-        if (!isRegistered(paramMap)) {
-            CreateUserRequest createRequest = new CreateUserRequest();
-            createRequest.name = paramMap.get("name");
-            createRequest.email = paramMap.get("email");
-            createRequest.password = paramMap.get("password");
+        CreateUserRequest createRequest = new CreateUserRequest();
+        String name = paramMap.get("name");
+        String email = paramMap.get("email");
+        String password = paramMap.get("password");
+        Response response;
+        if (!Strings.isBlank(email) && !Strings.isBlank(password)) {
+            createRequest.name = name;
+            createRequest.email = email;
+            createRequest.password = password;
             response = Response.bean(service.create(createRequest));
         } else {
-            throw new ConflictException(Strings.format("email has already registered, email = {}", paramMap.get("email")));
+            throw new BadRequestException("email and password can not be blank or null");
         }
-        return response;
-    }
-
-    private boolean isRegistered(Map<String, String> paramMap) {
-        SearchUserRequest searchRequest = new SearchUserRequest();
-        searchRequest.email = paramMap.get("email");
-        SearchUserResponse searchUserResponse = service.search(searchRequest);
-        return searchUserResponse.total > 0;
+        return response; // should return a page, return a bean for test.
     }
 
     public Response login(Request request) {
@@ -49,11 +42,16 @@ public class UserController {
         if (!isLogin(request)) {
             Map<String, String> paramMap = request.formParams();
             UserLoginRequest loginRequest = new UserLoginRequest();
-            loginRequest.email = paramMap.get("email");
-            loginRequest.password = paramMap.get("password");
-            UserView userView = service.login(loginRequest);
-            response = Response.bean(userView);
-            request.session().set("user_id", String.valueOf(userView.id));
+            String email = paramMap.get("email");
+            String password = paramMap.get("password");
+            if (!Strings.isBlank(email) && !Strings.isBlank(password)) {
+                loginRequest.email = paramMap.get("email");
+                loginRequest.password = paramMap.get("password");
+                UserLoginResponse userView = service.login(loginRequest);
+                response = Response.bean(userView); // should return a page, return a bean for test.
+            } else {
+                throw new BadRequestException("email or password incorrect");
+            }
         } else {
             response = Response.text("ALREADY LOGIN"); // should return a page, return text for test.
         }
@@ -71,4 +69,5 @@ public class UserController {
         return request.session().get("user_id").isPresent();
     }
 
+    // todo user change name, password, email
 }

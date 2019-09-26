@@ -1,7 +1,7 @@
 package app.canteen;
 
-import app.canteen.service.reservation.BOSearchReservationResponse;
-import app.canteen.service.BOSearchReservationService;
+import app.canteen.service.reservation.BOCombineSearchReservationResponse;
+import app.canteen.service.BOCombineSearchReservationService;
 import app.canteen.web.ajax.ReservationBOAJAXController;
 import app.canteen.web.ajax.RestaurantBOAJAXController;
 import app.canteen.web.ajax.UserBOAJAXController;
@@ -42,7 +42,7 @@ public class CanteenBoModule extends Module {
         api().client(MealWebService.class, requiredProperty("app.restaurant.serviceURL"));
         api().client(BOReservationWebService.class, requiredProperty("app.reservation.serviceURL"));
         api().client(ReservationWebService.class, requiredProperty("app.reservation.serviceURL"));
-        bind(BOSearchReservationService.class);
+        bind(BOCombineSearchReservationService.class);
         AdminBOController admin = bind(AdminBOController.class);
         UserBOController user = bind(UserBOController.class);
         RestaurantBOController restaurant = bind(RestaurantBOController.class);
@@ -62,6 +62,6 @@ public class CanteenBoModule extends Module {
         http().route(PUT, "/canteen/bo/ajax/reservation", reservationAJAX::search);
         http().route(GET, "/canteen/bo/ajax/restaurant", restaurantAJAX::searchByPage);
         http().route(GET, "/canteen/bo/ajax/user", userJAX::searchByPage);
-        http().bean(BOSearchReservationResponse.class);
+        http().bean(BOCombineSearchReservationResponse.class);
     }
 }

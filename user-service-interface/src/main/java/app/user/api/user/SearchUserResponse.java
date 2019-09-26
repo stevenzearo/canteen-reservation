@@ -11,6 +11,20 @@ public class SearchUserResponse {
     @Property(name = "total")
     public Long total;
 
-    @Property(name = "user_list")
-    public List<UserView> userList;
+    @Property(name = "users")
+    public List<User> users;
+
+    public static class User {
+        @Property(name = "id")
+        public Long id;
+
+        @Property(name = "email")
+        public String email;
+
+        @Property(name = "name")
+        public String name;
+
+        @Property(name = "status")
+        public UserStatusView status;
+    }
 }

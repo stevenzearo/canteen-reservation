@@ -1,20 +1,20 @@
-package app.restaurant.api.meal;
+package app.user.api.user;
 
 import core.framework.api.json.Property;
 
 /**
  * @author steve
  */
-public class CreateMealResponse {
+public class BOGetUserResponse {
     @Property(name = "id")
-    public String id;
+    public Long id;
+
+    @Property(name = "email")
+    public String email;
 
     @Property(name = "name")
     public String name;
 
-    @Property(name = "price")
-    public Double price;
-
     @Property(name = "status")
-    public MealStatusView status;
+    public UserStatusView status;
 }

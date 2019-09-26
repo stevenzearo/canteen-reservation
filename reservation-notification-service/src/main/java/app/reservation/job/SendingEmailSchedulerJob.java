@@ -1,15 +1,17 @@
 package app.reservation.job;
 
 import app.reservation.domain.EmailNotification;
-import app.reservation.task.SendingEmailTask;
-import core.framework.async.Executor;
-import core.framework.async.Task;
+import app.reservation.domain.EmailSendingStatus;
+import core.framework.db.Query;
 import core.framework.db.Repository;
 import core.framework.inject.Inject;
-import core.framework.inject.Named;
 import core.framework.scheduler.Job;
+import core.framework.util.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.time.ZonedDateTime;
+import java.util.List;
 
 /**
  * @author steve
@@ -18,16 +20,38 @@ public class SendingEmailSchedulerJob implements Job {
     private final Logger logger = LoggerFactory.getLogger(SendingEmailSchedulerJob.class);
 
     @Inject
-    @Named("executor")
-    Executor executor;
-
-    @Inject
-    SendingEmailTask task;
+    Repository<EmailNotification> repository;
 
     @Override
     public void execute() throws Exception {
         logger.warn("executing sending email task");
-        // todo
-        executor.submit("async", task);
+        Query<EmailNotification> query = repository.select();
+        int skip = 0;
+        int limit = 10;
+        int count;
+        do {
+            query.where("sending_status = ?", EmailSendingStatus.READY);
+            query.where("notifying_time <= ?", ZonedDateTime.now());
+            query.orderBy("notifying_time ASC");
+            query.skip(skip);
+            query.limit(limit);
+            List<EmailNotification> emailNotificationList = query.fetch();
+            count = query.count();
+            if (count > 0) {
+                emailNotificationList.forEach(notification -> {
+                    sendEmail(notification.userEmail, notification.reservationId);
+                    changeNotificationStatus(notification);
+                });
+            }
+        } while (count < limit);
+    }
+
+    private void sendEmail(String email, String reservationId) {
+        logger.warn(Strings.format("according to reservation id = {}, sending email to {}", reservationId, email));
+    }
+
+    private void changeNotificationStatus(EmailNotification notification) {
+        notification.sendingStatus = EmailSendingStatus.SENT;
+        repository.update(notification);
     }
 }

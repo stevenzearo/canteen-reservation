@@ -7,7 +7,10 @@ import java.time.ZonedDateTime;
 /**
  * @author steve
  */
-public class UpdateRestaurantRequest {
+public class BOCreateRestaurantResponse {
+    @Property(name = "id")
+    public String id;
+
     @Property(name = "name")
     public String name;
 
@@ -20,7 +23,6 @@ public class UpdateRestaurantRequest {
     @Property(name = "status")
     public RestaurantStatusView status;
 
-    // todo
     @Property(name = "reserving_deadline")
     public ZonedDateTime reservingDeadline;
 }

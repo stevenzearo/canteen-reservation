@@ -1,7 +1,7 @@
 package app.user.service;
 
-import app.user.api.admin.AdminLoginRequest;
-import app.user.api.admin.AdminLoginResponse;
+import app.user.api.admin.BOAdminLoginRequest;
+import app.user.api.admin.BOAdminLoginResponse;
 import app.user.domain.Admin;
 import core.framework.crypto.Hash;
 import core.framework.db.Repository;
@@ -13,20 +13,20 @@ import java.util.List;
 /**
  * @author steve
  */
-public class AdminService {
+public class BOAdminService {
     @Inject
     Repository<Admin> repository;
 
-    public AdminLoginResponse login(AdminLoginRequest request) {
+    public BOAdminLoginResponse login(BOAdminLoginRequest request) {
         List<Admin> adminList = repository.select("name = ?", request.name);
-        AdminLoginResponse adminLoginResponse;
+        BOAdminLoginResponse BOAdminLoginResponse;
         if (adminList == null || adminList.size() != 1 || !adminList.get(0).password.equals(Hash.sha256Hex(request.password))) {
             throw new UnauthorizedException("Admin name or password incorrect");
         } else {
-            adminLoginResponse = new AdminLoginResponse();
-            adminLoginResponse.id = adminList.get(0).id;
-            adminLoginResponse.name = request.name;
+            BOAdminLoginResponse = new BOAdminLoginResponse();
+            BOAdminLoginResponse.id = adminList.get(0).id;
+            BOAdminLoginResponse.name = request.name;
         }
-        return adminLoginResponse;
+        return BOAdminLoginResponse;
     }
 }

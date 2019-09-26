@@ -17,15 +17,11 @@ public class SearchReservationRequest {
     @Property(name = "limit")
     public Integer limit = 10;
 
-    // todo
-    @Property(name = "amount_equal")
-    public Double amountEqual;
+    @Property(name = "amount_start")
+    public Double amountStart;
 
-    @Property(name = "amount_equal_limit_than")
-    public Double amountEqualLimitThan;
-
-    @Property(name = "amount_equal_greater_than")
-    public Double amountEqualGreaterThan;
+    @Property(name = "amount_end")
+    public Double amountEnd;
 
     @Property(name = "reserving_time_start")
     public ZonedDateTime reservingTimeStart;
@@ -35,10 +31,6 @@ public class SearchReservationRequest {
 
     @Property(name = "status")
     public ReservationStatusView status;
-
-    // todo
-    @Property(name = "user_id")
-    public Long userId;
 
     @Property(name = "restaurant_id")
     public String restaurantId;

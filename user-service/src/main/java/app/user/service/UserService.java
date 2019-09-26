@@ -3,25 +3,23 @@ package app.user.service;
 import app.user.api.user.CreateUserRequest;
 import app.user.api.user.CreateUserResponse;
 import app.user.api.user.GetUserResponse;
-import app.user.api.user.UserLoginRequest;
-import app.user.api.user.SearchUserRequest;
 import app.user.api.user.SearchUserResponse;
 import app.user.api.user.UpdateUserRequest;
+import app.user.api.user.UserLoginRequest;
 import app.user.api.user.UserStatusView;
-import app.user.api.user.UserView;
+import app.user.api.user.UserLoginResponse;
 import app.user.domain.User;
 import app.user.domain.UserStatus;
 import core.framework.crypto.Hash;
-import core.framework.db.Query;
 import core.framework.db.Repository;
 import core.framework.inject.Inject;
 import core.framework.util.Strings;
+import core.framework.web.exception.ConflictException;
 import core.framework.web.exception.NotFoundException;
 import core.framework.web.exception.UnauthorizedException;
 
 import java.util.List;
 import java.util.OptionalLong;
-import java.util.stream.Collectors;
 
 /**
  * @author steve
@@ -33,43 +31,34 @@ public class UserService {
     public CreateUserResponse create(CreateUserRequest request) {
         User user = new User();
         user.email = request.email;
-        user.password = Hash.sha256Hex(request.password);
-        user.name = request.name;
-        user.status = UserStatus.VALID;
-        OptionalLong insert = repository.insert(user);
-        if (insert.isPresent())
-            user.id = insert.getAsLong();
+        List<User> userList = repository.select("email = ?", user.email);
         CreateUserResponse response = new CreateUserResponse();
-        response.id = user.id;
-        response.name = user.name;
-        response.email = user.email;
-        response.status = UserStatusView.valueOf(user.status.name());
+        if (!userList.isEmpty()) {
+            user.password = Hash.sha256Hex(request.password);
+            user.name = request.name;
+            user.status = UserStatus.INVALID;
+            OptionalLong userId = repository.insert(user);
+            if (userId.isPresent()) user.id = userId.getAsLong();
+            response.id = user.id;
+            response.name = user.name;
+            response.email = user.email;
+            response.status = CreateUserResponse.UserStatusView.valueOf(user.status.name());
+        } else {
+            throw new ConflictException("email has been registered");
+        }
         return response;
     }
 
-    public SearchUserResponse searchListByConditions(SearchUserRequest request) {
-        Query<User> query = repository.select();
-        query.skip(request.skip);
-        query.limit(request.limit);
-        if (!Strings.isBlank(request.email))
-            query.where("email like ?", request.email);
-        if (!Strings.isBlank(request.name))
-            query.where("name like ?", request.name);
-        if (request.status != null)
-            query.where("status = ?", UserStatus.valueOf(request.status.name()));
-        List<UserView> userViewList = query.fetch().stream().map(this::view).collect(Collectors.toList());
-        SearchUserResponse response = new SearchUserResponse();
-        response.total = (long) query.count();
-        response.userList = userViewList;
-        return response;
-    }
-
-    public UserView login(UserLoginRequest request) {
+    public UserLoginResponse login(UserLoginRequest request) {
         String sha256HexPassword = Hash.sha256Hex(request.password);
         List<User> userList = repository.select("email = ?", request.email);
-        UserView userView = null;
+        UserLoginResponse userView;
         if (userList.size() == 1 && userList.get(0).password.equals(sha256HexPassword)) {
-            userView = view(userList.get(0));
+            if (userList.get(0).status == UserStatus.VALID) {
+                userView = viewLogin(userList.get(0));
+            } else {
+                throw new UnauthorizedException("user has not be activated yet");
+            }
         } else {
             throw new UnauthorizedException("user email or password incorrect");
         }
@@ -80,7 +69,6 @@ public class UserService {
         User user = repository.get(id).orElseThrow(() -> new NotFoundException(Strings.format("User not found, id = {}", id)));
         user.name = request.name;
         user.password = Hash.sha256Hex(request.password);
-        user.status = request.status == null ? null : UserStatus.valueOf(request.status.name());
         user.email = request.email;
         repository.partialUpdate(user);
     }
@@ -95,8 +83,17 @@ public class UserService {
         return response;
     }
 
-    private UserView view(User user) {
-        UserView userView = new UserView();
+    private UserLoginResponse viewLogin(User user) {
+        UserLoginResponse userView = new UserLoginResponse();
+        userView.id = user.id;
+        userView.name = user.name;
+        userView.email = user.email;
+        userView.status = user.status == null ? null : UserLoginResponse.UserStatusView.valueOf(user.status.name());
+        return userView;
+    }
+
+    private SearchUserResponse.User viewSearch(User user) {
+        SearchUserResponse.User userView = new SearchUserResponse.User();
         userView.id = user.id;
         userView.name = user.name;
         userView.email = user.email;

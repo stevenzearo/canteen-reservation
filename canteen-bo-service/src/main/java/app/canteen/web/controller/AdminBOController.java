@@ -1,8 +1,8 @@
 package app.canteen.web.controller;
 
 import app.user.api.BOAdminWebService;
-import app.user.api.admin.AdminLoginRequest;
-import app.user.api.admin.AdminLoginResponse;
+import app.user.api.admin.BOAdminLoginRequest;
+import app.user.api.admin.BOAdminLoginResponse;
 import core.framework.inject.Inject;
 import core.framework.log.ActionLogContext;
 import core.framework.util.Strings;
@@ -23,16 +23,16 @@ public class AdminBOController {
 
     public Response login(Request request) {
         Map<String, String> paramMap = request.formParams();
-        AdminLoginResponse response;
+        BOAdminLoginResponse response;
         if (!isLogin(request)) {
             String name = paramMap.get("name");
             String password = paramMap.get("password");
-            AdminLoginRequest adminLoginRequest = new AdminLoginRequest();
-            adminLoginRequest.name = name;
-            adminLoginRequest.password = password;
-            response = service.login(adminLoginRequest);
+            BOAdminLoginRequest BOAdminLoginRequest = new BOAdminLoginRequest();
+            BOAdminLoginRequest.name = name;
+            BOAdminLoginRequest.password = password;
+            response = service.login(BOAdminLoginRequest);
             request.session().set("admin_id", response.id.toString());
-            ActionLogContext.put("adminName", adminLoginRequest.name);
+            ActionLogContext.put("adminName", BOAdminLoginRequest.name);
         } else {
             // todo
             throw new ConflictException(Strings.format("admin has already login, name = {}", paramMap.get("name")));

@@ -15,12 +15,6 @@ public class SearchUserRequest {
     @Property(name = "limit")
     public Integer limit = 10;
 
-    @Property(name = "name")
-    public String name;
-
     @Property(name = "email")
     public String email;
-
-    @Property(name = "status")
-    public UserStatusView status;
 }

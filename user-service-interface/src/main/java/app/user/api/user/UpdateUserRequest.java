@@ -1,11 +1,13 @@
 package app.user.api.user;
 
 import core.framework.api.json.Property;
+import core.framework.api.validate.NotBlank;
 
 /**
  * @author steve
  */
 public class UpdateUserRequest {
+    @NotBlank
     @Property(name = "name")
     public String name;
 
@@ -14,8 +16,4 @@ public class UpdateUserRequest {
 
     @Property(name = "email")
     public String email;
-
-    // todo
-    @Property(name = "status")
-    public UserStatusView status;
 }

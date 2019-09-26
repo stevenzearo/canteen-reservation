@@ -1,12 +1,11 @@
 package app.user.api;
 
-import app.user.api.user.CreateUserRequest;
-import app.user.api.user.CreateUserResponse;
-import app.user.api.user.GetUserResponse;
-import app.user.api.user.SearchUserRequest;
-import app.user.api.user.SearchUserResponse;
-import app.user.api.user.UpdateUserRequest;
-import app.user.api.user.UserView;
+import app.user.api.user.BOCreateUserRequest;
+import app.user.api.user.BOCreateUserResponse;
+import app.user.api.user.BOGetUserResponse;
+import app.user.api.user.BOSearchUserRequest;
+import app.user.api.user.BOSearchUserResponse;
+import app.user.api.user.BOUpdateUserRequest;
 import core.framework.api.http.HTTPStatus;
 import core.framework.api.web.service.GET;
 import core.framework.api.web.service.POST;
@@ -22,17 +21,17 @@ public interface BOUserWebService {
     @POST
     @Path("/bo/user")
     @ResponseStatus(HTTPStatus.CREATED)
-    CreateUserResponse create(CreateUserRequest request);
+    BOCreateUserResponse create(BOCreateUserRequest request);
 
     @GET
-    @Path("/bo/user/:id")
-    GetUserResponse get(@PathParam("id") Long id);
+    @Path("/user/:id")
+    BOGetUserResponse get(@PathParam("id") Long id); // for admin reset user's password
 
     @PUT
     @Path("/bo/user")
-    SearchUserResponse search(SearchUserRequest request);
+    BOSearchUserResponse search(BOSearchUserRequest request); // admin search user via name/email/status
 
     @PUT
     @Path("/bo/user/:id")
-    void update(@PathParam("id") Long id, UpdateUserRequest request);
+    void update(@PathParam("id") Long id, BOUpdateUserRequest request); // admin use user id update user
 }

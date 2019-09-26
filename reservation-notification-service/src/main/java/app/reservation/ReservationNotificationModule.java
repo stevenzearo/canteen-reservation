@@ -1,8 +1,10 @@
 package app.reservation;
 
-import app.reservation.api.kafka.SendEmailReservationMessage;
+import app.reservation.api.kafka.CancellingReservationMessage;
+import app.reservation.api.kafka.SendingEmailReservationMessage;
 import app.reservation.domain.EmailNotification;
-import app.reservation.handler.ReservationMessageHandler;
+import app.reservation.handler.CancellingReservationMessageHandler;
+import app.reservation.handler.SendingReservationEmailHandler;
 import app.reservation.job.SendingEmailSchedulerJob;
 import app.reservation.service.EmailNotificationService;
 import app.reservation.task.SendingEmailTask;
@@ -26,7 +28,8 @@ public class ReservationNotificationModule extends Module {
         bind(SendingEmailTask.class);
 
         kafka().groupId("group1");
-        kafka().subscribe("notification", SendEmailReservationMessage.class, bind(ReservationMessageHandler.class));
+        kafka().subscribe("sending-email-reservation", SendingEmailReservationMessage.class, bind(SendingReservationEmailHandler.class));
+        kafka().subscribe("cancelling-reservation", CancellingReservationMessage.class, bind(CancellingReservationMessageHandler.class));
 
         ExecutorConfig executorConfig = executor();
         executorConfig.add("executor", 5);

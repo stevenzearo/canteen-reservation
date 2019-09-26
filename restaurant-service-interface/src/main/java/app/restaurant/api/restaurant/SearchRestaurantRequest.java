@@ -26,12 +26,14 @@ public class SearchRestaurantRequest {
     @Property(name = "phone")
     public String phone;
 
+    @NotNull
     @Property(name = "reserving_deadline_start")
-    public ZonedDateTime reservingDeadlineStart;
+    public ZonedDateTime reservingDeadlineStart = ZonedDateTime.now();
 
     @Property(name = "reserving_deadline_end")
     public ZonedDateTime reservingDeadlineEnd;
 
+    @NotNull
     @Property(name = "status")
-    public RestaurantStatusView status;
+    public RestaurantStatusView status = RestaurantStatusView.OPEN;
 }

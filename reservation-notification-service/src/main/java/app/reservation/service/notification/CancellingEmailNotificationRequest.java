@@ -7,7 +7,7 @@ import java.time.ZonedDateTime;
 /**
  * @author steve
  */
-public class CancelEmailNotificationRequest {
+public class CancellingEmailNotificationRequest {
     public String userEmail;
 
     public String reservationId;

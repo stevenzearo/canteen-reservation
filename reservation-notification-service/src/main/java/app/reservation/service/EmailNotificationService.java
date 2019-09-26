@@ -2,7 +2,7 @@ package app.reservation.service;
 
 import app.reservation.domain.EmailNotification;
 import app.reservation.domain.EmailSendingStatus;
-import app.reservation.service.notification.CancelEmailNotificationRequest;
+import app.reservation.service.notification.CancellingEmailNotificationRequest;
 import app.reservation.service.notification.CreateEmailNotificationRequest;
 import app.reservation.service.notification.CreateEmailNotificationResponse;
 import app.reservation.service.notification.EmailNotificationView;
@@ -47,7 +47,7 @@ public class EmailNotificationService {
         return response;
     }
 
-    public void cancel(CancelEmailNotificationRequest request) {
+    public void cancel(CancellingEmailNotificationRequest request) {
         if (!Strings.isBlank(request.reservationId) && !Strings.isBlank(request.userEmail)) {
             SearchEmailNotificationRequest searchRequest = new SearchEmailNotificationRequest();
             searchRequest.reservationId = request.reservationId;

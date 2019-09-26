@@ -22,7 +22,7 @@ public interface ReservationWebService {
     @POST
     @ResponseStatus(HTTPStatus.CREATED)
     @Path("/user/:userId/reservation")
-    ReserveResponse reserve(@PathParam("userId") Long userId, ReserveRequest request);
+    ReserveResponse reserve(@PathParam("userId") Long userId, ReserveRequest request); // return for user confirm
 
     @GET
     @Path("/user/:userId/reservation/:id")
@@ -34,5 +34,5 @@ public interface ReservationWebService {
 
     @PUT
     @Path("/user/:userId/reservation/:id")
-    void update(@PathParam("userId") Long userId, @PathParam("id") String id, UpdateReservationRequest update);
+    void cancel(@PathParam("userId") Long userId, @PathParam("id") String id); // about update, user can only cancel reservation
 }

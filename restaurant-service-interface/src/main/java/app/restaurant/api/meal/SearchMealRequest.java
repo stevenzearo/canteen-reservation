@@ -18,16 +18,13 @@ public class SearchMealRequest {
     @Property(name = "name")
     public String name;
 
-    // todo
-    @Property(name = "price_equal")
-    public Double priceEqual;
+    @Property(name = "price_start")
+    public Double priceStart;
 
-    @Property(name = "price_less_than_equal")
-    public Double priceLessThanEqual;
+    @Property(name = "price_end")
+    public Double priceEnd;
 
-    @Property(name = "price_greater_than_equal")
-    public Double priceGreaterThanEqual;
-
+    @NotNull
     @Property(name = "status")
-    public MealStatusView status;
+    public MealStatusView status = MealStatusView.VALID;
 }

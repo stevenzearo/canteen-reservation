@@ -1,7 +1,9 @@
 package app.canteen.web.ajax;
 
 import app.restaurant.api.BORestaurantWebService;
-import app.restaurant.api.restaurant.SearchResponse;
+import app.restaurant.api.restaurant.BOSearchRestaurantRequest;
+import app.restaurant.api.restaurant.BOSearchRestaurantResponse;
+import app.restaurant.api.restaurant.SearchRestaurantResponse;
 import app.restaurant.api.restaurant.SearchRestaurantRequest;
 import core.framework.inject.Inject;
 import core.framework.web.Request;
@@ -18,10 +20,10 @@ public class RestaurantBOAJAXController {
 
     public Response searchByPage(Request request) {
         Map<String, String> paramMap = request.queryParams();
-        SearchRestaurantRequest restaurantRequest = new SearchRestaurantRequest();
+        BOSearchRestaurantRequest restaurantRequest = new BOSearchRestaurantRequest();
         restaurantRequest.skip = Integer.valueOf(paramMap.get("skip"));
         restaurantRequest.limit = Integer.valueOf(paramMap.get("limit"));
-        SearchResponse response = service.search(restaurantRequest);
+        BOSearchRestaurantResponse response = service.search(restaurantRequest);
         return Response.bean(response);
     }
 }

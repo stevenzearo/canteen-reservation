@@ -1,6 +1,9 @@
 package app.canteen.web.controller;
 
 import app.user.api.BOUserWebService;
+import app.user.api.user.BOCreateUserRequest;
+import app.user.api.user.BOGetUserResponse;
+import app.user.api.user.BOUpdateUserRequest;
 import app.user.api.user.CreateUserRequest;
 import app.user.api.user.GetUserResponse;
 import app.user.api.user.UpdateUserRequest;
@@ -23,7 +26,7 @@ public class UserBOController {
 
     public Response createUser(Request request) {
         Map<String, String> paramMap = request.formParams();
-        CreateUserRequest createUserRequest = new CreateUserRequest();
+        BOCreateUserRequest createUserRequest = new BOCreateUserRequest();
         createUserRequest.name = paramMap.get("name");
         createUserRequest.password = paramMap.get("password");
         createUserRequest.email = paramMap.get("email");
@@ -35,9 +38,9 @@ public class UserBOController {
         Map<String, String> paramMap = request.formParams();
         Long userId;
         userId = Long.valueOf(paramMap.get("user_id"));
-        GetUserResponse response = userWebService.get(userId);
+        BOGetUserResponse response = userWebService.get(userId);
         if (response != null) {
-            UpdateUserRequest updateUserRequest = new UpdateUserRequest();
+            BOUpdateUserRequest updateUserRequest = new BOUpdateUserRequest();
             updateUserRequest.password = paramMap.get("new_password");
             userWebService.update(response.id, updateUserRequest);
         } else {
@@ -49,9 +52,10 @@ public class UserBOController {
     // use user id to change user status
     public Response changeUserStatus(Request request) {
         Map<String, String> paramMap = request.queryParams();
-        UpdateUserRequest updateUserRequest = new UpdateUserRequest();
+        BOUpdateUserRequest updateUserRequest = new BOUpdateUserRequest();
         Long id = Long.valueOf(paramMap.get("id"));
         userWebService.get(id);
+        // todo
         updateUserRequest.status = JSON.fromJSON(UserStatusView.class, paramMap.get("status"));
         userWebService.update(JSON.fromJSON(Long.class, paramMap.get("id")), updateUserRequest);
         return Response.text("SUCCESS"); // should return a page, return text for test.

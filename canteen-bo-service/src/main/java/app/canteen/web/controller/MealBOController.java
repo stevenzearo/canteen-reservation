@@ -1,8 +1,8 @@
 package app.canteen.web.controller;
 
 import app.restaurant.api.BOMealWebService;
-import app.restaurant.api.meal.CreateMealRequest;
-import app.restaurant.api.meal.CreateMealResponse;
+import app.restaurant.api.meal.BOCreateMealRequest;
+import app.restaurant.api.meal.BOCreateMealResponse;
 import core.framework.inject.Inject;
 import core.framework.json.JSON;
 import core.framework.web.Request;
@@ -18,12 +18,12 @@ public class MealBOController {
     BOMealWebService service;
 
     public Response create(Request request) {
-        CreateMealRequest createMealRequest = new CreateMealRequest();
+        BOCreateMealRequest BOCreateMealRequest = new BOCreateMealRequest();
         Map<String, String> paramMap = request.formParams();
-        createMealRequest.name = paramMap.get("name");
+        BOCreateMealRequest.name = paramMap.get("name");
         // todo
-        createMealRequest.price = JSON.fromJSON(Double.class, paramMap.get("price"));
-        CreateMealResponse response = service.create(paramMap.get("restaurant_id"), createMealRequest);
+        BOCreateMealRequest.price = JSON.fromJSON(Double.class, paramMap.get("price"));
+        BOCreateMealResponse response = service.create(paramMap.get("restaurant_id"), BOCreateMealRequest);
         return Response.bean(response); // should return a page, return a bean for test.
     }
 }

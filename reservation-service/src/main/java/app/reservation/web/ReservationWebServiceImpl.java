@@ -30,13 +30,11 @@ public class ReservationWebServiceImpl implements ReservationWebService {
 
     @Override
     public SearchReservationResponse search(Long userId, SearchReservationRequest request) {
-        request.userId = userId;
-        return service.search(request);
+        return service.search(userId, request);
     }
 
     @Override
-    public void update(Long userId, String id, UpdateReservationRequest update) {
-     update.userId = userId;
-     service.update(id, update);
+    public void cancel(Long userId, String id) {
+     service.cancel(userId, id);
     }
 }

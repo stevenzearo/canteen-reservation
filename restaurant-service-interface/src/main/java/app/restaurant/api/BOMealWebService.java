@@ -1,10 +1,12 @@
 package app.restaurant.api;
 
-import app.restaurant.api.meal.CreateMealRequest;
-import app.restaurant.api.meal.CreateMealResponse;
+import app.restaurant.api.meal.BOCreateMealRequest;
+import app.restaurant.api.meal.BOCreateMealResponse;
+import app.restaurant.api.meal.BOSearchMealRequest;
+import app.restaurant.api.meal.BOSearchMealResponse;
 import app.restaurant.api.meal.SearchMealRequest;
 import app.restaurant.api.meal.SearchMealResponse;
-import app.restaurant.api.meal.UpdateMealRequest;
+import app.restaurant.api.meal.BOUpdateMealRequest;
 import core.framework.api.http.HTTPStatus;
 import core.framework.api.web.service.POST;
 import core.framework.api.web.service.PUT;
@@ -19,13 +21,13 @@ public interface BOMealWebService {
     @POST
     @ResponseStatus(HTTPStatus.CREATED)
     @Path("/bo/restaurant/:restaurantId/meal")
-    CreateMealResponse create(@PathParam("restaurantId") String restaurantId, CreateMealRequest request);
+    BOCreateMealResponse create(@PathParam("restaurantId") String restaurantId, BOCreateMealRequest request);
 
     @PUT
     @Path("/bo/restaurant/:restaurantId/meal/:id")
-    void update(@PathParam("restaurantId") String restaurantId, @PathParam("id") String id, UpdateMealRequest request); // meal's restaurant id can't be changed.
+    void update(@PathParam("restaurantId") String restaurantId, @PathParam("id") String id, BOUpdateMealRequest request); // meal's restaurant id can't be changed.
 
     @PUT
     @Path("/bo/restaurant/:restaurantId/meal")
-    SearchMealResponse search(@PathParam("restaurantId") String restaurantId, SearchMealRequest request);
+    BOSearchMealResponse search(@PathParam("restaurantId") String restaurantId, BOSearchMealRequest request);
 }

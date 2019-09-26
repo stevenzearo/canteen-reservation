@@ -1,8 +1,8 @@
 package app.canteen.web.controller;
 
 import app.restaurant.api.BORestaurantWebService;
-import app.restaurant.api.restaurant.CreateRestaurantRequest;
-import app.restaurant.api.restaurant.UpdateRestaurantRequest;
+import app.restaurant.api.restaurant.BOCreateRestaurantRequest;
+import app.restaurant.api.restaurant.BOUpdateRestaurantRequest;
 import core.framework.inject.Inject;
 import core.framework.json.JSON;
 import core.framework.web.Request;
@@ -19,21 +19,21 @@ public class RestaurantBOController {
     BORestaurantWebService service;
 
     public Response create(Request request) {
-        CreateRestaurantRequest createRestaurantRequest = new CreateRestaurantRequest();
+        BOCreateRestaurantRequest BOCreateRestaurantRequest = new BOCreateRestaurantRequest();
         Map<String, String> paramMap = request.formParams();
-        createRestaurantRequest.name = paramMap.get("name");
-        createRestaurantRequest.address = paramMap.get("address");
-        createRestaurantRequest.phone = paramMap.get("phone");
-        createRestaurantRequest.reservingDeadline = JSON.fromJSON(ZonedDateTime.class, paramMap.get("reserving_deadline"));
-        return Response.bean(service.create(createRestaurantRequest)); // should return a page, return text for test.
+        BOCreateRestaurantRequest.name = paramMap.get("name");
+        BOCreateRestaurantRequest.address = paramMap.get("address");
+        BOCreateRestaurantRequest.phone = paramMap.get("phone");
+        BOCreateRestaurantRequest.reservingDeadline = JSON.fromJSON(ZonedDateTime.class, paramMap.get("reserving_deadline"));
+        return Response.bean(service.create(BOCreateRestaurantRequest)); // should return a page, return text for test.
     }
 
     public Response updateDeadline(Request request) {
         Map<String, String> paramMap = request.formParams();
         String id = paramMap.get("id");
-        UpdateRestaurantRequest updateRestaurantRequest = new UpdateRestaurantRequest();
-        updateRestaurantRequest.reservingDeadline = JSON.fromJSON(ZonedDateTime.class, paramMap.get("reserve_deadline"));
-        service.update(id, updateRestaurantRequest);
+        BOUpdateRestaurantRequest BOUpdateRestaurantRequest = new BOUpdateRestaurantRequest();
+        BOUpdateRestaurantRequest.reservingDeadline = JSON.fromJSON(ZonedDateTime.class, paramMap.get("reserve_deadline"));
+        service.update(id, BOUpdateRestaurantRequest);
         return Response.text("SUCCESS"); // should return a page, return text for test.
     }
 }

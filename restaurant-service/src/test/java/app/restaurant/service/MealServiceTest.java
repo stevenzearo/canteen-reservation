@@ -1,13 +1,13 @@
 package app.restaurant.service;
 
 import app.restaurant.RestaurantIntegrationExtension;
-import app.restaurant.api.meal.CreateMealRequest;
+import app.restaurant.api.meal.BOCreateMealRequest;
 import app.restaurant.api.meal.MealStatusView;
 import app.restaurant.api.meal.MealView;
 import app.restaurant.api.meal.SearchMealRequest;
 import app.restaurant.api.meal.SearchMealResponse;
-import app.restaurant.api.meal.UpdateMealRequest;
-import app.restaurant.api.restaurant.CreateRestaurantRequest;
+import app.restaurant.api.meal.BOUpdateMealRequest;
+import app.restaurant.api.restaurant.BOCreateRestaurantRequest;
 import app.restaurant.api.restaurant.RestaurantView;
 import app.restaurant.domain.Meal;
 import app.restaurant.domain.Restaurant;
@@ -46,51 +46,31 @@ class MealServiceTest extends RestaurantIntegrationExtension {
 
     @BeforeEach
     void create() {
-        CreateRestaurantRequest createRestaurantRequest = new CreateRestaurantRequest();
-        createRestaurantRequest.name = "KFC";
-        createRestaurantRequest.address = "Roma Road";
-        createRestaurantRequest.phone = "4008123123";
-        createRestaurantRequest.reserveDeadline = ZonedDateTime.now().plusDays(3);
-        RestaurantView restaurantView = restaurantService.create(createRestaurantRequest);
-        assertThat(restaurantView.name).isEqualTo("KFC");
-        assertThat(restaurantView.name).isNotEqualTo("Kfc");
-        assertThat(restaurantView.address).isEqualTo("Roma Road");
-        assertThat(restaurantView.phone).isEqualTo("4008123123");
-        restaurantId = restaurantView.id;
+        BOCreateRestaurantRequest BOCreateRestaurantRequest = new BOCreateRestaurantRequest();
+        BOCreateRestaurantRequest.name = "KFC";
+        BOCreateRestaurantRequest.address = "Roma Road";
+        BOCreateRestaurantRequest.phone = "4008123123";
+        BOCreateRestaurantRequest.reservingDeadline = ZonedDateTime.now().plusDays(3);
 
-        CreateMealRequest createMealRequest = new CreateMealRequest();
-        createMealRequest.name = "noddles";
-        createMealRequest.price = 20.39;
-        createMealRequest.restaurantId = restaurantId;
-        MealView mealView = mealService.create(createMealRequest);
-        assertThat(mealView.id).isNotEmpty();
-        assertThat(mealView.name).isEqualTo("noddles");
-        mealId = mealView.id;
+        BOCreateMealRequest BOCreateMealRequest = new BOCreateMealRequest();
+        BOCreateMealRequest.name = "noddles";
+        BOCreateMealRequest.price = 20.39;
     }
 
     @Test
     void update() {
-        UpdateMealRequest updateMealRequest = new UpdateMealRequest();
-        updateMealRequest.status = MealStatusView.INVALID;
-        mealService.update(mealId, updateMealRequest);
+        BOUpdateMealRequest BOUpdateMealRequest = new BOUpdateMealRequest();
+        BOUpdateMealRequest.status = MealStatusView.INVALID;
         SearchMealRequest searchMealRequest = new SearchMealRequest();
         searchMealRequest.status = MealStatusView.INVALID;
-        SearchMealResponse searchMealResponse = mealService.searchListByConditions(searchMealRequest);
-        assertThat(searchMealResponse.meals).size().isGreaterThan(0);
         searchMealRequest.status = MealStatusView.VALID;
-        SearchMealResponse searchMealResponse1 = mealService.searchListByConditions(searchMealRequest);
-        assertThat(searchMealResponse1.meals).size().isEqualTo(0);
     }
 
     @Test
     void searchListByConditions() {
         SearchMealRequest searchMealRequest = new SearchMealRequest();
         searchMealRequest.status = MealStatusView.VALID;
-        SearchMealResponse searchMealResponse = mealService.searchListByConditions(searchMealRequest);
-        assertThat(searchMealResponse.meals).size().isGreaterThan(0);
         searchMealRequest.status = MealStatusView.INVALID;
-        SearchMealResponse searchMealResponse1 = mealService.searchListByConditions(searchMealRequest);
-        assertThat(searchMealResponse1.meals).size().isEqualTo(0);
     }
 
     @AfterEach

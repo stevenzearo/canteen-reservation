@@ -1,14 +1,13 @@
 package app.user.web;
 
 import app.user.api.BOUserWebService;
-import app.user.api.user.CreateUserRequest;
-import app.user.api.user.CreateUserResponse;
-import app.user.api.user.GetUserResponse;
-import app.user.api.user.SearchUserRequest;
-import app.user.api.user.SearchUserResponse;
-import app.user.api.user.UpdateUserRequest;
-import app.user.api.user.UserView;
-import app.user.service.UserService;
+import app.user.api.user.BOCreateUserRequest;
+import app.user.api.user.BOCreateUserResponse;
+import app.user.api.user.BOGetUserResponse;
+import app.user.api.user.BOSearchUserRequest;
+import app.user.api.user.BOSearchUserResponse;
+import app.user.api.user.BOUpdateUserRequest;
+import app.user.service.BOUserService;
 import core.framework.inject.Inject;
 
 /**
@@ -16,25 +15,25 @@ import core.framework.inject.Inject;
  */
 public class BOUserWebServiceImpl implements BOUserWebService {
     @Inject
-    UserService service;
+    BOUserService service;
 
     @Override
-    public CreateUserResponse create(CreateUserRequest request) {
+    public BOCreateUserResponse create(BOCreateUserRequest request) {
         return service.create(request);
     }
 
     @Override
-    public SearchUserResponse search(SearchUserRequest request) {
-        return service.searchListByConditions(request);
-    }
-
-    @Override
-    public void update(Long id, UpdateUserRequest request) {
-        service.update(id, request);
-    }
-
-    @Override
-    public GetUserResponse get(Long id) {
+    public BOGetUserResponse get(Long id) {
         return service.get(id);
+    }
+
+    @Override
+    public BOSearchUserResponse search(BOSearchUserRequest request) {
+        return service.search(request);
+    }
+
+    @Override
+    public void update(Long id, BOUpdateUserRequest request) {
+        service.update(id, request);
     }
 }
