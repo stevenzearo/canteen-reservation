@@ -1,16 +1,13 @@
 package app.canteen.web.controller;
 
+import app.canteen.web.controller.user.CreateUserControllerRequest;
+import app.canteen.web.controller.user.UserLoginControllerRequest;
 import app.user.api.UserWebService;
 import app.user.api.user.CreateUserRequest;
 import app.user.api.user.UserLoginRequest;
-import app.user.api.user.UserLoginResponse;
 import core.framework.inject.Inject;
-import core.framework.util.Strings;
 import core.framework.web.Request;
 import core.framework.web.Response;
-import core.framework.web.exception.BadRequestException;
-
-import java.util.Map;
 
 /**
  * @author steve
@@ -20,38 +17,22 @@ public class UserController {
     UserWebService service;
 
     public Response register(Request request) {
-        Map<String, String> paramMap = request.formParams();
+        CreateUserControllerRequest controllerRequest = request.bean(CreateUserControllerRequest.class);
         CreateUserRequest createRequest = new CreateUserRequest();
-        String name = paramMap.get("name");
-        String email = paramMap.get("email");
-        String password = paramMap.get("password");
-        Response response;
-        if (!Strings.isBlank(email) && !Strings.isBlank(password)) {
-            createRequest.name = name;
-            createRequest.email = email;
-            createRequest.password = password;
-            response = Response.bean(service.create(createRequest));
-        } else {
-            throw new BadRequestException("email and password can not be blank or null");
-        }
-        return response; // should return a page, return a bean for test.
+        createRequest.name = controllerRequest.name;
+        createRequest.email = controllerRequest.email;
+        createRequest.password = controllerRequest.password;
+        return Response.bean(service.create(createRequest)); // should return a page, return a bean for test.
     }
 
     public Response login(Request request) {
         Response response;
         if (!isLogin(request)) {
-            Map<String, String> paramMap = request.formParams();
+            UserLoginControllerRequest controllerRequest = request.bean(UserLoginControllerRequest.class);
             UserLoginRequest loginRequest = new UserLoginRequest();
-            String email = paramMap.get("email");
-            String password = paramMap.get("password");
-            if (!Strings.isBlank(email) && !Strings.isBlank(password)) {
-                loginRequest.email = paramMap.get("email");
-                loginRequest.password = paramMap.get("password");
-                UserLoginResponse userView = service.login(loginRequest);
-                response = Response.bean(userView); // should return a page, return a bean for test.
-            } else {
-                throw new BadRequestException("email or password incorrect");
-            }
+            loginRequest.email = controllerRequest.email;
+            loginRequest.password = controllerRequest.password;
+            response = Response.bean(service.login(loginRequest)); // should return a page, return a bean for test.
         } else {
             response = Response.text("ALREADY LOGIN"); // should return a page, return text for test.
         }

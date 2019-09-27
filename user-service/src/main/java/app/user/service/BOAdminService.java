@@ -19,14 +19,14 @@ public class BOAdminService {
 
     public BOAdminLoginResponse login(BOAdminLoginRequest request) {
         List<Admin> adminList = repository.select("name = ?", request.name);
-        BOAdminLoginResponse BOAdminLoginResponse;
+        BOAdminLoginResponse response;
         if (!adminList.isEmpty() && adminList.get(0).password.equals(Hash.sha256Hex(request.password))) {
             throw new UnauthorizedException("Admin name or password incorrect");
         } else {
-            BOAdminLoginResponse = new BOAdminLoginResponse();
-            BOAdminLoginResponse.id = adminList.get(0).id;
-            BOAdminLoginResponse.name = request.name;
+            response = new BOAdminLoginResponse();
+            response.id = adminList.get(0).id;
+            response.name = request.name;
         }
-        return BOAdminLoginResponse;
+        return response;
     }
 }

@@ -7,7 +7,6 @@ import app.reservation.handler.CancellingReservationMessageHandler;
 import app.reservation.handler.SendingReservationEmailHandler;
 import app.reservation.job.SendingEmailSchedulerJob;
 import app.reservation.service.EmailNotificationService;
-import app.reservation.task.SendingEmailTask;
 import app.user.api.UserWebService;
 import core.framework.module.ExecutorConfig;
 import core.framework.module.Module;
@@ -25,7 +24,6 @@ public class ReservationNotificationModule extends Module {
         api().client(UserWebService.class, requiredProperty("app.user.serviceURL"));
 
         bind(EmailNotificationService.class);
-        bind(SendingEmailTask.class);
 
         kafka().groupId("group1");
         kafka().subscribe("sending-email-reservation", SendingEmailReservationMessage.class, bind(SendingReservationEmailHandler.class));

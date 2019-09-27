@@ -28,14 +28,14 @@ public class BORestaurantService {
     @Inject
     MongoCollection<Restaurant> restaurantCollection;
 
-    public BOCreateRestaurantResponse create(BOCreateRestaurantRequest BOCreateRestaurantRequest) {
+    public BOCreateRestaurantResponse create(BOCreateRestaurantRequest request) {
         Restaurant restaurant = new Restaurant();
         restaurant.id = UUID.randomUUID().toString();
-        restaurant.name = BOCreateRestaurantRequest.name;
-        restaurant.address = BOCreateRestaurantRequest.address;
-        restaurant.phone = BOCreateRestaurantRequest.phone;
+        restaurant.name = request.name;
+        restaurant.address = request.address;
+        restaurant.phone = request.phone;
         restaurant.status = RestaurantStatus.OPEN;
-        restaurant.reservingDeadline = BOCreateRestaurantRequest.reservingDeadline;
+        restaurant.reservingDeadline = request.reservingDeadline;
         restaurantCollection.insert(restaurant);
         BOCreateRestaurantResponse response = new BOCreateRestaurantResponse();
         response.id = restaurant.id;

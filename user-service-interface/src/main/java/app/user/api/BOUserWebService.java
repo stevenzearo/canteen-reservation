@@ -5,7 +5,8 @@ import app.user.api.user.BOCreateUserResponse;
 import app.user.api.user.BOGetUserResponse;
 import app.user.api.user.BOSearchUserRequest;
 import app.user.api.user.BOSearchUserResponse;
-import app.user.api.user.BOUpdateUserRequest;
+import app.user.api.user.UpdateUserPasswordRequest;
+import app.user.api.user.UpdateUserStatusRequest;
 import app.user.api.user.UserStatusView;
 import core.framework.api.http.HTTPStatus;
 import core.framework.api.web.service.GET;
@@ -34,10 +35,9 @@ public interface BOUserWebService {
 
     @PUT
     @Path("/bo/user/:id/password")
-    void updatePassword(@PathParam("id") Long id, String password); // admin use user id update user password
+    void updatePassword(@PathParam("id") Long id, UpdateUserPasswordRequest request); // admin use user id update user password
 
     @PUT
     @Path("/bo/user/:id/status")
-    void updateStatus(@PathParam("id") Long id, UserStatusView status); // admin use user id update user password
-
+    void updateStatus(@PathParam("id") Long id, UpdateUserStatusRequest request); // admin use user id update user password
 }

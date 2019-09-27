@@ -2,8 +2,8 @@ package app.restaurant.web;
 
 import app.restaurant.api.RestaurantWebService;
 import app.restaurant.api.restaurant.GetRestaurantResponse;
-import app.restaurant.api.restaurant.SearchRestaurantResponse;
 import app.restaurant.api.restaurant.SearchRestaurantRequest;
+import app.restaurant.api.restaurant.SearchRestaurantResponse;
 import app.restaurant.service.RestaurantService;
 import core.framework.inject.Inject;
 

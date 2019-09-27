@@ -10,14 +10,10 @@ import java.util.List;
 /**
  * @author steve
  */
-public class ReserveRequest {
+public class ReservingRequest {
     @NotNull
     @Property(name = "amount")
     public Double amount;
-
-    @NotNull
-    @Property(name = "reserving_time")
-    public ZonedDateTime reservingTime;
 
     @NotNull
     @Property(name = "eating_time")
@@ -26,10 +22,6 @@ public class ReserveRequest {
     @NotNull
     @Property(name = "reserving_deadline")
     public ZonedDateTime reservingDeadline;
-
-    @NotNull
-    @Property(name = "status")
-    public ReservationStatusView status;
 
     @NotNull
     @NotBlank

@@ -6,6 +6,7 @@ import app.user.api.UserWebService;
 import app.user.domain.Admin;
 import app.user.domain.User;
 import app.user.service.BOAdminService;
+import app.user.service.BOUserService;
 import app.user.service.UserService;
 import app.user.web.BOAdminWebServiceImpl;
 import app.user.web.BOUserWebServiceImpl;
@@ -21,6 +22,7 @@ public class UserModule extends Module {
         db().repository(User.class);
         db().repository(Admin.class);
         bind(UserService.class);
+        bind(BOUserService.class);
         bind(BOAdminService.class);
         api().service(UserWebService.class, bind(UserWebServiceImpl.class));
         api().service(BOUserWebService.class, bind(BOUserWebServiceImpl.class));

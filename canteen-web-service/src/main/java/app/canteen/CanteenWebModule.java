@@ -40,7 +40,6 @@ public class CanteenWebModule extends Module {
         http().route(PUT, "/canteen/user/login", user::login);
         http().route(GET, "/canteen/user/logout", user::logout);
         http().route(POST, "/canteen/user/registry", user::register);
-        // todo user change name, password, email
         http().route(POST, "/canteen/reservation", reservation::reserve);
         http().route(PUT, "/canteen/reservation/canceling", reservation::cancel);
         http().route(PUT, "/canteen/ajax/reservation", reservationAJAX::searchInFutureByUserId);

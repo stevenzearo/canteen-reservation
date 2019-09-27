@@ -4,8 +4,8 @@ import app.reservation.api.kafka.CancellingReservationMessage;
 import app.reservation.api.kafka.SendingEmailReservationMessage;
 import app.reservation.api.reservation.GetReservationResponse;
 import app.reservation.api.reservation.ReservationStatusView;
-import app.reservation.api.reservation.ReserveRequest;
 import app.reservation.api.reservation.ReserveResponse;
+import app.reservation.api.reservation.ReservingRequest;
 import app.reservation.api.reservation.SearchReservationRequest;
 import app.reservation.api.reservation.SearchReservationResponse;
 import app.reservation.domain.Reservation;
@@ -22,6 +22,7 @@ import core.framework.util.Strings;
 import core.framework.web.exception.ConflictException;
 import core.framework.web.exception.NotFoundException;
 
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -45,15 +46,15 @@ public class ReservationService {
     @Inject
     Repository<ReservationMeal> reservationMealRepository;
 
-    public ReserveResponse reserve(Long userId, ReserveRequest request) {
+    public ReserveResponse reserve(Long userId, ReservingRequest request) {
         Reservation reservation = new Reservation();
         reservation.id = UUID.randomUUID().toString();
         reservation.reservingAmount = request.amount;
-        reservation.reservingTime = request.reservingTime;
+        reservation.reservingTime = ZonedDateTime.now();
         reservation.eatingTime = request.eatingTime;
         reservation.userId = userId;
         reservation.restaurantId = request.restaurantId;
-        reservation.status = app.reservation.domain.ReservationStatus.OK;
+        reservation.status = ReservationStatus.OK;
         try (Transaction transaction = database.beginTransaction()) {
             reservationRepository.insert(reservation);
             request.mealIdList.forEach(mealId -> {

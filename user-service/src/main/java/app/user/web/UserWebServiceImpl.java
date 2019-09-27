@@ -5,7 +5,6 @@ import app.user.api.user.CreateUserRequest;
 import app.user.api.user.CreateUserResponse;
 import app.user.api.user.GetUserResponse;
 import app.user.api.user.UserLoginRequest;
-import app.user.api.user.UpdateUserRequest;
 import app.user.api.user.UserLoginResponse;
 import app.user.service.UserService;
 import core.framework.inject.Inject;

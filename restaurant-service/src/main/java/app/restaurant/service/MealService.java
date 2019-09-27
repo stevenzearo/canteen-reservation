@@ -1,25 +1,17 @@
 package app.restaurant.service;
 
-import app.restaurant.api.meal.BOCreateMealRequest;
-import app.restaurant.api.meal.BOCreateMealResponse;
 import app.restaurant.api.meal.MealStatusView;
-import app.restaurant.api.meal.MealView;
 import app.restaurant.api.meal.SearchMealRequest;
 import app.restaurant.api.meal.SearchMealResponse;
-import app.restaurant.api.meal.BOUpdateMealRequest;
 import app.restaurant.domain.Meal;
 import app.restaurant.domain.MealStatus;
-import app.restaurant.domain.Restaurant;
 import com.mongodb.client.model.Filters;
-import com.mongodb.client.model.Updates;
 import core.framework.inject.Inject;
 import core.framework.mongo.MongoCollection;
 import core.framework.mongo.Query;
 import core.framework.util.Strings;
-import core.framework.web.exception.NotFoundException;
 import org.bson.conversions.Bson;
 
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**

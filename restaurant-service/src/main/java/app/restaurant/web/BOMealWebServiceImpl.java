@@ -3,13 +3,11 @@ package app.restaurant.web;
 import app.restaurant.api.BOMealWebService;
 import app.restaurant.api.meal.BOCreateMealRequest;
 import app.restaurant.api.meal.BOCreateMealResponse;
+import app.restaurant.api.meal.BOGetMealResponse;
 import app.restaurant.api.meal.BOSearchMealRequest;
 import app.restaurant.api.meal.BOSearchMealResponse;
-import app.restaurant.api.meal.SearchMealRequest;
-import app.restaurant.api.meal.SearchMealResponse;
 import app.restaurant.api.meal.BOUpdateMealRequest;
 import app.restaurant.service.BOMealService;
-import app.restaurant.service.MealService;
 import core.framework.inject.Inject;
 
 /**
@@ -22,6 +20,11 @@ public class BOMealWebServiceImpl implements BOMealWebService {
     @Override
     public BOCreateMealResponse create(String restaurantId, BOCreateMealRequest request) {
         return service.create(restaurantId, request);
+    }
+
+    @Override
+    public BOGetMealResponse get(String restaurantId, String mealId) {
+        return service.get(restaurantId, mealId);
     }
 
     @Override

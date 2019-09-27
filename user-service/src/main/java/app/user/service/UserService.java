@@ -3,11 +3,9 @@ package app.user.service;
 import app.user.api.user.CreateUserRequest;
 import app.user.api.user.CreateUserResponse;
 import app.user.api.user.GetUserResponse;
-import app.user.api.user.SearchUserResponse;
-import app.user.api.user.UpdateUserRequest;
 import app.user.api.user.UserLoginRequest;
-import app.user.api.user.UserStatusView;
 import app.user.api.user.UserLoginResponse;
+import app.user.api.user.UserStatusView;
 import app.user.domain.User;
 import app.user.domain.UserStatus;
 import core.framework.crypto.Hash;
@@ -33,7 +31,7 @@ public class UserService {
         user.email = request.email;
         List<User> userList = repository.select("email = ?", user.email);
         CreateUserResponse response = new CreateUserResponse();
-        if (!userList.isEmpty()) {
+        if (userList.isEmpty()) {
             user.password = Hash.sha256Hex(request.password);
             user.name = request.name;
             user.status = UserStatus.INVALID;

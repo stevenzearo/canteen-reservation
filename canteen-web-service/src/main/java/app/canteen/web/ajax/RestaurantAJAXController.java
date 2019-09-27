@@ -1,17 +1,14 @@
 package app.canteen.web.ajax;
 
+import app.canteen.web.ajax.restaurant.SearchRestaurantAJAXRequest;
 import app.restaurant.api.RestaurantWebService;
-import app.restaurant.api.restaurant.GetRestaurantResponse;
-import app.restaurant.api.restaurant.RestaurantStatusView;
 import app.restaurant.api.restaurant.SearchRestaurantRequest;
 import core.framework.inject.Inject;
-import core.framework.json.JSON;
 import core.framework.util.Strings;
 import core.framework.web.Request;
 import core.framework.web.Response;
 import core.framework.web.exception.BadRequestException;
 
-import java.time.ZonedDateTime;
 import java.util.Map;
 
 /**
@@ -34,7 +31,15 @@ public class RestaurantAJAXController {
     }
 
     public Response search(Request request) {
-        SearchRestaurantRequest restaurantRequest = request.bean(SearchRestaurantRequest.class);
+        SearchRestaurantAJAXRequest controllerRequest = request.bean(SearchRestaurantAJAXRequest.class);
+        SearchRestaurantRequest restaurantRequest = new SearchRestaurantRequest();
+        restaurantRequest.skip = controllerRequest.skip;
+        restaurantRequest.limit = controllerRequest.limit;
+        restaurantRequest.name = controllerRequest.name;
+        restaurantRequest.reservingDeadlineStart = controllerRequest.reservingDeadlineStart;
+        restaurantRequest.reservingDeadlineEnd = controllerRequest.reservingDeadlineEnd;
+        restaurantRequest.address = controllerRequest.address;
+        restaurantRequest.phone = controllerRequest.phone;
         return Response.bean(service.searchOpen(restaurantRequest));
     }
 }

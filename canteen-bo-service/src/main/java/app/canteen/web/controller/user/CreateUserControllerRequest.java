@@ -1,0 +1,28 @@
+package app.canteen.web.controller.user;
+
+import app.canteen.web.ajax.user.UserStatusAJAXView;
+import core.framework.api.json.Property;
+import core.framework.api.validate.NotBlank;
+import core.framework.api.validate.NotNull;
+
+/**
+ * @author steve
+ */
+public class CreateUserControllerRequest {
+    @NotNull
+    @NotBlank
+    @Property(name = "email")
+    public String email;
+
+    @Property(name = "name")
+    public String name;
+
+    @NotNull
+    @NotBlank
+    @Property(name = "password")
+    public String password;
+
+    @NotNull
+    @Property(name = "status")
+    public UserStatusAJAXView status;
+}

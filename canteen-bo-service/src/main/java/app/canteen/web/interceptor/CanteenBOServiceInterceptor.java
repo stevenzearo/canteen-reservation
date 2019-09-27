@@ -1,6 +1,5 @@
 package app.canteen.web.interceptor;
 
-import core.framework.api.http.HTTPStatus;
 import core.framework.util.Strings;
 import core.framework.web.Interceptor;
 import core.framework.web.Invocation;

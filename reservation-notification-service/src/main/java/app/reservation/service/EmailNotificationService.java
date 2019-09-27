@@ -48,7 +48,7 @@ public class EmailNotificationService {
         logger.warn(Strings.format("save message to db, notification id = {}", notification.reservationId));
         notification.notifyingTime = request.notifyingTime;
         notification.sendingStatus = EmailSendingStatus.READY;
-        try (Transaction transaction = database.beginTransaction()){
+        try (Transaction transaction = database.beginTransaction()) {
             OptionalLong notificationId = notificationRepository.insert(notification);
             if (notificationId.isPresent()) {
                 NotificationRestaurant notificationRestaurant = new NotificationRestaurant();
@@ -87,8 +87,8 @@ public class EmailNotificationService {
                 notification.sendingStatus = EmailSendingStatus.CANCEL;
                 notificationRepository.update(notification);
             } else {
-                throw new NotFoundException(Strings.format("Email Notification not found, reservation id = {} and user email = {} and notifying time = {}"
-                    , request.reservationId, request.userEmail));
+                throw new NotFoundException(Strings.format("Email Notification not found, reservation id = {} and user email = {} and notifying time = {}",
+                    request.reservationId, request.userEmail));
             }
         }
 

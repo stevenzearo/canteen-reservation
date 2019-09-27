@@ -35,9 +35,9 @@ public class SendingEmailSchedulerJob implements Job {
             query.orderBy("notifying_time ASC");
             query.skip(skip);
             query.limit(limit);
-            List<EmailNotification> emailNotificationList = query.fetch();
             count = query.count();
             if (count > 0) {
+                List<EmailNotification> emailNotificationList = query.fetch();
                 emailNotificationList.forEach(notification -> {
                     sendEmail(notification.userEmail, notification.reservationId);
                     changeNotificationStatus(notification);

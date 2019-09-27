@@ -1,7 +1,7 @@
 package app.canteen.service;
 
-import app.canteen.service.reservation.BOCombineSearchReservationRequest;
-import app.canteen.service.reservation.BOCombineSearchReservationResponse;
+import app.canteen.service.reservation.CombineSearchReservationRequest;
+import app.canteen.service.reservation.CombineSearchReservationResponse;
 import app.reservation.api.BOReservationWebService;
 import app.reservation.api.reservation.BOSearchReservationRequest;
 import app.reservation.api.reservation.BOSearchReservationResponse;
@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 /**
  * @author steve
  */
-public class BOCombineSearchReservationService {
+public class CombineSearchReservationService {
     @Inject
     BOReservationWebService reservationWebService;
 
@@ -29,8 +29,8 @@ public class BOCombineSearchReservationService {
     @Inject
     BORestaurantWebService restaurantWebService;
 
-    private static BOCombineSearchReservationResponse.ReservationView transfer(BOSearchReservationResponse.Reservation reservation) {
-        BOCombineSearchReservationResponse.ReservationView boReservation = new BOCombineSearchReservationResponse.ReservationView();
+    private CombineSearchReservationResponse.Reservation transfer(BOSearchReservationResponse.Reservation reservation) {
+        CombineSearchReservationResponse.Reservation boReservation = new CombineSearchReservationResponse.Reservation();
         boReservation.id = reservation.id;
         boReservation.amount = reservation.amount;
         boReservation.reservingTime = reservation.reservingTime;
@@ -42,21 +42,21 @@ public class BOCombineSearchReservationService {
         return boReservation;
     }
 
-    public BOCombineSearchReservationResponse search(BOCombineSearchReservationRequest request) {
+    public CombineSearchReservationResponse search(CombineSearchReservationRequest request) {
         BOSearchReservationRequest reservationRequest = new BOSearchReservationRequest();
         reservationRequest.skip = request.reservationSkip;
         reservationRequest.limit = request.reservationLimit;
         if (request.reservingDate != null)
             reservationRequest.reservingTimeStart = request.reservingDate;
         BOSearchReservationResponse searchResponse = reservationWebService.search(reservationRequest);
-        BOCombineSearchReservationResponse boSearchResponse = new BOCombineSearchReservationResponse();
+        CombineSearchReservationResponse boSearchResponse = new CombineSearchReservationResponse();
         boSearchResponse.total = searchResponse.total;
-        boSearchResponse.reservationList = searchResponse.reservationList.stream().map(BOCombineSearchReservationService::transfer).collect(Collectors.toList());
+        boSearchResponse.reservationList = searchResponse.reservationList.stream().map(this::transfer).collect(Collectors.toList());
         return boSearchResponse;
     }
 
-    public BOCombineSearchReservationResponse searchByUserName(BOCombineSearchReservationRequest request) {
-        BOCombineSearchReservationResponse boSearchResponse = new BOCombineSearchReservationResponse();
+    public CombineSearchReservationResponse searchByUserName(CombineSearchReservationRequest request) {
+        CombineSearchReservationResponse boSearchResponse = new CombineSearchReservationResponse();
         BOSearchUserRequest userRequest = new BOSearchUserRequest();
         userRequest.skip = request.userSkip;
         userRequest.limit = request.userLimit;
@@ -72,7 +72,7 @@ public class BOCombineSearchReservationService {
                 searchReservationRequest.userId = userView.id;
                 BOSearchReservationResponse search = reservationWebService.search(searchReservationRequest);
                 if (reservationWebService.search(searchReservationRequest).total > 0) {
-                    boSearchResponse.reservationList.addAll(search.reservationList.stream().map(BOCombineSearchReservationService::transfer).collect(Collectors.toList()));
+                    boSearchResponse.reservationList.addAll(search.reservationList.stream().map(this::transfer).collect(Collectors.toList()));
                     boSearchResponse.total += search.total;
                 }
             });
@@ -81,8 +81,8 @@ public class BOCombineSearchReservationService {
         return boSearchResponse;
     }
 
-    public BOCombineSearchReservationResponse searchByRestaurantName(BOCombineSearchReservationRequest request) {
-        BOCombineSearchReservationResponse boSearchResponse = new BOCombineSearchReservationResponse();
+    public CombineSearchReservationResponse searchByRestaurantName(CombineSearchReservationRequest request) {
+        CombineSearchReservationResponse boSearchResponse = new CombineSearchReservationResponse();
         BOSearchRestaurantRequest restaurantRequest = new BOSearchRestaurantRequest();
         restaurantRequest.name = request.restaurantName;
         restaurantRequest.skip = request.restaurantSkip;
@@ -99,7 +99,7 @@ public class BOCombineSearchReservationService {
                 BOSearchReservationResponse search = reservationWebService.search(searchReservationRequest);
                 if (search.total > 0) {
                     boSearchResponse.total += search.total;
-                    boSearchResponse.reservationList.addAll(search.reservationList.stream().map(BOCombineSearchReservationService::transfer).collect(Collectors.toList()));
+                    boSearchResponse.reservationList.addAll(search.reservationList.stream().map(this::transfer).collect(Collectors.toList()));
                 }
             });
         }
@@ -107,10 +107,10 @@ public class BOCombineSearchReservationService {
         return boSearchResponse;
     }
 
-    public BOCombineSearchReservationResponse searchByUserNameAndRestaurantName(BOCombineSearchReservationRequest request) {
-        BOCombineSearchReservationResponse searchByUserName = searchByUserName(request);
-        BOCombineSearchReservationResponse searchByRestaurantName = searchByRestaurantName(request);
-        BOCombineSearchReservationResponse response = new BOCombineSearchReservationResponse();
+    public CombineSearchReservationResponse searchByUserNameAndRestaurantName(CombineSearchReservationRequest request) {
+        CombineSearchReservationResponse searchByUserName = searchByUserName(request);
+        CombineSearchReservationResponse searchByRestaurantName = searchByRestaurantName(request);
+        CombineSearchReservationResponse response = new CombineSearchReservationResponse();
         response.reservationList = Lists.newArrayList();
         response.userTotal = searchByUserName.userTotal;
         response.userIdList = searchByUserName.userIdList;
@@ -129,7 +129,7 @@ public class BOCombineSearchReservationService {
                     BOSearchReservationResponse reservationResponse = reservationWebService.search(reservationRequest); // this search result size can be very big, restricted by skip(0) and limit(10)
                     if (reservationResponse.total > 0) {
                         response.total += reservationResponse.total;
-                        response.reservationList.addAll(reservationResponse.reservationList.stream().map(BOCombineSearchReservationService::transfer).collect(Collectors.toList()));
+                        response.reservationList.addAll(reservationResponse.reservationList.stream().map(this::transfer).collect(Collectors.toList()));
                     }
                 });
             });

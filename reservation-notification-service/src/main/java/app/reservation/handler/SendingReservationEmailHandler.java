@@ -8,7 +8,6 @@ import app.restaurant.api.BORestaurantWebService;
 import app.restaurant.api.meal.BOGetMealResponse;
 import app.restaurant.api.restaurant.BOGetRestaurantResponse;
 import app.user.api.BOUserWebService;
-import app.user.api.user.CreateUserRequest;
 import core.framework.inject.Inject;
 import core.framework.kafka.MessageHandler;
 import core.framework.util.Lists;
@@ -18,7 +17,6 @@ import org.slf4j.LoggerFactory;
 
 import java.time.Duration;
 import java.time.ZonedDateTime;
-import java.util.List;
 
 /**
  * @author steve

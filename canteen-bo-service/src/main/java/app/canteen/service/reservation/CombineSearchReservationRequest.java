@@ -8,7 +8,7 @@ import java.time.ZonedDateTime;
 /**
  * @author steve
  */
-public class BOCombineSearchReservationRequest {
+public class CombineSearchReservationRequest {
     @NotNull
     @Property(name = "user_skip")
     public Integer userSkip = 0;

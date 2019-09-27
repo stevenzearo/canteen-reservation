@@ -1,7 +1,6 @@
 package app.canteen.service.reservation;
 
 import app.reservation.api.reservation.ReservationStatusView;
-import app.reservation.api.reservation.ReservationView;
 import core.framework.api.json.Property;
 
 import java.time.ZonedDateTime;
@@ -10,7 +9,7 @@ import java.util.List;
 /**
  * @author steve
  */
-public class BOCombineSearchReservationResponse {
+public class CombineSearchReservationResponse {
     @Property(name = "total")
     public Long total;
 
@@ -27,9 +26,9 @@ public class BOCombineSearchReservationResponse {
     public List<String> restaurantIdList;
 
     @Property(name = "reservation_list")
-    public List<ReservationView> reservationList;
+    public List<Reservation> reservationList;
 
-    public static class ReservationView {
+    public static class Reservation {
         @Property(name = "id")
         public String id;
 

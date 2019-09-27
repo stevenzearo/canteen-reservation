@@ -27,11 +27,11 @@ public class BOSearchRestaurantRequest {
     public String address;
 
     @Property(name = "reserving_deadline_start")
-    public ZonedDateTime reservingDeadlineStart = ZonedDateTime.now();
+    public ZonedDateTime reservingDeadlineStart;
 
     @Property(name = "reserving_deadline_end")
     public ZonedDateTime reservingDeadlineEnd;
 
     @Property(name = "status")
-    public RestaurantStatusView status = RestaurantStatusView.OPEN;
+    public RestaurantStatusView status;
 }

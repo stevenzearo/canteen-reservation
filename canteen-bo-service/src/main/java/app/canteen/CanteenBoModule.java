@@ -1,14 +1,14 @@
 package app.canteen;
 
-import app.canteen.service.reservation.BOCombineSearchReservationResponse;
-import app.canteen.service.BOCombineSearchReservationService;
-import app.canteen.web.ajax.ReservationBOAJAXController;
-import app.canteen.web.ajax.RestaurantBOAJAXController;
-import app.canteen.web.ajax.UserBOAJAXController;
-import app.canteen.web.controller.AdminBOController;
-import app.canteen.web.controller.MealBOController;
-import app.canteen.web.controller.RestaurantBOController;
-import app.canteen.web.controller.UserBOController;
+import app.canteen.service.CombineSearchReservationService;
+import app.canteen.service.reservation.CombineSearchReservationResponse;
+import app.canteen.web.ajax.ReservationAJAXController;
+import app.canteen.web.ajax.RestaurantAJAXController;
+import app.canteen.web.ajax.UserAJAXController;
+import app.canteen.web.controller.AdminController;
+import app.canteen.web.controller.MealController;
+import app.canteen.web.controller.RestaurantController;
+import app.canteen.web.controller.UserController;
 import app.canteen.web.interceptor.CanteenBOServiceInterceptor;
 import app.reservation.api.BOReservationWebService;
 import app.reservation.api.ReservationWebService;
@@ -42,14 +42,14 @@ public class CanteenBoModule extends Module {
         api().client(MealWebService.class, requiredProperty("app.restaurant.serviceURL"));
         api().client(BOReservationWebService.class, requiredProperty("app.reservation.serviceURL"));
         api().client(ReservationWebService.class, requiredProperty("app.reservation.serviceURL"));
-        bind(BOCombineSearchReservationService.class);
-        AdminBOController admin = bind(AdminBOController.class);
-        UserBOController user = bind(UserBOController.class);
-        RestaurantBOController restaurant = bind(RestaurantBOController.class);
-        MealBOController meal = bind(MealBOController.class);
-        UserBOAJAXController userJAX = bind(UserBOAJAXController.class);
-        RestaurantBOAJAXController restaurantAJAX = bind(RestaurantBOAJAXController.class);
-        ReservationBOAJAXController reservationAJAX = bind(ReservationBOAJAXController.class);
+        bind(CombineSearchReservationService.class);
+        AdminController admin = bind(AdminController.class);
+        UserController user = bind(UserController.class);
+        RestaurantController restaurant = bind(RestaurantController.class);
+        MealController meal = bind(MealController.class);
+        UserAJAXController userJAX = bind(UserAJAXController.class);
+        RestaurantAJAXController restaurantAJAX = bind(RestaurantAJAXController.class);
+        ReservationAJAXController reservationAJAX = bind(ReservationAJAXController.class);
         site().session().timeout(Duration.ofMinutes(30));
         http().intercept(bind(CanteenBOServiceInterceptor.class));
         http().route(PUT, "/canteen/bo/admin/login", admin::login);
@@ -62,7 +62,7 @@ public class CanteenBoModule extends Module {
         http().route(PUT, "/canteen/bo/user/status", user::activate);
         http().route(PUT, "/canteen/bo/ajax/reservation", reservationAJAX::search);
         http().route(GET, "/canteen/bo/ajax/restaurant", restaurantAJAX::searchByPage);
-        http().route(GET, "/canteen/bo/ajax/user", userJAX::searchByPage);
-        http().bean(BOCombineSearchReservationResponse.class);
+        http().route(GET, "/canteen/bo/ajax/user", userJAX::search);
+        http().bean(CombineSearchReservationResponse.class);
     }
 }

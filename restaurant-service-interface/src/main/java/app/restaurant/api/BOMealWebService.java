@@ -5,8 +5,6 @@ import app.restaurant.api.meal.BOCreateMealResponse;
 import app.restaurant.api.meal.BOGetMealResponse;
 import app.restaurant.api.meal.BOSearchMealRequest;
 import app.restaurant.api.meal.BOSearchMealResponse;
-import app.restaurant.api.meal.SearchMealRequest;
-import app.restaurant.api.meal.SearchMealResponse;
 import app.restaurant.api.meal.BOUpdateMealRequest;
 import core.framework.api.http.HTTPStatus;
 import core.framework.api.web.service.GET;
@@ -27,7 +25,7 @@ public interface BOMealWebService {
 
     @GET
     @Path("/bo/restaurant/:restaurantId/meal/:id")
-    BOGetMealResponse get(@PathParam("restaurantId") String restaurantId, String mealId);
+    BOGetMealResponse get(@PathParam("restaurantId") String restaurantId, @PathParam("id") String mealId);
 
     @PUT
     @Path("/bo/restaurant/:restaurantId/meal/:id")

@@ -14,9 +14,11 @@ import org.slf4j.LoggerFactory;
  * @author steve
  */
 public class CancellingReservationMessageHandler implements MessageHandler<CancellingReservationMessage> {
-    private final Logger logger = LoggerFactory.getLogger(SendingReservationEmailHandler.class);
+    private final Logger logger = LoggerFactory.getLogger(CancellingReservationMessageHandler.class);
+
     @Inject
     UserWebService userWebService;
+
     @Inject
     EmailNotificationService notificationService;
 

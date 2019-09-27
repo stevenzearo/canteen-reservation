@@ -4,7 +4,6 @@ import app.user.api.user.CreateUserRequest;
 import app.user.api.user.CreateUserResponse;
 import app.user.api.user.GetUserResponse;
 import app.user.api.user.UserLoginRequest;
-import app.user.api.user.UpdateUserRequest;
 import app.user.api.user.UserLoginResponse;
 import core.framework.api.http.HTTPStatus;
 import core.framework.api.web.service.GET;
@@ -29,5 +28,5 @@ public interface UserWebService {
 
     @GET
     @Path("/user/:id")
-    GetUserResponse get(@PathParam("id") Long id);
+    GetUserResponse get(@PathParam("id") Long id); // for cancelling reservation
 }

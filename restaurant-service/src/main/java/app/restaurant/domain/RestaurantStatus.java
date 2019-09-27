@@ -6,8 +6,8 @@ import core.framework.mongo.MongoEnumValue;
  * @author steve
  */
 public enum RestaurantStatus {
-    @MongoEnumValue(value = "OPEN")
+    @MongoEnumValue("OPEN")
     OPEN,
-    @MongoEnumValue(value = "CLOSE")
+    @MongoEnumValue("CLOSE")
     CLOSE
 }

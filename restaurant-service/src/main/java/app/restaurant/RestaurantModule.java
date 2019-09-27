@@ -4,6 +4,8 @@ import app.restaurant.api.BOMealWebService;
 import app.restaurant.api.BORestaurantWebService;
 import app.restaurant.api.MealWebService;
 import app.restaurant.api.RestaurantWebService;
+import app.restaurant.service.BOMealService;
+import app.restaurant.service.BORestaurantService;
 import app.restaurant.service.MealService;
 import app.restaurant.service.RestaurantService;
 import app.restaurant.web.BOMealWebServiceImpl;
@@ -19,7 +21,9 @@ public class RestaurantModule extends Module {
     @Override
     protected void initialize() {
         bind(MealService.class);
+        bind(BOMealService.class);
         bind(RestaurantService.class);
+        bind(BORestaurantService.class);
         api().service(MealWebService.class, bind(MealWebServiceImpl.class));
         api().service(BOMealWebService.class, bind(BOMealWebServiceImpl.class));
         api().service(RestaurantWebService.class, bind(RestaurantWebServiceImpl.class));

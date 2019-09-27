@@ -4,7 +4,7 @@ import app.reservation.api.BOReservationWebService;
 import app.reservation.api.ReservationWebService;
 import app.reservation.api.reservation.ReservationStatusView;
 import app.reservation.api.reservation.ReservationView;
-import app.reservation.api.reservation.ReserveRequest;
+import app.reservation.api.reservation.ReservingRequest;
 import app.reservation.api.reservation.SearchReservationRequest;
 import app.reservation.api.reservation.SearchReservationResponse;
 import app.reservation.api.reservation.UpdateReservationRequest;
@@ -25,7 +25,7 @@ public class ReservationModule extends Module {
         db().repository(ReservationMeal.class);
         http().bean(ReservationStatusView.class);
         http().bean(ReservationView.class);
-        http().bean(ReserveRequest.class);
+        http().bean(ReservingRequest.class);
         http().bean(SearchReservationRequest.class);
         http().bean(SearchReservationResponse.class);
         http().bean(UpdateReservationRequest.class);

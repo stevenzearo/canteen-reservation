@@ -1,12 +1,10 @@
 package app.reservation.api;
 
 import app.reservation.api.reservation.GetReservationResponse;
-import app.reservation.api.reservation.ReserveRequest;
-import app.reservation.api.reservation.ReservationView;
+import app.reservation.api.reservation.ReservingRequest;
 import app.reservation.api.reservation.ReserveResponse;
 import app.reservation.api.reservation.SearchReservationRequest;
 import app.reservation.api.reservation.SearchReservationResponse;
-import app.reservation.api.reservation.UpdateReservationRequest;
 import core.framework.api.http.HTTPStatus;
 import core.framework.api.web.service.GET;
 import core.framework.api.web.service.POST;
@@ -22,7 +20,7 @@ public interface ReservationWebService {
     @POST
     @ResponseStatus(HTTPStatus.CREATED)
     @Path("/user/:userId/reservation")
-    ReserveResponse reserve(@PathParam("userId") Long userId, ReserveRequest request); // return for user confirm
+    ReserveResponse reserve(@PathParam("userId") Long userId, ReservingRequest request); // return for user confirm
 
     @GET
     @Path("/user/:userId/reservation/:id")

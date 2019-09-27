@@ -5,15 +5,8 @@ import app.user.api.user.BOCreateUserResponse;
 import app.user.api.user.BOGetUserResponse;
 import app.user.api.user.BOSearchUserRequest;
 import app.user.api.user.BOSearchUserResponse;
-import app.user.api.user.BOUpdateUserRequest;
-import app.user.api.user.CreateUserRequest;
-import app.user.api.user.CreateUserResponse;
-import app.user.api.user.GetUserResponse;
-import app.user.api.user.UserLoginResponse;
-import app.user.api.user.SearchUserRequest;
-import app.user.api.user.SearchUserResponse;
-import app.user.api.user.UpdateUserRequest;
-import app.user.api.user.UserLoginRequest;
+import app.user.api.user.UpdateUserPasswordRequest;
+import app.user.api.user.UpdateUserStatusRequest;
 import app.user.api.user.UserStatusView;
 import app.user.domain.User;
 import app.user.domain.UserStatus;
@@ -24,7 +17,6 @@ import core.framework.inject.Inject;
 import core.framework.util.Strings;
 import core.framework.web.exception.ConflictException;
 import core.framework.web.exception.NotFoundException;
-import core.framework.web.exception.UnauthorizedException;
 
 import java.util.List;
 import java.util.OptionalLong;
@@ -42,10 +34,10 @@ public class BOUserService {
         user.email = request.email;
         List<User> userList = repository.select("email = ?", user.email);
         BOCreateUserResponse response = new BOCreateUserResponse();
-        if (!userList.isEmpty()) {
+        if (userList.isEmpty()) {
             user.password = Hash.sha256Hex(request.password);
             user.name = request.name;
-            user.status = UserStatus.INVALID;
+            user.status = UserStatus.valueOf(request.status.name());
             OptionalLong userId = repository.insert(user);
             if (userId.isPresent()) user.id = userId.getAsLong();
             response.id = user.id;
@@ -58,15 +50,15 @@ public class BOUserService {
         return response;
     }
 
-    public void updatePassword(Long id, String password) {
+    public void updatePassword(Long id, UpdateUserPasswordRequest request) {
         User user = repository.get(id).orElseThrow(() -> new NotFoundException(Strings.format("user not found, id = {}", id)));
-        user.password = Hash.sha256Hex(password);
+        user.password = Hash.sha256Hex(request.password);
         repository.partialUpdate(user);
     }
 
-    public void updateStatus(Long id, UserStatusView status) {
+    public void updateStatus(Long id, UpdateUserStatusRequest request) {
         User user = repository.get(id).orElseThrow(() -> new NotFoundException(Strings.format("user not found, id = {}", id)));
-        user.status = UserStatus.valueOf(status.name());
+        user.status = UserStatus.valueOf(request.status.name());
         repository.partialUpdate(user);
     }
 
