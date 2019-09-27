@@ -8,7 +8,6 @@ import java.util.List;
 /**
  * @author steve
  */
-// todo
 public class SearchRestaurantResponse {
     @Property(name = "total")
     public Long total;
