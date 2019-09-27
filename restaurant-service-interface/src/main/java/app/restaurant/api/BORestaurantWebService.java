@@ -28,9 +28,9 @@ public interface BORestaurantWebService {
 
     @PUT
     @Path("/bo/restaurant")
-    BOSearchRestaurantResponse search(BOSearchRestaurantRequest request);
+    BOSearchRestaurantResponse search(BOSearchRestaurantRequest request); // admin can search meals via name/phone/address/reserving deadline range/status
 
     @PUT
     @Path("/bo/restaurant/:restaurantId")
-    void update(@PathParam("restaurantId") String restaurantId, BOUpdateRestaurantRequest request);
+    void update(@PathParam("restaurantId") String restaurantId, BOUpdateRestaurantRequest request); // admin can partially update name, phone, address, status, reserving deadline, but must give reserving deadline
 }

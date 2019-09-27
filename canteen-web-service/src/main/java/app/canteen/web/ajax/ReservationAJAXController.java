@@ -6,6 +6,7 @@ import core.framework.inject.Inject;
 import core.framework.json.JSON;
 import core.framework.web.Request;
 import core.framework.web.Response;
+import core.framework.web.exception.BadRequestException;
 
 import java.time.ZonedDateTime;
 import java.util.Map;
@@ -18,11 +19,14 @@ public class ReservationAJAXController {
     ReservationWebService service;
 
     public Response searchInFutureByUserId(Request request) {
-        Map<String, String> paramMap = request.formParams();
-        SearchReservationRequest reservationRequest = new SearchReservationRequest();
-        reservationRequest.skip = Integer.valueOf(paramMap.get("skip"));
-        reservationRequest.limit = Integer.valueOf(paramMap.get("limit"));
-        reservationRequest.reservingTimeStart = JSON.fromJSON(ZonedDateTime.class, paramMap.get("now_time"));
-        return Response.bean(service.search(Long.valueOf(paramMap.get("user_id")), reservationRequest));
+        Map<String, String> paramMap = request.queryParams();
+        Long userId;
+        try {
+            userId = Long.valueOf(paramMap.get("user_id"));
+        } catch (NumberFormatException e) {
+            throw new BadRequestException("incorrect user id");
+        }
+        SearchReservationRequest reservationRequest = request.bean(SearchReservationRequest.class);
+        return Response.bean(service.searchByTime(userId, reservationRequest));
     }
 }

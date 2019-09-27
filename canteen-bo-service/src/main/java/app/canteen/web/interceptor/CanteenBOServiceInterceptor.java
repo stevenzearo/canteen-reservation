@@ -19,14 +19,12 @@ public class CanteenBOServiceInterceptor implements Interceptor {
     @Override
     public Response intercept(Invocation invocation) throws Exception {
         Response response = invocation.proceed();
-        // todo
-        String path = invocation.context().request().path();
-        logger.warn(Strings.format("request path = {}", path));
-        if (!path.startsWith("/canteen/bo/admin")) {
+        String requestPath = invocation.context().request().path();
+        logger.warn(Strings.format("request path = {}", requestPath));
+        if (!requestPath.startsWith("/canteen/bo/admin")) {
             Optional<String> adminId = invocation.context().request().session().get("admin_id");
             if (adminId.isEmpty()) {
-                // todo
-                response = Response.redirect("/canteen/bo/admin/login", HTTPStatus.UNAUTHORIZED);
+                response = Response.text("UNAUTHORIZED"); // should redirect to login page return text for test
             }
         }
         return response;

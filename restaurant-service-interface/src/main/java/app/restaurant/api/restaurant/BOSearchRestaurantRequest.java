@@ -20,20 +20,18 @@ public class BOSearchRestaurantRequest {
     @Property(name = "name")
     public String name;
 
-    @Property(name = "address")
-    public String address;
-
     @Property(name = "phone")
     public String phone;
 
-    @NotNull
+    @Property(name = "address")
+    public String address;
+
     @Property(name = "reserving_deadline_start")
     public ZonedDateTime reservingDeadlineStart = ZonedDateTime.now();
 
     @Property(name = "reserving_deadline_end")
     public ZonedDateTime reservingDeadlineEnd;
 
-    @NotNull
     @Property(name = "status")
     public RestaurantStatusView status = RestaurantStatusView.OPEN;
 }

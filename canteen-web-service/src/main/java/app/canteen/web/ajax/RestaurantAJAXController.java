@@ -35,6 +35,6 @@ public class RestaurantAJAXController {
 
     public Response search(Request request) {
         SearchRestaurantRequest restaurantRequest = request.bean(SearchRestaurantRequest.class);
-        return Response.bean(service.search(restaurantRequest));
+        return Response.bean(service.searchOpen(restaurantRequest));
     }
 }

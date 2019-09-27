@@ -22,7 +22,6 @@ public class BOCreateUserRequest {
     public String password;
 
     @NotNull
-    @NotBlank
     @Property(name = "status")
     public UserStatusView status;
 }

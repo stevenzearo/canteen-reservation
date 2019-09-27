@@ -2,11 +2,11 @@ package app.restaurant.service;
 
 import app.restaurant.api.restaurant.BOCreateRestaurantRequest;
 import app.restaurant.api.restaurant.BOCreateRestaurantResponse;
+import app.restaurant.api.restaurant.BOGetRestaurantResponse;
 import app.restaurant.api.restaurant.BOSearchRestaurantRequest;
 import app.restaurant.api.restaurant.BOSearchRestaurantResponse;
-import app.restaurant.api.restaurant.RestaurantStatusView;
-import app.restaurant.api.restaurant.SearchRestaurantRequest;
 import app.restaurant.api.restaurant.BOUpdateRestaurantRequest;
+import app.restaurant.api.restaurant.RestaurantStatusView;
 import app.restaurant.domain.Restaurant;
 import app.restaurant.domain.RestaurantStatus;
 import com.mongodb.client.model.Filters;
@@ -44,6 +44,18 @@ public class BORestaurantService {
         response.phone = restaurant.phone;
         response.status = RestaurantStatusView.valueOf(restaurant.status.name());
         response.reservingDeadline = restaurant.reservingDeadline;
+        return response;
+    }
+
+    public BOGetRestaurantResponse get(String id) {
+        Restaurant restaurant = restaurantCollection.get(id).orElseThrow(() -> new NotFoundException(Strings.format("restaurant not found, id = {}", id)));
+        BOGetRestaurantResponse response = new BOGetRestaurantResponse();
+        response.id = restaurant.id;
+        response.name = restaurant.name;
+        response.address = restaurant.address;
+        response.phone = restaurant.phone;
+        response.reservingDeadline = restaurant.reservingDeadline;
+        response.status = RestaurantStatusView.valueOf(restaurant.status.name());
         return response;
     }
 

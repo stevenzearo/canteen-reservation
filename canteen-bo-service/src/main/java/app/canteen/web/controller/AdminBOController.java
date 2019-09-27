@@ -8,6 +8,7 @@ import core.framework.log.ActionLogContext;
 import core.framework.util.Strings;
 import core.framework.web.Request;
 import core.framework.web.Response;
+import core.framework.web.exception.BadRequestException;
 import core.framework.web.exception.ConflictException;
 
 import java.util.Map;
@@ -23,21 +24,25 @@ public class AdminBOController {
 
     public Response login(Request request) {
         Map<String, String> paramMap = request.formParams();
-        BOAdminLoginResponse response;
+        Response response;
         if (!isLogin(request)) {
             String name = paramMap.get("name");
             String password = paramMap.get("password");
-            BOAdminLoginRequest BOAdminLoginRequest = new BOAdminLoginRequest();
-            BOAdminLoginRequest.name = name;
-            BOAdminLoginRequest.password = password;
-            response = service.login(BOAdminLoginRequest);
-            request.session().set("admin_id", response.id.toString());
-            ActionLogContext.put("adminName", BOAdminLoginRequest.name);
+            if (!Strings.isBlank(name) && !Strings.isBlank(password)) {
+                BOAdminLoginRequest BOAdminLoginRequest = new BOAdminLoginRequest();
+                BOAdminLoginRequest.name = name;
+                BOAdminLoginRequest.password = password;
+                BOAdminLoginResponse loginResponse = service.login(BOAdminLoginRequest);
+                request.session().set("admin_id", loginResponse.id.toString());
+                ActionLogContext.put("adminName", BOAdminLoginRequest.name);
+                response = Response.bean(loginResponse); // should return a page, return a bean for test.
+            } else {
+                throw new BadRequestException("name or password can not be blank");
+            }
         } else {
-            // todo
-            throw new ConflictException(Strings.format("admin has already login, name = {}", paramMap.get("name")));
+            response = Response.text("ALREADY LOGIN"); // should return a page, return text for test.
         }
-        return Response.bean(response); // should return a page, return a bean for test.
+        return response;
     }
 
     private boolean isLogin(Request request) {

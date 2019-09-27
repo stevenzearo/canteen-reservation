@@ -1,6 +1,7 @@
 package app.reservation.api.reservation;
 
 import core.framework.api.json.Property;
+import core.framework.api.validate.NotBlank;
 import core.framework.api.validate.NotNull;
 
 import java.time.ZonedDateTime;
@@ -31,6 +32,7 @@ public class ReserveRequest {
     public ReservationStatusView status;
 
     @NotNull
+    @NotBlank
     @Property(name = "restaurant_id")
     public String restaurantId;
 

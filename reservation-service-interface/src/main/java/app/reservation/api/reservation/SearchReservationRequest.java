@@ -19,7 +19,7 @@ public class SearchReservationRequest {
 
     @NotNull
     @Property(name = "reserving_time_start")
-    public ZonedDateTime reservingTimeStart;
+    public ZonedDateTime reservingTimeStart = ZonedDateTime.now();
 
     @Property(name = "reserving_time_end")
     public ZonedDateTime reservingTimeEnd;

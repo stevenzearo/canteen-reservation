@@ -24,7 +24,7 @@ public class MealAJAXController {
         Response response = null;
         if (!Strings.isBlank(restaurantId)) {
             SearchMealRequest searchMealRequest = request.bean(SearchMealRequest.class);
-            Response.bean(service.search(restaurantId, searchMealRequest));
+            Response.bean(service.searchValid(restaurantId, searchMealRequest));
         } else {
             throw new BadRequestException("restaurant id can not be blank");
         }

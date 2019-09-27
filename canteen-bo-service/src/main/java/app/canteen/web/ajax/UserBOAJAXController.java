@@ -21,12 +21,8 @@ public class UserBOAJAXController {
     BOUserWebService service;
 
     public Response searchByPage(Request request) {
-        Map<String, String> paramMap = request.queryParams();
-        BOSearchUserRequest userRequest = new BOSearchUserRequest();
-        // todo
-        userRequest.skip = Integer.parseInt(paramMap.get("skip"));
-        userRequest.limit = Integer.parseInt(paramMap.get("limit"));
-        BOSearchUserResponse response = service.search(userRequest);
+        BOSearchUserRequest searchRequest = request.bean(BOSearchUserRequest.class);
+        BOSearchUserResponse response = service.search(searchRequest);
         return Response.bean(response);
     }
 }

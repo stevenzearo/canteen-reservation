@@ -35,5 +35,5 @@ public interface BOMealWebService {
 
     @PUT
     @Path("/bo/restaurant/:restaurantId/meal")
-    BOSearchMealResponse search(@PathParam("restaurantId") String restaurantId, BOSearchMealRequest request);
+    BOSearchMealResponse search(@PathParam("restaurantId") String restaurantId, BOSearchMealRequest request); // admin can search meals via name/price range/status
 }

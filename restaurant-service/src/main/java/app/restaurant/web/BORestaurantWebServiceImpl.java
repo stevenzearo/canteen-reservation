@@ -3,6 +3,7 @@ package app.restaurant.web;
 import app.restaurant.api.BORestaurantWebService;
 import app.restaurant.api.restaurant.BOCreateRestaurantRequest;
 import app.restaurant.api.restaurant.BOCreateRestaurantResponse;
+import app.restaurant.api.restaurant.BOGetRestaurantResponse;
 import app.restaurant.api.restaurant.BOSearchRestaurantResponse;
 import app.restaurant.api.restaurant.BOSearchRestaurantRequest;
 import app.restaurant.api.restaurant.BOUpdateRestaurantRequest;
@@ -19,6 +20,11 @@ public class BORestaurantWebServiceImpl implements BORestaurantWebService {
     @Override
     public BOCreateRestaurantResponse create(BOCreateRestaurantRequest request) {
         return service.create(request);
+    }
+
+    @Override
+    public BOGetRestaurantResponse get(String id) {
+        return service.get(id);
     }
 
     @Override

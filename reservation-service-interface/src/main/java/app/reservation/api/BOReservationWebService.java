@@ -24,5 +24,5 @@ public interface BOReservationWebService {
 
     @PUT
     @Path("/bo/reservation")
-    BOSearchReservationResponse search(BOSearchReservationRequest request);
+    BOSearchReservationResponse search(BOSearchReservationRequest request); // admin can search via reserving time range/user id/restaurant id/reservation status
 }

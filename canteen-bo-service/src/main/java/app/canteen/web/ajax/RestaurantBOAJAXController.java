@@ -19,11 +19,8 @@ public class RestaurantBOAJAXController {
     BORestaurantWebService service;
 
     public Response searchByPage(Request request) {
-        Map<String, String> paramMap = request.queryParams();
-        BOSearchRestaurantRequest restaurantRequest = new BOSearchRestaurantRequest();
-        restaurantRequest.skip = Integer.valueOf(paramMap.get("skip"));
-        restaurantRequest.limit = Integer.valueOf(paramMap.get("limit"));
-        BOSearchRestaurantResponse response = service.search(restaurantRequest);
-        return Response.bean(response);
+        BOSearchRestaurantRequest restaurantRequest = request.bean(BOSearchRestaurantRequest.class);
+        BOSearchRestaurantResponse searchResponse = service.search(restaurantRequest);
+        return Response.bean(searchResponse);
     }
 }

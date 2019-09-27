@@ -68,6 +68,4 @@ public class UserController {
     private boolean isLogin(Request request) {
         return request.session().get("user_id").isPresent();
     }
-
-    // todo user change name, password, email
 }

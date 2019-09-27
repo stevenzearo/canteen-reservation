@@ -21,27 +21,33 @@ public class UserBOController {
 
     public Response createUser(Request request) {
         Map<String, String> paramMap = request.formParams();
+        String name = paramMap.get("name");
+        String password = paramMap.get("password");
+        String email = paramMap.get("email");
         BOCreateUserRequest createUserRequest = new BOCreateUserRequest();
-        createUserRequest.name = paramMap.get("name");
-        createUserRequest.password = paramMap.get("password");
-        createUserRequest.email = paramMap.get("email");
+        if (!Strings.isBlank("password") && !Strings.isBlank(email)) {
+            createUserRequest.name = name;
+            createUserRequest.password = password;
+            createUserRequest.email = email;
+        } else {
+            throw new BadRequestException("email and password can not be blank");
+        }
         return Response.bean(userWebService.create(createUserRequest)); // should return a page, return text for test.
     }
 
     // use user_id to reset password
     public Response resetPassword(Request request) {
         Map<String, String> paramMap = request.formParams();
+        Long userId;
+        String password;
         try {
-            Long userId = Long.valueOf(paramMap.get("user_id"));
-            String password = paramMap.get("password");
-            if (!Strings.isBlank(password)) {
-                userWebService.updatePassword(userId, password);
-            } else {
-                throw new BadRequestException("password can not be blank");
-            }
+            userId = Long.valueOf(paramMap.get("user_id"));
+            password = paramMap.get("password");
+            if (Strings.isBlank(password)) throw new BadRequestException("password can not be blank");
         } catch (NumberFormatException e) {
             throw new BadRequestException("user id should be Long");
         }
+        userWebService.updatePassword(userId, password);
         return Response.text("SUCCESS"); // should return a page, return text for test.
     }
 
@@ -49,15 +55,17 @@ public class UserBOController {
     public Response activate(Request request) {
         Map<String, String> paramMap = request.queryParams();
         BOUpdateUserRequest updateUserRequest = new BOUpdateUserRequest();
+        Long id;
+        UserStatusView status;
         try {
-            Long id = Long.valueOf(paramMap.get("id"));
-            UserStatusView status = UserStatusView.valueOf(paramMap.get("status"));
-            userWebService.updateStatus(id, status);
+            id = Long.valueOf(paramMap.get("id"));
+            status = UserStatusView.valueOf(paramMap.get("status"));
         } catch (NumberFormatException e) {
             throw new BadRequestException("user id should be Long");
         } catch (IllegalArgumentException e) {
             throw new BadRequestException("status incorrect");
         }
+        userWebService.updateStatus(id, status);
         return Response.text("SUCCESS"); // should return a page, return text for test.
     }
 }

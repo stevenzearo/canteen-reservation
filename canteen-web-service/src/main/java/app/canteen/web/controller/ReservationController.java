@@ -10,7 +10,7 @@ import app.restaurant.api.RestaurantWebService;
 import app.restaurant.api.restaurant.GetRestaurantResponse;
 import com.fasterxml.jackson.core.type.TypeReference;
 import core.framework.inject.Inject;
-import core.framework.json.JSON;
+import core.framework.util.Strings;
 import core.framework.web.Request;
 import core.framework.web.Response;
 import core.framework.web.exception.BadRequestException;
@@ -37,39 +37,53 @@ public class ReservationController {
     public Response reserve(Request request) {
         Map<String, String> paramMap = request.formParams();
         ReserveRequest reserveRequest = new ReserveRequest();
+        String restaurantId;
+        Long userId;
+        ZonedDateTime eatingTime;
+        ZonedDateTime reservingDeadline;
+        Double amount;
+        List<String> mealIdList;
         try {
-            String restaurantId = paramMap.get("restaurant_id");
-            Long userId = Long.valueOf(paramMap.get("user_id"));
-            ZonedDateTime eatingTime = ZonedDateTime.parse(paramMap.get("eating_time"));
-            ZonedDateTime reservingDeadline = ZonedDateTime.parse(paramMap.get("reserving_deadline"));
-            Double amount = Double.valueOf(paramMap.get("amount"));
-            reserveRequest.mealIdList = OBJECT_MAPPER.readValue(paramMap.get("meal_id_list"), new ListTypeReference());
-        } catch (Exception e) {
-            throw new BadRequestException("");
-        }
-
-        reserveRequest.restaurantId = paramMap.get("restaurant_id");
-        Long userId = Long.valueOf(paramMap.get("user_id"));
-        reserveRequest.status = ReservationStatusView.OK;
-        reserveRequest.reservingTime = ZonedDateTime.now();
-        reserveRequest.eatingTime = JSON.fromJSON(ZonedDateTime.class, paramMap.get("eating_time"));
-        reserveRequest.reservingDeadline = JSON.fromJSON(ZonedDateTime.class, paramMap.get("reserving_deadline"));
-        reserveRequest.amount = Double.valueOf(paramMap.get("amount"));
-        try {
-            reserveRequest.mealIdList = OBJECT_MAPPER.readValue(paramMap.get("meal_id_list"), new ListTypeReference());
+            restaurantId = paramMap.get("restaurant_id");
+            userId = Long.valueOf(paramMap.get("user_id"));
+            eatingTime = ZonedDateTime.parse(paramMap.get("eating_time"));
+            reservingDeadline = ZonedDateTime.parse(paramMap.get("reserving_deadline"));
+            amount = Double.valueOf(paramMap.get("amount"));
+            mealIdList = OBJECT_MAPPER.readValue(paramMap.get("meal_id_list"), new ListTypeReference());
+            if (Strings.isBlank(restaurantId)) throw new BadRequestException("restaurant id can not be blank");
         } catch (IOException e) {
             logger.error("OBJECT MAPPER ERROR");
+            throw new BadRequestException("invalid meal id list");
+        } catch (NumberFormatException e) {
+            throw new BadRequestException("invalid user id or amount");
         }
-        ReserveResponse response = reservationWebService.reserve(userId, reserveRequest);
-        return Response.bean(response); // should return a page, return a bean for test.
+        reserveRequest.restaurantId = restaurantId;
+        reserveRequest.reservingTime = ZonedDateTime.now();
+        reserveRequest.status = ReservationStatusView.OK;
+        reserveRequest.amount = amount;
+        reserveRequest.eatingTime = eatingTime;
+        reserveRequest.reservingDeadline = reservingDeadline;
+        reserveRequest.mealIdList = mealIdList;
+        ReserveResponse reserveResponse = reservationWebService.reserve(userId, reserveRequest);
+        return Response.bean(reserveResponse); // should return a page, return a bean for test.
     }
 
     public Response cancel(Request request) {
         Map<String, String> paramMap = request.formParams();
-        String restaurantId = paramMap.get("restaurant_id");
-        Long userId = Long.valueOf(paramMap.get("user_id"));
+        Long userId;
+        String restaurantId;
+        String reservationId;
+        try {
+            userId = Long.valueOf(paramMap.get("user_id"));
+            restaurantId = paramMap.get("restaurant_id");
+            reservationId = paramMap.get("reservation_id");
+            if (Strings.isBlank(restaurantId)) throw new BadRequestException("restaurant id can not be blank");
+            if (Strings.isBlank(reservationId)) throw new BadRequestException("reservation id can not be blank");
+        } catch (NumberFormatException e) {
+            throw new BadRequestException("invalid user id");
+        }
         GetRestaurantResponse restaurantResponse = restaurantWebService.get(restaurantId);
-        GetReservationResponse reservationResponse = reservationWebService.get(userId, paramMap.get("reservation_id"));
+        GetReservationResponse reservationResponse = reservationWebService.get(userId, reservationId);
         String cancelStatus = "FAILED";
         if (reservationResponse.reservingTime.plusMinutes(10).isBefore(restaurantResponse.reservingDeadline)) {
             UpdateReservationRequest updateRequest = new UpdateReservationRequest();

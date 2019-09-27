@@ -1,5 +1,6 @@
 package app.restaurant.domain;
 
+import core.framework.api.validate.NotBlank;
 import core.framework.api.validate.NotNull;
 import core.framework.mongo.Collection;
 import core.framework.mongo.Field;
@@ -28,6 +29,7 @@ public class Meal {
     public MealStatus status;
 
     @NotNull
+    @NotBlank
     @Field(name = "restaurant_id")
     public String restaurantId;
 }

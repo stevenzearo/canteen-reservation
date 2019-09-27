@@ -1,5 +1,6 @@
 package app.reservation.domain;
 
+import core.framework.api.validate.NotBlank;
 import core.framework.api.validate.NotNull;
 import core.framework.db.Column;
 import core.framework.db.PrimaryKey;
@@ -15,11 +16,12 @@ public class ReservationMeal {
     public Long id;
 
     @NotNull
+    @NotBlank
     @Column(name = "reservation_id")
     public String reservationId;
 
-    // todo
     @NotNull
+    @NotBlank
     @Column(name = "meal_id")
     public String mealId;
 }

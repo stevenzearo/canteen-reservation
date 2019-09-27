@@ -1,5 +1,6 @@
 package app.user.domain;
 
+import core.framework.api.validate.NotBlank;
 import core.framework.api.validate.NotNull;
 import core.framework.db.Column;
 import core.framework.db.PrimaryKey;
@@ -18,10 +19,12 @@ public class User {
     public String name;
 
     @NotNull
+    @NotBlank
     @Column(name = "email")
     public String email;
 
     @NotNull
+    @NotBlank
     @Column(name = "password")
     public String password;
 
