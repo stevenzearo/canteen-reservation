@@ -71,15 +71,15 @@ public class BORestaurantService {
         if (!Strings.isBlank(request.phone))
             conditions = Filters.and(conditions, Filters.regex("phone", request.phone));
         if (request.reservingDeadlineStart != null)
-            conditions = Filters.and(conditions, Filters.gt("reserving_deadline", request.reservingDeadlineStart));
+            conditions = Filters.and(conditions, Filters.gte("reserving_deadline", request.reservingDeadlineStart));
         if (request.reservingDeadlineEnd != null)
-            conditions = Filters.and(conditions, Filters.lt("reserving_deadline", request.reservingDeadlineEnd));
+            conditions = Filters.and(conditions, Filters.lte("reserving_deadline", request.reservingDeadlineEnd));
         if (request.status != null)
             conditions = Filters.and(conditions, Filters.eq("status", RestaurantStatus.valueOf(request.status.name())));
         query.filter = conditions;
         BOSearchRestaurantResponse response = new BOSearchRestaurantResponse();
         response.total = restaurantCollection.count(query.filter);
-        response.restaurants = restaurantCollection.find(query.filter).stream().map(this::view).collect(Collectors.toList());
+        response.restaurants = restaurantCollection.find(query).stream().map(this::view).collect(Collectors.toList());
         return response;
     }
 

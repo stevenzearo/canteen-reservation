@@ -14,7 +14,7 @@ import core.framework.api.web.service.PathParam;
 public interface RestaurantWebService {
     @GET
     @Path("/restaurant/:restaurantId")
-    GetRestaurantResponse get(@PathParam("restaurantId") String restaurantId);
+    GetRestaurantResponse get(@PathParam("restaurantId") String restaurantId); // for get restaurant meals
 
     @PUT
     @Path("/restaurant")

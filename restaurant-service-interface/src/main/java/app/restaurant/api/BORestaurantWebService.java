@@ -7,6 +7,7 @@ import app.restaurant.api.restaurant.BOSearchRestaurantResponse;
 import app.restaurant.api.restaurant.BOSearchRestaurantRequest;
 import app.restaurant.api.restaurant.BOUpdateRestaurantRequest;
 import core.framework.api.http.HTTPStatus;
+import core.framework.api.web.service.GET;
 import core.framework.api.web.service.POST;
 import core.framework.api.web.service.PUT;
 import core.framework.api.web.service.Path;
@@ -22,9 +23,9 @@ public interface BORestaurantWebService {
     @Path("/bo/restaurant")
     BOCreateRestaurantResponse create(BOCreateRestaurantRequest request);
 
-    @PUT
-    @Path("/bo/restaurant/:id")
-    BOGetRestaurantResponse get(@PathParam("id") String id);
+    @GET
+    @Path("/bo/restaurant/:restaurantId")
+    BOGetRestaurantResponse get(@PathParam("restaurantId") String id);
 
     @PUT
     @Path("/bo/restaurant")

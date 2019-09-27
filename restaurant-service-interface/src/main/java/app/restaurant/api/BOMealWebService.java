@@ -25,7 +25,7 @@ public interface BOMealWebService {
 
     @GET
     @Path("/bo/restaurant/:restaurantId/meal/:id")
-    BOGetMealResponse get(@PathParam("restaurantId") String restaurantId, @PathParam("id") String mealId);
+    BOGetMealResponse get(@PathParam("restaurantId") String restaurantId, @PathParam("id") String mealId); // for update
 
     @PUT
     @Path("/bo/restaurant/:restaurantId/meal/:id")

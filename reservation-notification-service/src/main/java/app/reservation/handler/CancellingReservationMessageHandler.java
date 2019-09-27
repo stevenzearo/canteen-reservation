@@ -3,6 +3,7 @@ package app.reservation.handler;
 import app.reservation.api.kafka.CancellingReservationMessage;
 import app.reservation.service.EmailNotificationService;
 import app.reservation.service.notification.CancellingEmailNotificationRequest;
+import app.user.api.BOUserWebService;
 import app.user.api.UserWebService;
 import core.framework.inject.Inject;
 import core.framework.kafka.MessageHandler;
@@ -17,7 +18,7 @@ public class CancellingReservationMessageHandler implements MessageHandler<Cance
     private final Logger logger = LoggerFactory.getLogger(CancellingReservationMessageHandler.class);
 
     @Inject
-    UserWebService userWebService;
+    BOUserWebService userWebService;
 
     @Inject
     EmailNotificationService notificationService;

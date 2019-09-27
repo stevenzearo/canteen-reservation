@@ -17,7 +17,6 @@ public class NotificationRestaurant {
     public Long id;
 
     @NotNull
-    @NotBlank
     @Column(name = "notification_id")
     public Long notificationId;
 

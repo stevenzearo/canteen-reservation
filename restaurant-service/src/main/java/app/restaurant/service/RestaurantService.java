@@ -48,13 +48,13 @@ public class RestaurantService {
         if (!Strings.isBlank(request.phone))
             conditions = Filters.and(conditions, Filters.regex("phone", request.phone));
         if (request.reservingDeadlineStart != null)
-            conditions = Filters.and(conditions, Filters.gt("reserving_deadline", request.reservingDeadlineStart));
+            conditions = Filters.and(conditions, Filters.gte("reserving_deadline", request.reservingDeadlineStart));
         if (request.reservingDeadlineEnd != null)
-            conditions = Filters.and(conditions, Filters.lt("reserving_deadline", request.reservingDeadlineEnd.plusMinutes(1)));
+            conditions = Filters.and(conditions, Filters.lte("reserving_deadline", request.reservingDeadlineEnd.plusMinutes(1)));
         query.filter = conditions;
         SearchRestaurantResponse response = new SearchRestaurantResponse();
         response.total = restaurantCollection.count(query.filter);
-        response.restaurants = restaurantCollection.find(query.filter).stream().map(this::view).collect(Collectors.toList());
+        response.restaurants = restaurantCollection.find(query).stream().map(this::view).collect(Collectors.toList());
         return response;
     }
 

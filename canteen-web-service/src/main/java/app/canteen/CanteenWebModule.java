@@ -3,8 +3,15 @@ package app.canteen;
 import app.canteen.web.ajax.MealAJAXController;
 import app.canteen.web.ajax.ReservationAJAXController;
 import app.canteen.web.ajax.RestaurantAJAXController;
+import app.canteen.web.ajax.meal.SearchMealAJAXRequest;
+import app.canteen.web.ajax.reservation.SearchReservationAJAXRequest;
+import app.canteen.web.ajax.restaurant.SearchRestaurantAJAXRequest;
 import app.canteen.web.controller.ReservationController;
 import app.canteen.web.controller.UserController;
+import app.canteen.web.controller.reservation.CancellingControllerRequest;
+import app.canteen.web.controller.reservation.ReservationReservingControllerRequest;
+import app.canteen.web.controller.user.CreateUserControllerRequest;
+import app.canteen.web.controller.user.UserLoginControllerRequest;
 import app.canteen.web.interceptor.CanteenWebServiceInterceptor;
 import app.reservation.api.ReservationWebService;
 import app.restaurant.api.MealWebService;
@@ -37,6 +44,15 @@ public class CanteenWebModule extends Module {
         ReservationAJAXController reservationAJAX = bind(ReservationAJAXController.class);
         site().session().timeout(Duration.ofMinutes(30));
         http().intercept(bind(CanteenWebServiceInterceptor.class));
+
+        http().bean(UserLoginControllerRequest.class);
+        http().bean(CreateUserControllerRequest.class);
+        http().bean(ReservationReservingControllerRequest.class);
+        http().bean(CancellingControllerRequest.class);
+        http().bean(SearchReservationAJAXRequest.class);
+        http().bean(SearchMealAJAXRequest.class);
+        http().bean(SearchRestaurantAJAXRequest.class);
+
         http().route(PUT, "/canteen/user/login", user::login);
         http().route(GET, "/canteen/user/logout", user::logout);
         http().route(POST, "/canteen/user/registry", user::register);

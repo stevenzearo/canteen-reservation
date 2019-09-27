@@ -17,7 +17,6 @@ public class NotificationMeal {
     public Long id;
 
     @NotNull
-    @NotBlank
     @Column(name = "notification_id")
     public Long notificationId;
 
@@ -28,11 +27,10 @@ public class NotificationMeal {
 
     @NotNull
     @NotBlank
-    @Column(name = "meal_id")
+    @Column(name = "meal_name")
     public String mealName;
 
     @NotNull
-    @NotBlank
-    @Column(name = "meal_id")
+    @Column(name = "meal_price")
     public Double mealPrice;
 }
