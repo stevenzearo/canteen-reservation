@@ -1,12 +1,12 @@
 package app;
 
-import app.canteen.CanteenWebApp;
+import app.canteen.CanteenApp;
 
 /**
  * @author steve
  */
 public class Main {
     public static void main(String[] args) {
-        new CanteenWebApp().start();
+        new CanteenApp().start();
     }
 }

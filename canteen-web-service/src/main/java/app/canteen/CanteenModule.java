@@ -29,7 +29,7 @@ import static core.framework.http.HTTPMethod.PUT;
 /**
  * @author steve
  */
-public class CanteenWebModule extends Module {
+public class CanteenModule extends Module {
     @Override
     protected void initialize() {
         api().client(UserWebService.class, requiredProperty("app.user.serviceURL"));

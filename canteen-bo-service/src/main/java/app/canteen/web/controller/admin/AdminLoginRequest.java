@@ -7,7 +7,7 @@ import core.framework.api.validate.NotNull;
 /**
  * @author steve
  */
-public class AdminLoginControllerRequest {
+public class AdminLoginRequest {
     @NotNull
     @NotBlank
     @Property(name = "name")

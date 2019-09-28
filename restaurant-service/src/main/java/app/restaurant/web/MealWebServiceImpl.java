@@ -16,7 +16,7 @@ public class MealWebServiceImpl implements MealWebService {
 
     @Override
     public GetMealResponse get(String restaurantId, String mealId) {
-        return null;
+        return service.get(restaurantId, mealId);
     }
 
     @Override

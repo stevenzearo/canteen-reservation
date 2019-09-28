@@ -12,8 +12,8 @@ import app.canteen.web.controller.AdminController;
 import app.canteen.web.controller.MealController;
 import app.canteen.web.controller.RestaurantController;
 import app.canteen.web.controller.UserController;
-import app.canteen.web.controller.admin.AdminLoginControllerRequest;
-import app.canteen.web.controller.meal.CreateMealControllerRequest;
+import app.canteen.web.controller.admin.AdminLoginRequest;
+import app.canteen.web.controller.meal.CreateMealRequest;
 import app.canteen.web.controller.restaurant.CreateRestaurantRequest;
 import app.canteen.web.controller.restaurant.UpdateRestaurantRequest;
 import app.canteen.web.controller.user.ActivateUserRequest;
@@ -57,14 +57,14 @@ public class CanteenModule extends Module {
         UserController user = bind(UserController.class);
         RestaurantController restaurant = bind(RestaurantController.class);
         MealController meal = bind(MealController.class);
-        UserAJAXController userJAX = bind(UserAJAXController.class);
+        UserAJAXController userAJAX = bind(UserAJAXController.class);
         RestaurantAJAXController restaurantAJAX = bind(RestaurantAJAXController.class);
         ReservationAJAXController reservationAJAX = bind(ReservationAJAXController.class);
         site().session().timeout(Duration.ofMinutes(30));
         http().intercept(bind(AdminAuthorityInterceptor.class));
 
-        http().bean(AdminLoginControllerRequest.class);
-        http().bean(CreateMealControllerRequest.class);
+        http().bean(AdminLoginRequest.class);
+        http().bean(CreateMealRequest.class);
         http().bean(CreateRestaurantRequest.class);
         http().bean(UpdateRestaurantRequest.class);
         http().bean(CreateUserRequest.class);
@@ -85,6 +85,6 @@ public class CanteenModule extends Module {
         http().route(PUT, "/canteen/user/status", user::activate);
         http().route(PUT, "/canteen/ajax/reservation", reservationAJAX::search);
         http().route(GET, "/canteen/ajax/restaurant", restaurantAJAX::search);
-        http().route(GET, "/canteen/ajax/user", userJAX::search);
+        http().route(GET, "/canteen/ajax/user", userAJAX::search);
     }
 }

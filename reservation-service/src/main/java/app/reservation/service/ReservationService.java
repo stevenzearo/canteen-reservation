@@ -59,6 +59,7 @@ public class ReservationService {
         List<ReservationMeal> reservationMealList = Lists.newArrayList();
         mealList.forEach(meal -> {
             ReservationMeal reservationMeal = new ReservationMeal();
+            reservationMeal.mealId = meal.id;
             reservationMeal.reservationId = reservationId;
             reservationMeal.restaurantId = restaurantId;
             reservationMeal.mealName = meal.name;
@@ -117,7 +118,7 @@ public class ReservationService {
         response.userId = reservation.userId;
         response.restaurantId = reservation.restaurantId;
         response.status = ReservationStatusView.valueOf(reservation.status.name());
-        response.mealIdList = request.mealList.stream().map(meal -> meal.id).collect(Collectors.toList());;
+        response.mealIdList = request.mealList.stream().map(meal -> meal.id).collect(Collectors.toList());
         return response;
     }
 

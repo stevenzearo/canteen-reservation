@@ -2,12 +2,10 @@ package app.canteen.web.controller;
 
 import app.canteen.web.controller.reservation.CancellingReservationRequest;
 import app.canteen.web.controller.reservation.ReservingReservationRequest;
-import app.reservation.api.BOReservationWebService;
 import app.reservation.api.ReservationWebService;
 import app.reservation.api.reservation.GetReservationResponse;
 import app.reservation.api.reservation.ReserveResponse;
 import app.reservation.api.reservation.ReservingRequest;
-import app.restaurant.api.BOMealWebService;
 import app.restaurant.api.MealWebService;
 import app.restaurant.api.RestaurantWebService;
 import app.restaurant.api.meal.GetMealResponse;
@@ -57,6 +55,7 @@ public class ReservationController {
             reservingMeal.id = mealResponse.id;
             reservingMeal.name = mealResponse.name;
             reservingMeal.price = mealResponse.price;
+            reservingRequest.mealList.add(reservingMeal);
         });
         ReserveResponse reserveResponse = reservationWebService.reserve(controllerReservingRequest.userId, reservingRequest);
         return Response.bean(reserveResponse); // should return a page, return a bean for test.

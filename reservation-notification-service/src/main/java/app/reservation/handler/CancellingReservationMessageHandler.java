@@ -4,7 +4,6 @@ import app.reservation.api.kafka.CancellingReservationMessage;
 import app.reservation.service.EmailNotificationService;
 import app.reservation.service.notification.CancellingEmailNotificationRequest;
 import app.user.api.BOUserWebService;
-import app.user.api.UserWebService;
 import core.framework.inject.Inject;
 import core.framework.kafka.MessageHandler;
 import core.framework.util.Strings;
