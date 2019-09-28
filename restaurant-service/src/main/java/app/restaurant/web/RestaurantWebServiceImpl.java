@@ -20,7 +20,7 @@ public class RestaurantWebServiceImpl implements RestaurantWebService {
     }
 
     @Override
-    public SearchRestaurantResponse searchOpen(SearchRestaurantRequest request) {
+    public SearchRestaurantResponse search(SearchRestaurantRequest request) {
         return service.searchOpen(request);
     }
 }

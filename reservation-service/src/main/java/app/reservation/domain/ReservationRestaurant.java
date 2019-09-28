@@ -9,8 +9,8 @@ import core.framework.db.Table;
 /**
  * @author steve
  */
-@Table(name = "reservation_meals")
-public class ReservationMeal {
+@Table(name = "reservation_restaurants")
+public class ReservationRestaurant {
     @PrimaryKey(autoIncrement = true)
     @Column(name = "id")
     public Long id;
@@ -27,15 +27,16 @@ public class ReservationMeal {
 
     @NotNull
     @NotBlank
-    @Column(name = "meal_id")
-    public String mealId;
+    @Column(name = "restaurant_name")
+    public String restaurantName;
 
     @NotNull
     @NotBlank
-    @Column(name = "meal_name")
-    public String mealName;
+    @Column(name = "restaurant_phone")
+    public String restaurantPhone;
 
     @NotNull
-    @Column(name = "meal_price")
-    public Double mealPrice;
+    @NotBlank
+    @Column(name = "restaurant_address")
+    public String restaurantAddress;
 }

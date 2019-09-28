@@ -41,7 +41,7 @@ public class SendingReservationEmailHandler implements MessageHandler<SendingEma
         CreateEmailNotificationRequest createRequest = new CreateEmailNotificationRequest();
         createRequest.userEmail = userWebService.get(value.userId).email;
         createRequest.reservationId = value.reservationId;
-        BOGetRestaurantResponse restaurant = restaurantWebService.get(value.reservationId);
+        BOGetRestaurantResponse restaurant = restaurantWebService.get(value.restaurantId);
         createRequest.restaurant = new CreateEmailNotificationRequest.Restaurant();
         createRequest.restaurant.id = restaurant.id;
         createRequest.restaurant.name = restaurant.name;

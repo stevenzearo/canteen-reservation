@@ -1,6 +1,5 @@
 package app.canteen.web.interceptor;
 
-import core.framework.api.http.HTTPStatus;
 import core.framework.util.Strings;
 import core.framework.web.Interceptor;
 import core.framework.web.Invocation;
@@ -13,8 +12,8 @@ import java.util.Optional;
 /**
  * @author steve
  */
-public class CanteenWebServiceInterceptor implements Interceptor {
-    private final Logger logger = LoggerFactory.getLogger(CanteenWebServiceInterceptor.class);
+public class UserAuthorityInterceptor implements Interceptor {
+    private final Logger logger = LoggerFactory.getLogger(UserAuthorityInterceptor.class);
 
     @Override
     public Response intercept(Invocation invocation) throws Exception {
@@ -24,7 +23,7 @@ public class CanteenWebServiceInterceptor implements Interceptor {
         if (!path.startsWith("/canteen/user")) {
             Optional<String> userId = invocation.context().request().session().get("user_id");
             if (userId.isEmpty()) {
-                response = Response.redirect("/canteen/login", HTTPStatus.UNAUTHORIZED);
+                response = Response.text("UNAUTHORIZED"); // should redirect to login page return text for test
             }
         }
         return response;

@@ -10,6 +10,11 @@ import core.framework.api.validate.NotNull;
 public class CreateMealControllerRequest {
     @NotNull
     @NotBlank
+    @Property(name = "restaurant_id")
+    public String restaurantId;
+
+    @NotNull
+    @NotBlank
     @Property(name = "name")
     public String name;
 

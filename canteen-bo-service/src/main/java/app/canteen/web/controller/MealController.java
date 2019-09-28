@@ -20,14 +20,11 @@ public class MealController {
     BOMealWebService service;
 
     public Response create(Request request) {
-        Map<String, String> paramMap = request.queryParams();
-        String restaurantId = paramMap.get("restaurant_id");
-        if (Strings.isBlank(restaurantId)) throw new BadRequestException("restaurant id can not be blank");
         CreateMealControllerRequest controllerRequest = request.bean(CreateMealControllerRequest.class);
         BOCreateMealRequest createMealRequest = new BOCreateMealRequest();
         createMealRequest.name = controllerRequest.name;
         createMealRequest.price = controllerRequest.price;
-        BOCreateMealResponse response = service.create(restaurantId, createMealRequest);
+        BOCreateMealResponse response = service.create(controllerRequest.restaurantId, createMealRequest);
         return Response.bean(response); // should return a page, return a bean for test.
     }
 }

@@ -1,4 +1,4 @@
-package app.canteen.web.controller.user;
+package app.user.api.user;
 
 import core.framework.api.json.Property;
 import core.framework.api.validate.NotBlank;
@@ -7,12 +7,7 @@ import core.framework.api.validate.NotNull;
 /**
  * @author steve
  */
-public class UserLoginControllerRequest {
-    @NotNull
-    @NotBlank
-    @Property(name = "email")
-    public String email;
-
+public class BOUpdateUserPasswordRequest {
     @NotNull
     @NotBlank
     @Property(name = "password")

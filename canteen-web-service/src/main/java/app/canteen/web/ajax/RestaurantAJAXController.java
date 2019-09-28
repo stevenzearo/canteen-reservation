@@ -40,6 +40,6 @@ public class RestaurantAJAXController {
         restaurantRequest.reservingDeadlineEnd = controllerRequest.reservingDeadlineEnd;
         restaurantRequest.address = controllerRequest.address;
         restaurantRequest.phone = controllerRequest.phone;
-        return Response.bean(service.searchOpen(restaurantRequest));
+        return Response.bean(service.search(restaurantRequest));
     }
 }

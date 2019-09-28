@@ -6,7 +6,7 @@ import core.framework.api.validate.NotNull;
 /**
  * @author steve
  */
-public class UpdateUserStatusRequest {
+public class BOUpdateUserStatusRequest {
     @NotNull
     @Property(name = "status")
     public UserStatusView status;

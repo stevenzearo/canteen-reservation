@@ -5,8 +5,8 @@ import app.user.api.user.BOCreateUserResponse;
 import app.user.api.user.BOGetUserResponse;
 import app.user.api.user.BOSearchUserRequest;
 import app.user.api.user.BOSearchUserResponse;
-import app.user.api.user.UpdateUserPasswordRequest;
-import app.user.api.user.UpdateUserStatusRequest;
+import app.user.api.user.BOUpdateUserPasswordRequest;
+import app.user.api.user.BOUpdateUserStatusRequest;
 import app.user.api.user.UserStatusView;
 import app.user.domain.User;
 import app.user.domain.UserStatus;
@@ -50,13 +50,13 @@ public class BOUserService {
         return response;
     }
 
-    public void updatePassword(Long id, UpdateUserPasswordRequest request) {
+    public void updatePassword(Long id, BOUpdateUserPasswordRequest request) {
         User user = repository.get(id).orElseThrow(() -> new NotFoundException(Strings.format("user not found, id = {}", id)));
         user.password = Hash.sha256Hex(request.password);
         repository.partialUpdate(user);
     }
 
-    public void updateStatus(Long id, UpdateUserStatusRequest request) {
+    public void updateStatus(Long id, BOUpdateUserStatusRequest request) {
         User user = repository.get(id).orElseThrow(() -> new NotFoundException(Strings.format("user not found, id = {}", id)));
         user.status = UserStatus.valueOf(request.status.name());
         repository.partialUpdate(user);

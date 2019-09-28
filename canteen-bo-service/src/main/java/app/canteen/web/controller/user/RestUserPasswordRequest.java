@@ -7,7 +7,7 @@ import core.framework.api.validate.NotNull;
 /**
  * @author steve
  */
-public class RestUserPasswordControllerRequest {
+public class RestUserPasswordRequest {
     @NotNull
     @Property(name = "id")
     public Long id;

@@ -51,7 +51,7 @@ public class CombineSearchReservationService {
         BOSearchReservationResponse searchResponse = reservationWebService.search(reservationRequest);
         CombineSearchReservationResponse boSearchResponse = new CombineSearchReservationResponse();
         boSearchResponse.total = searchResponse.total;
-        boSearchResponse.reservationList = searchResponse.reservationList.stream().map(this::transfer).collect(Collectors.toList());
+        boSearchResponse.reservations = searchResponse.reservationList.stream().map(this::transfer).collect(Collectors.toList());
         return boSearchResponse;
     }
 
@@ -64,7 +64,7 @@ public class CombineSearchReservationService {
         BOSearchUserResponse userResponse = userWebService.search(userRequest); // this search result size can be very big, restricted by skip(0) and limit(10)
         boSearchResponse.userTotal = userResponse.total;
         boSearchResponse.userIdList = userResponse.users.stream().map(userView -> userView.id).collect(Collectors.toList());
-        boSearchResponse.reservationList = Lists.newArrayList();
+        boSearchResponse.reservations = Lists.newArrayList();
         boSearchResponse.total = 0L;
         if (userResponse.users.size() > 0) {
             BOSearchReservationRequest searchReservationRequest = new BOSearchReservationRequest();
@@ -72,7 +72,7 @@ public class CombineSearchReservationService {
                 searchReservationRequest.userId = userView.id;
                 BOSearchReservationResponse search = reservationWebService.search(searchReservationRequest);
                 if (reservationWebService.search(searchReservationRequest).total > 0) {
-                    boSearchResponse.reservationList.addAll(search.reservationList.stream().map(this::transfer).collect(Collectors.toList()));
+                    boSearchResponse.reservations.addAll(search.reservationList.stream().map(this::transfer).collect(Collectors.toList()));
                     boSearchResponse.total += search.total;
                 }
             });
@@ -90,7 +90,7 @@ public class CombineSearchReservationService {
         BOSearchRestaurantResponse restaurantResponse = restaurantWebService.search(restaurantRequest); // this search result size can be very big, restricted by skip(0) and limit(10)
         boSearchResponse.restaurantTotal = restaurantResponse.total;
         boSearchResponse.restaurantIdList = restaurantResponse.restaurants.stream().map(restaurantView -> restaurantView.id).collect(Collectors.toList());
-        boSearchResponse.reservationList = Lists.newArrayList();
+        boSearchResponse.reservations = Lists.newArrayList();
         boSearchResponse.total = 0L;
         if (restaurantResponse.restaurants.size() > 0) {
             BOSearchReservationRequest searchReservationRequest = new BOSearchReservationRequest();
@@ -99,7 +99,7 @@ public class CombineSearchReservationService {
                 BOSearchReservationResponse search = reservationWebService.search(searchReservationRequest);
                 if (search.total > 0) {
                     boSearchResponse.total += search.total;
-                    boSearchResponse.reservationList.addAll(search.reservationList.stream().map(this::transfer).collect(Collectors.toList()));
+                    boSearchResponse.reservations.addAll(search.reservationList.stream().map(this::transfer).collect(Collectors.toList()));
                 }
             });
         }
@@ -111,13 +111,13 @@ public class CombineSearchReservationService {
         CombineSearchReservationResponse searchByUserName = searchByUserName(request);
         CombineSearchReservationResponse searchByRestaurantName = searchByRestaurantName(request);
         CombineSearchReservationResponse response = new CombineSearchReservationResponse();
-        response.reservationList = Lists.newArrayList();
+        response.reservations = Lists.newArrayList();
         response.userTotal = searchByUserName.userTotal;
         response.userIdList = searchByUserName.userIdList;
         response.restaurantTotal = searchByRestaurantName.restaurantTotal;
         response.restaurantIdList = searchByRestaurantName.restaurantIdList;
         response.total = 0L;
-        response.reservationList = Lists.newArrayList();
+        response.reservations = Lists.newArrayList();
         if (searchByUserName.userTotal > 0 && searchByRestaurantName.restaurantTotal > 0) {
             BOSearchReservationRequest reservationRequest = new BOSearchReservationRequest();
             response.userIdList.forEach(userId -> {
@@ -129,7 +129,7 @@ public class CombineSearchReservationService {
                     BOSearchReservationResponse reservationResponse = reservationWebService.search(reservationRequest); // this search result size can be very big, restricted by skip(0) and limit(10)
                     if (reservationResponse.total > 0) {
                         response.total += reservationResponse.total;
-                        response.reservationList.addAll(reservationResponse.reservationList.stream().map(this::transfer).collect(Collectors.toList()));
+                        response.reservations.addAll(reservationResponse.reservationList.stream().map(this::transfer).collect(Collectors.toList()));
                     }
                 });
             });

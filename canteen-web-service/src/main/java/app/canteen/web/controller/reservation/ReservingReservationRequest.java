@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * @author steve
  */
-public class ReservationReservingControllerRequest {
+public class ReservingReservationRequest {
     @NotNull
     @Property(name = "user_id")
     public Long userId;
@@ -22,10 +22,6 @@ public class ReservationReservingControllerRequest {
     @NotNull
     @Property(name = "eating_time")
     public ZonedDateTime eatingTime;
-
-    @NotNull
-    @Property(name = "reserving_deadline")
-    public ZonedDateTime reservingDeadline;
 
     @NotNull
     @NotBlank

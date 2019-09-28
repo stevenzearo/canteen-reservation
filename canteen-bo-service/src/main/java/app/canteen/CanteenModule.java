@@ -8,19 +8,18 @@ import app.canteen.web.ajax.RestaurantAJAXController;
 import app.canteen.web.ajax.UserAJAXController;
 import app.canteen.web.ajax.restaurant.SearchRestaurantAJAXRequest;
 import app.canteen.web.ajax.user.SearchUserAJAXRequest;
-import app.canteen.web.ajax.user.UserStatusAJAXView;
 import app.canteen.web.controller.AdminController;
 import app.canteen.web.controller.MealController;
 import app.canteen.web.controller.RestaurantController;
 import app.canteen.web.controller.UserController;
 import app.canteen.web.controller.admin.AdminLoginControllerRequest;
 import app.canteen.web.controller.meal.CreateMealControllerRequest;
-import app.canteen.web.controller.restaurant.CreateRestaurantControllerRequest;
-import app.canteen.web.controller.restaurant.UpdateRestaurantControllerRequest;
-import app.canteen.web.controller.user.ActivateUserControllerRequest;
-import app.canteen.web.controller.user.CreateUserControllerRequest;
-import app.canteen.web.controller.user.RestUserPasswordControllerRequest;
-import app.canteen.web.interceptor.CanteenBOServiceInterceptor;
+import app.canteen.web.controller.restaurant.CreateRestaurantRequest;
+import app.canteen.web.controller.restaurant.UpdateRestaurantRequest;
+import app.canteen.web.controller.user.ActivateUserRequest;
+import app.canteen.web.controller.user.CreateUserRequest;
+import app.canteen.web.controller.user.RestUserPasswordRequest;
+import app.canteen.web.interceptor.AdminAuthorityInterceptor;
 import app.reservation.api.BOReservationWebService;
 import app.reservation.api.ReservationWebService;
 import app.restaurant.api.BOMealWebService;
@@ -41,7 +40,7 @@ import static core.framework.http.HTTPMethod.PUT;
 /**
  * @author steve
  */
-public class CanteenBoModule extends Module {
+public class CanteenModule extends Module {
     @Override
     protected void initialize() {
         api().client(UserWebService.class, requiredProperty("app.user.serviceURL"));
@@ -62,30 +61,30 @@ public class CanteenBoModule extends Module {
         RestaurantAJAXController restaurantAJAX = bind(RestaurantAJAXController.class);
         ReservationAJAXController reservationAJAX = bind(ReservationAJAXController.class);
         site().session().timeout(Duration.ofMinutes(30));
-        http().intercept(bind(CanteenBOServiceInterceptor.class));
+        http().intercept(bind(AdminAuthorityInterceptor.class));
 
         http().bean(AdminLoginControllerRequest.class);
         http().bean(CreateMealControllerRequest.class);
-        http().bean(CreateRestaurantControllerRequest.class);
-        http().bean(UpdateRestaurantControllerRequest.class);
-        http().bean(CreateUserControllerRequest.class);
-        http().bean(RestUserPasswordControllerRequest.class);
-        http().bean(ActivateUserControllerRequest.class);
+        http().bean(CreateRestaurantRequest.class);
+        http().bean(UpdateRestaurantRequest.class);
+        http().bean(CreateUserRequest.class);
+        http().bean(RestUserPasswordRequest.class);
+        http().bean(ActivateUserRequest.class);
         http().bean(CombineSearchReservationRequest.class);
+        http().bean(CombineSearchReservationResponse.class);
         http().bean(SearchRestaurantAJAXRequest.class);
         http().bean(SearchUserAJAXRequest.class);
-        
-        http().route(PUT, "/canteen/bo/admin/login", admin::login);
-        http().route(GET, "/canteen/bo/admin/logout", admin::logout);
-        http().route(POST, "/canteen/bo/meal", meal::create);
-        http().route(POST, "/canteen/bo/restaurant", restaurant::create);
-        http().route(PUT, "/canteen/bo/restaurant/deadline", restaurant::updateDeadline);
-        http().route(POST, "/canteen/bo/user", user::createUser);
-        http().route(PUT, "/canteen/bo/user/password", user::resetPassword);
-        http().route(PUT, "/canteen/bo/user/status", user::activate);
-        http().route(PUT, "/canteen/bo/ajax/reservation", reservationAJAX::search);
-        http().route(GET, "/canteen/bo/ajax/restaurant", restaurantAJAX::search);
-        http().route(GET, "/canteen/bo/ajax/user", userJAX::search);
-        http().bean(CombineSearchReservationResponse.class);
+
+        http().route(PUT, "/canteen/admin/login", admin::login);
+        http().route(GET, "/canteen/admin/logout", admin::logout);
+        http().route(POST, "/canteen/meal", meal::create);
+        http().route(POST, "/canteen/restaurant", restaurant::create);
+        http().route(PUT, "/canteen/restaurant/deadline", restaurant::updateDeadline);
+        http().route(POST, "/canteen/user", user::createUser);
+        http().route(PUT, "/canteen/user/password", user::resetPassword);
+        http().route(PUT, "/canteen/user/status", user::activate);
+        http().route(PUT, "/canteen/ajax/reservation", reservationAJAX::search);
+        http().route(GET, "/canteen/ajax/restaurant", restaurantAJAX::search);
+        http().route(GET, "/canteen/ajax/user", userJAX::search);
     }
 }

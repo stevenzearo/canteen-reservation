@@ -12,8 +12,8 @@ import java.util.Optional;
 /**
  * @author steve
  */
-public class CanteenBOServiceInterceptor implements Interceptor {
-    private final Logger logger = LoggerFactory.getLogger(CanteenBOServiceInterceptor.class);
+public class AdminAuthorityInterceptor implements Interceptor {
+    private final Logger logger = LoggerFactory.getLogger(AdminAuthorityInterceptor.class);
 
     @Override
     public Response intercept(Invocation invocation) throws Exception {

@@ -1,5 +1,6 @@
 package app.restaurant.service;
 
+import app.restaurant.api.meal.GetMealResponse;
 import app.restaurant.api.meal.MealStatusView;
 import app.restaurant.api.meal.SearchMealRequest;
 import app.restaurant.api.meal.SearchMealResponse;
@@ -10,8 +11,10 @@ import core.framework.inject.Inject;
 import core.framework.mongo.MongoCollection;
 import core.framework.mongo.Query;
 import core.framework.util.Strings;
+import core.framework.web.exception.NotFoundException;
 import org.bson.conversions.Bson;
 
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -20,6 +23,15 @@ import java.util.stream.Collectors;
 public class MealService {
     @Inject
     MongoCollection<Meal> mealCollection;
+
+    public GetMealResponse get(String restaurantId, String mealId) {
+        Meal meal = mealCollection.get(mealId).orElseThrow(() -> new NotFoundException(Strings.format("meal not found, id = {}", mealId)));
+        GetMealResponse response = new GetMealResponse();
+        response.id = meal.id;
+        response.name = meal.name;
+        response.price = meal.price;
+        return response;
+    }
 
     public SearchMealResponse searchValid(String restaurantId, SearchMealRequest request) {
         Query query = new Query();

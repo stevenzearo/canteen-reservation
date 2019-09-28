@@ -11,7 +11,6 @@ import core.framework.db.Table;
  */
 @Table(name = "notification_meals")
 public class NotificationMeal {
-    @NotNull
     @PrimaryKey(autoIncrement = true)
     @Column(name = "id")
     public Long id;

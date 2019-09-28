@@ -7,7 +7,7 @@ import core.framework.api.validate.NotNull;
 /**
  * @author steve
  */
-public class CreateUserControllerRequest {
+public class UserRegistryRequest {
     @NotNull
     @NotBlank
     @Property(name = "email")

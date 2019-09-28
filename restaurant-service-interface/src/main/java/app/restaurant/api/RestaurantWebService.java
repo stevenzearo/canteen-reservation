@@ -18,5 +18,5 @@ public interface RestaurantWebService {
 
     @PUT
     @Path("/restaurant")
-    SearchRestaurantResponse searchOpen(SearchRestaurantRequest request); // user can only search current or future on open restaurant via name/phone/address/reserving time range
+    SearchRestaurantResponse search(SearchRestaurantRequest request); // user can only search current or future on open restaurant via name/phone/address/reserving time range
 }

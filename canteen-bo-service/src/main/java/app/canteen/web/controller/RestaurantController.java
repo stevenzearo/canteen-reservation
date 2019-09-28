@@ -1,7 +1,7 @@
 package app.canteen.web.controller;
 
-import app.canteen.web.controller.restaurant.CreateRestaurantControllerRequest;
-import app.canteen.web.controller.restaurant.UpdateRestaurantControllerRequest;
+import app.canteen.web.controller.restaurant.CreateRestaurantRequest;
+import app.canteen.web.controller.restaurant.UpdateRestaurantRequest;
 import app.restaurant.api.BORestaurantWebService;
 import app.restaurant.api.restaurant.BOCreateRestaurantRequest;
 import app.restaurant.api.restaurant.BOUpdateRestaurantRequest;
@@ -22,7 +22,7 @@ public class RestaurantController {
     BORestaurantWebService service;
 
     public Response create(Request request) {
-        CreateRestaurantControllerRequest controllerRequest = request.bean(CreateRestaurantControllerRequest.class);
+        CreateRestaurantRequest controllerRequest = request.bean(CreateRestaurantRequest.class);
         BOCreateRestaurantRequest createRequest = new BOCreateRestaurantRequest();
         createRequest.name = controllerRequest.name;
         createRequest.phone = controllerRequest.phone;
@@ -32,7 +32,7 @@ public class RestaurantController {
     }
 
     public Response updateDeadline(Request request) {
-        UpdateRestaurantControllerRequest controllerRequest = request.bean(UpdateRestaurantControllerRequest.class);
+        UpdateRestaurantRequest controllerRequest = request.bean(UpdateRestaurantRequest.class);
         BOUpdateRestaurantRequest updateRestaurantRequest = new BOUpdateRestaurantRequest();
         updateRestaurantRequest.name = controllerRequest.name;
         updateRestaurantRequest.phone = controllerRequest.phone;

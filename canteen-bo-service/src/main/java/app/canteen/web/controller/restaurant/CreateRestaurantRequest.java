@@ -9,7 +9,7 @@ import java.time.ZonedDateTime;
 /**
  * @author steve
  */
-public class CreateRestaurantControllerRequest {
+public class CreateRestaurantRequest {
     @NotNull
     @NotBlank
     @Property(name = "name")

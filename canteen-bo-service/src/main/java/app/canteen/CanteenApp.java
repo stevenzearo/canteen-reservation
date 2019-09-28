@@ -6,10 +6,10 @@ import core.framework.module.SystemModule;
 /**
  * @author steve
  */
-public class CanteenBoApp extends App {
+public class CanteenApp extends App {
     @Override
     protected void initialize() {
         load(new SystemModule("sys.properties"));
-        load(new CanteenBoModule());
+        load(new CanteenModule());
     }
 }

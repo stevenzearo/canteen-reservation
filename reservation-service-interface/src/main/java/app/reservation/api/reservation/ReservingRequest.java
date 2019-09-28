@@ -20,15 +20,52 @@ public class ReservingRequest {
     public ZonedDateTime eatingTime;
 
     @NotNull
-    @Property(name = "reserving_deadline")
-    public ZonedDateTime reservingDeadline;
+    @Property(name = "restaurant")
+    public Restaurant restaurant;
 
     @NotNull
-    @NotBlank
-    @Property(name = "restaurant_id")
-    public String restaurantId;
+    @Property(name = "meal_list")
+    public List<Meal> mealList;
 
-    @NotNull
-    @Property(name = "meal_id_list")
-    public List<String> mealIdList;
+    public static class Restaurant {
+        @NotNull
+        @NotBlank
+        @Property(name = "id")
+        public String id;
+
+        @NotNull
+        @NotBlank
+        @Property(name = "name")
+        public String name;
+
+        @NotNull
+        @NotBlank
+        @Property(name = "phone")
+        public String phone;
+
+        @NotNull
+        @NotBlank
+        @Property(name = "address")
+        public String address;
+
+        @NotNull
+        @Property(name = "reserving_deadline")
+        public ZonedDateTime reservingDeadline;
+    }
+
+    public static class Meal {
+        @NotNull
+        @NotBlank
+        @Property(name = "id")
+        public String id;
+
+        @NotNull
+        @NotBlank
+        @Property(name = "name")
+        public String name;
+
+        @NotNull
+        @Property(name = "price")
+        public Double price;
+    }
 }

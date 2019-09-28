@@ -28,7 +28,7 @@ public interface ReservationWebService {
 
     @PUT
     @Path("/user/:userId/reservation")
-    SearchReservationResponse searchByTime(@PathParam("userId") Long userId, SearchReservationRequest request); // user can only search via reserving time range
+    SearchReservationResponse search(@PathParam("userId") Long userId, SearchReservationRequest request); // user can only search via reserving time range
 
     @PUT
     @Path("/user/:userId/reservation/:id")

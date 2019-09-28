@@ -7,7 +7,7 @@ import core.framework.api.validate.NotNull;
 /**
  * @author steve
  */
-public class CancellingControllerRequest {
+public class CancellingReservationRequest {
     @NotNull
     @Property(name = "user_id")
     public Long userId;

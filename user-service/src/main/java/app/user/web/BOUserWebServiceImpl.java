@@ -6,9 +6,8 @@ import app.user.api.user.BOCreateUserResponse;
 import app.user.api.user.BOGetUserResponse;
 import app.user.api.user.BOSearchUserRequest;
 import app.user.api.user.BOSearchUserResponse;
-import app.user.api.user.UpdateUserPasswordRequest;
-import app.user.api.user.UpdateUserStatusRequest;
-import app.user.api.user.UserStatusView;
+import app.user.api.user.BOUpdateUserPasswordRequest;
+import app.user.api.user.BOUpdateUserStatusRequest;
 import app.user.service.BOUserService;
 import core.framework.inject.Inject;
 
@@ -35,12 +34,12 @@ public class BOUserWebServiceImpl implements BOUserWebService {
     }
 
     @Override
-    public void updatePassword(Long id, UpdateUserPasswordRequest request) {
+    public void updatePassword(Long id, BOUpdateUserPasswordRequest request) {
         service.updatePassword(id, request);
     }
 
     @Override
-    public void updateStatus(Long id, UpdateUserStatusRequest request) {
+    public void updateStatus(Long id, BOUpdateUserStatusRequest request) {
         service.updateStatus(id, request);
     }
 }

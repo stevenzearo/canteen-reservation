@@ -18,6 +18,10 @@ public class SearchReservationAJAXRequest {
     public Integer limit = 10;
 
     @NotNull
+    @Property(name = "user_id")
+    public Long userId;
+
+    @NotNull
     @Property(name = "reserving_time_start")
     public ZonedDateTime reservingTimeStart = ZonedDateTime.now();
 

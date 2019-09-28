@@ -25,8 +25,8 @@ public class CombineSearchReservationResponse {
     @Property(name = "restaurant_id_list")
     public List<String> restaurantIdList;
 
-    @Property(name = "reservation_list")
-    public List<Reservation> reservationList;
+    @Property(name = "reservations")
+    public List<Reservation> reservations;
 
     public static class Reservation {
         @Property(name = "id")

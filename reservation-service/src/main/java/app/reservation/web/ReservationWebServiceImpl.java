@@ -27,7 +27,7 @@ public class ReservationWebServiceImpl implements ReservationWebService {
     }
 
     @Override
-    public SearchReservationResponse searchByTime(Long userId, SearchReservationRequest request) {
+    public SearchReservationResponse search(Long userId, SearchReservationRequest request) {
         return service.searchByTime(userId, request);
     }
 

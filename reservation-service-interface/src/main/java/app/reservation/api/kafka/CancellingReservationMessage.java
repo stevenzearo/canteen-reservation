@@ -13,7 +13,4 @@ public class CancellingReservationMessage {
 
     @Property(name = "user_id")
     public Long userId;
-
-    @Property(name = "reservation_deadline")
-    public ZonedDateTime reservationDeadline;
 }
