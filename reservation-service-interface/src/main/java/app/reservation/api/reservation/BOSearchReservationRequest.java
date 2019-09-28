@@ -26,9 +26,9 @@ public class BOSearchReservationRequest {
     @Property(name = "status")
     public ReservationStatusView status;
 
-    @Property(name = "user_id")
-    public Long userId;
+    @Property(name = "user_name")
+    public String userName;
 
-    @Property(name = "restaurant_id")
-    public String restaurantId;
+    @Property(name = "restaurant_Name")
+    public String restaurantName;
 }

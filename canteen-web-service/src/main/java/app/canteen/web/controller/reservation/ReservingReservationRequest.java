@@ -11,13 +11,10 @@ import java.util.List;
  * @author steve
  */
 public class ReservingReservationRequest {
+    //todo get from session
     @NotNull
     @Property(name = "user_id")
     public Long userId;
-
-    @NotNull
-    @Property(name = "amount")
-    public Double amount;
 
     @NotNull
     @Property(name = "eating_time")

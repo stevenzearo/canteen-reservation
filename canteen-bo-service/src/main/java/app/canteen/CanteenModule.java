@@ -77,12 +77,12 @@ public class CanteenModule extends Module {
 
         http().route(PUT, "/canteen/admin/login", admin::login);
         http().route(GET, "/canteen/admin/logout", admin::logout);
-        http().route(POST, "/canteen/meal", meal::create);
-        http().route(POST, "/canteen/restaurant", restaurant::create);
-        http().route(PUT, "/canteen/restaurant/deadline", restaurant::updateDeadline);
-        http().route(POST, "/canteen/user", user::createUser);
-        http().route(PUT, "/canteen/user/password", user::resetPassword);
-        http().route(PUT, "/canteen/user/status", user::activate);
+        http().route(POST, "/canteen/meal", meal::create); // todo move to AJAXController
+        http().route(POST, "/canteen/restaurant", restaurant::create); // todo move to AJAXController
+        http().route(PUT, "/canteen/restaurant/deadline", restaurant::updateDeadline); // todo move to AJAXController
+        http().route(POST, "/canteen/user", user::createUser); // todo move to AJAXController
+        http().route(PUT, "/canteen/user/password", user::resetPassword); // todo move to AJAXController
+        http().route(PUT, "/canteen/user/status", user::activate); // todo move to AJAXController
         http().route(PUT, "/canteen/ajax/reservation", reservationAJAX::search);
         http().route(GET, "/canteen/ajax/restaurant", restaurantAJAX::search);
         http().route(GET, "/canteen/ajax/user", userAJAX::search);

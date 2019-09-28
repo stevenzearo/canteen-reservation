@@ -8,6 +8,7 @@ import core.framework.api.validate.NotNull;
  * @author steve
  */
 public class CancellingReservationRequest {
+    // todo get user id from session
     @NotNull
     @Property(name = "user_id")
     public Long userId;

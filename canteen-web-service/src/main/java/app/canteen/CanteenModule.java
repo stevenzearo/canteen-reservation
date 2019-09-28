@@ -59,7 +59,7 @@ public class CanteenModule extends Module {
         http().route(POST, "/canteen/reservation", reservation::reserve);
         http().route(PUT, "/canteen/reservation/cancelling", reservation::cancel);
         http().route(PUT, "/canteen/ajax/reservation", reservationAJAX::search);
-        http().route(PUT, "/canteen/ajax/meal", mealAJAX::search);
+        http().route(PUT, "/canteen/ajax/meal", mealAJAX::search); // todo get restaurant id from path
         http().route(GET, "/canteen/ajax/restaurant", restaurantAJAX::get);
         http().route(PUT, "/canteen/ajax/restaurant", restaurantAJAX::search);
     }

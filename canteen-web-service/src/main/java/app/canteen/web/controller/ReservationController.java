@@ -45,7 +45,7 @@ public class ReservationController {
         reservingRequest.restaurant.phone = restaurantResponse.phone;
         reservingRequest.restaurant.address = restaurantResponse.address;
         reservingRequest.restaurant.reservingDeadline = restaurantResponse.reservingDeadline;
-        reservingRequest.amount = controllerReservingRequest.amount;
+        reservingRequest.amount = 0d;
         reservingRequest.eatingTime = controllerReservingRequest.eatingTime;
         reservingRequest.mealList = Lists.newArrayList();
         List<String> mealIdList = controllerReservingRequest.mealIdList;
@@ -55,6 +55,7 @@ public class ReservationController {
             reservingMeal.id = mealResponse.id;
             reservingMeal.name = mealResponse.name;
             reservingMeal.price = mealResponse.price;
+            reservingRequest.amount += mealResponse.price;
             reservingRequest.mealList.add(reservingMeal);
         });
         ReserveResponse reserveResponse = reservationWebService.reserve(controllerReservingRequest.userId, reservingRequest);

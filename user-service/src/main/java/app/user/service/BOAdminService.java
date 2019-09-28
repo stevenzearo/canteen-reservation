@@ -21,7 +21,7 @@ public class BOAdminService {
         List<Admin> adminList = repository.select("name = ?", request.name);
         BOAdminLoginResponse response;
         if (!adminList.isEmpty() && adminList.get(0).password.equals(Hash.sha256Hex(request.password))) {
-            throw new UnauthorizedException("Admin name or password incorrect");
+            throw new UnauthorizedException("admin name or password incorrect");
         } else {
             response = new BOAdminLoginResponse();
             response.id = adminList.get(0).id;

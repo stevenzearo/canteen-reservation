@@ -17,6 +17,7 @@ public class SearchReservationAJAXRequest {
     @Property(name = "limit")
     public Integer limit = 10;
 
+    // todo get from session
     @NotNull
     @Property(name = "user_id")
     public Long userId;

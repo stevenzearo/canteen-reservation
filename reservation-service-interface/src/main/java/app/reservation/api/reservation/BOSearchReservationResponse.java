@@ -34,11 +34,35 @@ public class BOSearchReservationResponse {
         @Property(name = "user_id")
         public Long userId;
 
-        @Property(name = "restaurant_id")
-        public String restaurantId;
+        @Property(name = "restaurant")
+        public Restaurant restaurant;
 
-        @Property(name = "meal_id_list")
-        public List<String> mealIdList;
+        @Property(name = "meals")
+        public List<Meal> mealIdList;
+
+        public static class Restaurant {
+            @Property(name = "id")
+            public String id;
+
+            @Property(name = "name")
+            public String name;
+
+            @Property(name = "phone")
+            public String phone;
+
+            @Property(name = "address")
+            public String address;
+        }
+
+        public static class Meal {
+            @Property(name = "id")
+            public String id;
+
+            @Property(name = "name")
+            public String name;
+
+            @Property(name = "price")
+            public String price;
+        }
     }
-
 }
