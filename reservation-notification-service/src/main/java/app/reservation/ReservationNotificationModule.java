@@ -12,7 +12,6 @@ import app.reservation.service.EmailNotificationService;
 import app.restaurant.api.BOMealWebService;
 import app.restaurant.api.BORestaurantWebService;
 import app.user.api.BOUserWebService;
-import app.user.api.UserWebService;
 import core.framework.module.ExecutorConfig;
 import core.framework.module.Module;
 import core.framework.module.SchedulerConfig;

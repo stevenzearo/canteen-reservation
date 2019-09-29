@@ -2,7 +2,7 @@ package app.reservation.web;
 
 import app.reservation.api.ReservationWebService;
 import app.reservation.api.reservation.GetReservationResponse;
-import app.reservation.api.reservation.ReserveResponse;
+import app.reservation.api.reservation.ReservingResponse;
 import app.reservation.api.reservation.ReservingRequest;
 import app.reservation.api.reservation.SearchReservationRequest;
 import app.reservation.api.reservation.SearchReservationResponse;
@@ -17,7 +17,7 @@ public class ReservationWebServiceImpl implements ReservationWebService {
     ReservationService service;
 
     @Override
-    public ReserveResponse reserve(Long userId, ReservingRequest request) {
+    public ReservingResponse reserve(Long userId, ReservingRequest request) {
         return service.reserve(userId, request);
     }
 

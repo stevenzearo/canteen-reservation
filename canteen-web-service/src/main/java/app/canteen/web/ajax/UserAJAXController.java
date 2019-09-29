@@ -1,7 +1,7 @@
-package app.canteen.web.controller;
+package app.canteen.web.ajax;
 
-import app.canteen.web.controller.user.UserRegistryRequest;
-import app.canteen.web.controller.user.UserLoginRequest;
+import app.canteen.web.ajax.user.UserRegistryAJAXRequest;
+import app.canteen.web.ajax.user.UserLoginAJAXRequest;
 import app.user.api.UserWebService;
 import app.user.api.user.CreateUserRequest;
 import app.user.api.user.UserLoginResponse;
@@ -12,12 +12,12 @@ import core.framework.web.Response;
 /**
  * @author steve
  */
-public class UserController {
+public class UserAJAXController {
     @Inject
     UserWebService service;
 
     public Response register(Request request) {
-        UserRegistryRequest controllerRequest = request.bean(UserRegistryRequest.class);
+        UserRegistryAJAXRequest controllerRequest = request.bean(UserRegistryAJAXRequest.class);
         CreateUserRequest createRequest = new CreateUserRequest();
         createRequest.name = controllerRequest.name;
         createRequest.email = controllerRequest.email;
@@ -28,7 +28,7 @@ public class UserController {
     public Response login(Request request) {
         Response response;
         if (!isLogin(request)) {
-            UserLoginRequest controllerRequest = request.bean(UserLoginRequest.class);
+            UserLoginAJAXRequest controllerRequest = request.bean(UserLoginAJAXRequest.class);
             app.user.api.user.UserLoginRequest loginRequest = new app.user.api.user.UserLoginRequest();
             loginRequest.email = controllerRequest.email;
             loginRequest.password = controllerRequest.password;

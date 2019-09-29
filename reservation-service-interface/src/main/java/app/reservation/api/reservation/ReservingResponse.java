@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * @author steve
  */
-public class ReserveResponse {
+public class ReservingResponse {
     @Property(name = "id")
     public String id;
 
@@ -27,9 +27,26 @@ public class ReserveResponse {
     @Property(name = "user_id")
     public Long userId;
 
+    @Property(name = "user_name")
+    public String userName;
+
     @Property(name = "restaurant_id")
     public String restaurantId;
 
-    @Property(name = "meal_id_list")
-    public List<String> mealIdList;
+    @Property(name = "restaurant_name")
+    public String restaurantName;
+
+    @Property(name = "meals")
+    public List<Meal> meals;
+
+    public static class Meal {
+        @Property(name = "id")
+        public String id;
+
+        @Property(name = "name")
+        public String name;
+
+        @Property(name = "price")
+        public Double price;
+    }
 }

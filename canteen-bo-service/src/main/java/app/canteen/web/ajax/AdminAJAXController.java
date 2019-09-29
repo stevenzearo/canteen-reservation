@@ -1,6 +1,6 @@
-package app.canteen.web.controller;
+package app.canteen.web.ajax;
 
-import app.canteen.web.controller.admin.AdminLoginRequest;
+import app.canteen.web.ajax.admin.AdminLoginAJAXRequest;
 import app.user.api.BOAdminWebService;
 import app.user.api.admin.BOAdminLoginRequest;
 import app.user.api.admin.BOAdminLoginResponse;
@@ -12,14 +12,14 @@ import core.framework.web.Response;
 /**
  * @author steve
  */
-public class AdminController {
+public class AdminAJAXController {
     @Inject
     BOAdminWebService service;
 
     public Response login(Request request) {
         Response response;
         if (!isLogin(request)) {
-            AdminLoginRequest controllerRequest = request.bean(AdminLoginRequest.class);
+            AdminLoginAJAXRequest controllerRequest = request.bean(AdminLoginAJAXRequest.class);
             BOAdminLoginRequest loginRequest = new BOAdminLoginRequest();
             loginRequest.name = controllerRequest.name;
             loginRequest.password = controllerRequest.password;

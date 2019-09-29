@@ -1,10 +1,10 @@
 package app.canteen.web.ajax;
 
-import app.canteen.service.CombineSearchReservationService;
-import app.canteen.service.reservation.CombineSearchReservationRequest;
-import app.canteen.service.reservation.CombineSearchReservationResponse;
+import app.canteen.web.ajax.reservation.SearchReservationAJAXRequest;
+import app.reservation.api.BOReservationWebService;
+import app.reservation.api.reservation.BOSearchReservationRequest;
+import app.reservation.api.reservation.BOSearchReservationResponse;
 import core.framework.inject.Inject;
-import core.framework.util.Strings;
 import core.framework.web.Request;
 import core.framework.web.Response;
 
@@ -13,21 +13,19 @@ import core.framework.web.Response;
  */
 public class ReservationAJAXController {
     @Inject
-    CombineSearchReservationService combineSearchReservationService;
+    BOReservationWebService service;
 
     // search notification via username/restaurant name/booking date
     public Response search(Request request) {
-        CombineSearchReservationRequest combineRequest = request.bean(CombineSearchReservationRequest.class);
-        CombineSearchReservationResponse searchResponse = new CombineSearchReservationResponse();
-        if (Strings.isBlank(combineRequest.userName) && Strings.isBlank(combineRequest.restaurantName)) {
-            searchResponse = combineSearchReservationService.search(combineRequest);
-        } else if (!Strings.isBlank(combineRequest.userName) && !Strings.isBlank(combineRequest.restaurantName)) {
-            searchResponse = combineSearchReservationService.searchByUserNameAndRestaurantName(combineRequest);
-        } else if (!Strings.isBlank(combineRequest.userName)) {
-            searchResponse = combineSearchReservationService.searchByUserName(combineRequest);
-        } else if (!Strings.isBlank(combineRequest.restaurantName)) {
-            searchResponse = combineSearchReservationService.searchByRestaurantName(combineRequest);
-        }
+        SearchReservationAJAXRequest controllerRequest = request.bean(SearchReservationAJAXRequest.class);
+        BOSearchReservationRequest searchRequest = new BOSearchReservationRequest();
+        searchRequest.skip = controllerRequest.skip;
+        searchRequest.limit = controllerRequest.limit;
+        searchRequest.userName = controllerRequest.userName;
+        searchRequest.restaurantName = controllerRequest.restaurantName;
+        searchRequest.reservingTimeStart = controllerRequest.reservingTimeStart;
+        searchRequest.reservingTimeEnd = controllerRequest.reservingTimeEnd;
+        BOSearchReservationResponse searchResponse = service.search(searchRequest);
         return Response.bean(searchResponse);
     }
 }

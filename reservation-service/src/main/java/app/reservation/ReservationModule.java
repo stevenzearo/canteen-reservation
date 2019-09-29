@@ -10,7 +10,6 @@ import app.reservation.api.reservation.SearchReservationResponse;
 import app.reservation.api.reservation.UpdateReservationRequest;
 import app.reservation.domain.Reservation;
 import app.reservation.domain.ReservationMeal;
-import app.reservation.domain.ReservationRestaurant;
 import app.reservation.service.BOReservationService;
 import app.reservation.service.ReservationService;
 import app.reservation.web.BOReservationWebServiceImpl;
@@ -25,7 +24,6 @@ public class ReservationModule extends Module {
     protected void initialize() {
         db().repository(Reservation.class);
         db().repository(ReservationMeal.class);
-        db().repository(ReservationRestaurant.class);
         http().bean(ReservationStatusView.class);
         http().bean(ReservationView.class);
         http().bean(ReservingRequest.class);

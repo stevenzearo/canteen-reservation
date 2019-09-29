@@ -1,4 +1,4 @@
-package app.canteen.web.controller.user;
+package app.canteen.web.ajax.user;
 
 import core.framework.api.json.Property;
 import core.framework.api.validate.NotBlank;
@@ -7,14 +7,11 @@ import core.framework.api.validate.NotNull;
 /**
  * @author steve
  */
-public class UserRegistryRequest {
+public class UserLoginAJAXRequest {
     @NotNull
     @NotBlank
     @Property(name = "email")
     public String email;
-
-    @Property(name = "name")
-    public String name;
 
     @NotNull
     @NotBlank

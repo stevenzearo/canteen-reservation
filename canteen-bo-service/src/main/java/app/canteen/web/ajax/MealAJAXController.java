@@ -1,6 +1,6 @@
-package app.canteen.web.controller;
+package app.canteen.web.ajax;
 
-import app.canteen.web.controller.meal.CreateMealRequest;
+import app.canteen.web.ajax.meal.CreateMealAJAXRequest;
 import app.restaurant.api.BOMealWebService;
 import app.restaurant.api.meal.BOCreateMealRequest;
 import app.restaurant.api.meal.BOCreateMealResponse;
@@ -11,16 +11,17 @@ import core.framework.web.Response;
 /**
  * @author steve
  */
-public class MealController {
+public class MealAJAXController {
     @Inject
     BOMealWebService service;
 
     public Response create(Request request) {
-        CreateMealRequest controllerRequest = request.bean(CreateMealRequest.class);
+        String restaurantId = request.pathParam("id");
+        CreateMealAJAXRequest controllerRequest = request.bean(CreateMealAJAXRequest.class);
         BOCreateMealRequest createMealRequest = new BOCreateMealRequest();
         createMealRequest.name = controllerRequest.name;
         createMealRequest.price = controllerRequest.price;
-        BOCreateMealResponse response = service.create(controllerRequest.restaurantId, createMealRequest);
+        BOCreateMealResponse response = service.create(restaurantId, createMealRequest);
         return Response.bean(response); // should return a page, return a bean for test.
     }
 }

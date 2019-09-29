@@ -7,8 +7,6 @@ import core.framework.inject.Inject;
 import core.framework.web.Request;
 import core.framework.web.Response;
 
-import java.util.Map;
-
 /**
  * @author steve
  */
@@ -17,6 +15,7 @@ public class MealAJAXController {
     MealWebService service;
 
     public Response search(Request request) {
+        String restaurantId = request.pathParam("id");
         SearchMealAJAXRequest controllerRequest = request.bean(SearchMealAJAXRequest.class);
         SearchMealRequest searchMealRequest = new SearchMealRequest();
         searchMealRequest.skip = controllerRequest.skip;
@@ -24,7 +23,6 @@ public class MealAJAXController {
         searchMealRequest.name = controllerRequest.name;
         searchMealRequest.priceStart = controllerRequest.priceStart;
         searchMealRequest.priceEnd = controllerRequest.priceEnd;
-        return Response.bean(service.searchValid(controllerRequest.restaurantId, searchMealRequest));
-
+        return Response.bean(service.searchValid(restaurantId, searchMealRequest));
     }
 }

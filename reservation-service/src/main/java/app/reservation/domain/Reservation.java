@@ -19,8 +19,8 @@ public class Reservation {
     public String id;
 
     @NotNull
-    @Column(name = "reserving_amount")
-    public Double reservingAmount;
+    @Column(name = "amount")
+    public Double amount;
 
     @NotNull
     @Column(name = "reserving_time")
@@ -39,7 +39,17 @@ public class Reservation {
     public Long userId;
 
     @NotNull
+    @Column(name = "user_name")
+    public String userName;
+
+
+    @NotNull
     @NotBlank
     @Column(name = "restaurant_id")
     public String restaurantId;
+
+    @NotNull
+    @NotBlank
+    @Column(name = "restaurant_name")
+    public String restaurantName;
 }

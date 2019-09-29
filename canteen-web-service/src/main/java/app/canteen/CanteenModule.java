@@ -3,15 +3,14 @@ package app.canteen;
 import app.canteen.web.ajax.MealAJAXController;
 import app.canteen.web.ajax.ReservationAJAXController;
 import app.canteen.web.ajax.RestaurantAJAXController;
+import app.canteen.web.ajax.UserAJAXController;
 import app.canteen.web.ajax.meal.SearchMealAJAXRequest;
+import app.canteen.web.ajax.reservation.CancellingReservationAJAXRequest;
+import app.canteen.web.ajax.reservation.ReservingReservationAJAXRequest;
 import app.canteen.web.ajax.reservation.SearchReservationAJAXRequest;
 import app.canteen.web.ajax.restaurant.SearchRestaurantAJAXRequest;
-import app.canteen.web.controller.ReservationController;
-import app.canteen.web.controller.UserController;
-import app.canteen.web.controller.reservation.CancellingReservationRequest;
-import app.canteen.web.controller.reservation.ReservingReservationRequest;
-import app.canteen.web.controller.user.UserRegistryRequest;
-import app.canteen.web.controller.user.UserLoginRequest;
+import app.canteen.web.ajax.user.UserLoginAJAXRequest;
+import app.canteen.web.ajax.user.UserRegistryAJAXRequest;
 import app.canteen.web.interceptor.UserAuthorityInterceptor;
 import app.reservation.api.ReservationWebService;
 import app.restaurant.api.MealWebService;
@@ -37,30 +36,29 @@ public class CanteenModule extends Module {
         api().client(RestaurantWebService.class, requiredProperty("app.restaurant.serviceURL"));
         api().client(MealWebService.class, requiredProperty("app.restaurant.serviceURL"));
         api().client(ReservationWebService.class, requiredProperty("app.reservation.serviceURL"));
-        UserController user = bind(UserController.class);
-        ReservationController reservation = bind(ReservationController.class);
+        UserAJAXController userAJAX = bind(UserAJAXController.class);
+        ReservationAJAXController reservationAJAX = bind(ReservationAJAXController.class);
         RestaurantAJAXController restaurantAJAX = bind(RestaurantAJAXController.class);
         MealAJAXController mealAJAX = bind(MealAJAXController.class);
-        ReservationAJAXController reservationAJAX = bind(ReservationAJAXController.class);
         site().session().timeout(Duration.ofMinutes(30));
         http().intercept(bind(UserAuthorityInterceptor.class));
 
-        http().bean(UserLoginRequest.class);
-        http().bean(UserRegistryRequest.class);
-        http().bean(ReservingReservationRequest.class);
-        http().bean(CancellingReservationRequest.class);
+        http().bean(UserLoginAJAXRequest.class);
+        http().bean(UserRegistryAJAXRequest.class);
+        http().bean(ReservingReservationAJAXRequest.class);
+        http().bean(CancellingReservationAJAXRequest.class);
         http().bean(SearchReservationAJAXRequest.class);
         http().bean(SearchMealAJAXRequest.class);
         http().bean(SearchRestaurantAJAXRequest.class);
 
-        http().route(PUT, "/canteen/user/login", user::login);
-        http().route(GET, "/canteen/user/logout", user::logout);
-        http().route(POST, "/canteen/user/registry", user::register);
-        http().route(POST, "/canteen/reservation", reservation::reserve);
-        http().route(PUT, "/canteen/reservation/cancelling", reservation::cancel);
+        http().route(PUT, "/canteen/ajax/user/login", userAJAX::login);
+        http().route(GET, "/canteen/ajax/user/logout", userAJAX::logout);
+        http().route(POST, "/canteen/ajax/user/registry", userAJAX::register);
+        http().route(POST, "/canteen/ajax/reservation", reservationAJAX::reserve);
+        http().route(PUT, "/canteen/ajax/reservation/cancelling", reservationAJAX::cancel);
         http().route(PUT, "/canteen/ajax/reservation", reservationAJAX::search);
-        http().route(PUT, "/canteen/ajax/meal", mealAJAX::search); // todo get restaurant id from path
         http().route(GET, "/canteen/ajax/restaurant", restaurantAJAX::get);
         http().route(PUT, "/canteen/ajax/restaurant", restaurantAJAX::search);
+        http().route(PUT, "/canteen/ajax/restaurant/:id/meal", mealAJAX::search);
     }
 }

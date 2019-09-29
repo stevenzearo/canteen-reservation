@@ -30,6 +30,17 @@ public class GetReservationResponse {
     @Property(name = "restaurant_id")
     public String restaurantId;
 
-    @Property(name = "meal_id_list")
-    public List<String> mealIdList;
+    @Property(name = "meals")
+    public List<Meal> meals;
+
+    public static class Meal {
+        @Property(name = "id")
+        public String id;
+
+        @Property(name = "name")
+        public String name;
+
+        @Property(name = "price")
+        public Double price;
+    }
 }

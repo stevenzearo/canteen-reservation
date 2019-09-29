@@ -1,7 +1,7 @@
-package app.canteen.web.controller.restaurant;
+package app.canteen.web.ajax.restaurant;
 
-import app.canteen.web.ajax.restaurant.RestaurantStatusAJAXView;
 import core.framework.api.json.Property;
+import core.framework.api.validate.NotBlank;
 import core.framework.api.validate.NotNull;
 
 import java.time.ZonedDateTime;
@@ -9,18 +9,21 @@ import java.time.ZonedDateTime;
 /**
  * @author steve
  */
-public class UpdateRestaurantRequest {
+public class CreateRestaurantAJAXRequest {
+    @NotNull
+    @NotBlank
     @Property(name = "name")
     public String name;
 
+    @NotNull
+    @NotBlank
     @Property(name = "address")
     public String address;
 
+    @NotNull
+    @NotBlank
     @Property(name = "phone")
     public String phone;
-
-    @Property(name = "status")
-    public RestaurantStatusAJAXView status;
 
     @NotNull
     @Property(name = "reserving_deadline")

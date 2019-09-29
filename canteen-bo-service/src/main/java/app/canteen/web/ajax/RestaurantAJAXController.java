@@ -1,13 +1,21 @@
 package app.canteen.web.ajax;
 
+import app.canteen.web.ajax.restaurant.CreateRestaurantAJAXRequest;
 import app.canteen.web.ajax.restaurant.SearchRestaurantAJAXRequest;
+import app.canteen.web.ajax.restaurant.UpdateAJAXRestaurantRequest;
 import app.restaurant.api.BORestaurantWebService;
+import app.restaurant.api.restaurant.BOCreateRestaurantRequest;
 import app.restaurant.api.restaurant.BOSearchRestaurantRequest;
 import app.restaurant.api.restaurant.BOSearchRestaurantResponse;
+import app.restaurant.api.restaurant.BOUpdateRestaurantRequest;
 import app.restaurant.api.restaurant.RestaurantStatusView;
 import core.framework.inject.Inject;
+import core.framework.util.Strings;
 import core.framework.web.Request;
 import core.framework.web.Response;
+import core.framework.web.exception.BadRequestException;
+
+import java.util.Map;
 
 /**
  * @author steve
@@ -15,6 +23,31 @@ import core.framework.web.Response;
 public class RestaurantAJAXController {
     @Inject
     BORestaurantWebService service;
+
+    public Response create(Request request) {
+        CreateRestaurantAJAXRequest controllerRequest = request.bean(CreateRestaurantAJAXRequest.class);
+        BOCreateRestaurantRequest createRequest = new BOCreateRestaurantRequest();
+        createRequest.name = controllerRequest.name;
+        createRequest.phone = controllerRequest.phone;
+        createRequest.address = controllerRequest.address;
+        createRequest.reservingDeadline = controllerRequest.reservingDeadline;
+        return Response.bean(service.create(createRequest)); // should return a page, return text for test.
+    }
+
+    public Response updateDeadline(Request request) {
+        UpdateAJAXRestaurantRequest controllerRequest = request.bean(UpdateAJAXRestaurantRequest.class);
+        BOUpdateRestaurantRequest updateRestaurantRequest = new BOUpdateRestaurantRequest();
+        updateRestaurantRequest.name = controllerRequest.name;
+        updateRestaurantRequest.phone = controllerRequest.phone;
+        updateRestaurantRequest.address = controllerRequest.address;
+        updateRestaurantRequest.status = RestaurantStatusView.valueOf(controllerRequest.status.name());
+        updateRestaurantRequest.reservingDeadline = controllerRequest.reservingDeadline;
+        Map<String, String> paramMap = request.queryParams();
+        String id = paramMap.get("id");
+        if (Strings.isBlank(id)) throw new BadRequestException("id can not be blank");
+        service.update(id, updateRestaurantRequest);
+        return Response.text("SUCCESS"); // should return a page, return text for test.
+    }
 
     public Response search(Request request) {
         SearchRestaurantAJAXRequest controllerRequest = request.bean(SearchRestaurantAJAXRequest.class);

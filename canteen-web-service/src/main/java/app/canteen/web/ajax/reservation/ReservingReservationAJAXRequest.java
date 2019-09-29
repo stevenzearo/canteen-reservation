@@ -1,4 +1,4 @@
-package app.canteen.web.controller.reservation;
+package app.canteen.web.ajax.reservation;
 
 import core.framework.api.json.Property;
 import core.framework.api.validate.NotBlank;
@@ -10,12 +10,7 @@ import java.util.List;
 /**
  * @author steve
  */
-public class ReservingReservationRequest {
-    //todo get from session
-    @NotNull
-    @Property(name = "user_id")
-    public Long userId;
-
+public class ReservingReservationAJAXRequest {
     @NotNull
     @Property(name = "eating_time")
     public ZonedDateTime eatingTime;

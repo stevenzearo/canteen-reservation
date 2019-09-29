@@ -17,9 +17,14 @@ public class SearchReservationAJAXRequest {
     @Property(name = "limit")
     public Integer limit = 10;
 
-    @NotNull
+    @Property(name = "userName")
+    public String userName;
+
+    @Property(name = "restaurant_name")
+    public String restaurantName;
+
     @Property(name = "reserving_time_start")
-    public ZonedDateTime reservingTimeStart = ZonedDateTime.now();
+    public ZonedDateTime reservingTimeStart;
 
     @Property(name = "reserving_time_end")
     public ZonedDateTime reservingTimeEnd;

@@ -1,4 +1,4 @@
-package app.canteen.web.controller.meal;
+package app.canteen.web.ajax.meal;
 
 import core.framework.api.json.Property;
 import core.framework.api.validate.NotBlank;
@@ -7,12 +7,7 @@ import core.framework.api.validate.NotNull;
 /**
  * @author steve
  */
-public class CreateMealRequest {
-    @NotNull
-    @NotBlank
-    @Property(name = "restaurant_id")
-    public String restaurantId;
-
+public class CreateMealAJAXRequest {
     @NotNull
     @NotBlank
     @Property(name = "name")

@@ -12,8 +12,8 @@ public class SearchReservationResponse {
     @Property(name = "total")
     public Long total;
 
-    @Property(name = "reservation_list")
-    public List<Reservation> reservationList;
+    @Property(name = "reservations")
+    public List<Reservation> reservations;
 
     public static class Reservation {
         @Property(name = "id")
@@ -34,11 +34,27 @@ public class SearchReservationResponse {
         @Property(name = "user_id")
         public Long userId;
 
+        @Property(name = "user_name")
+        public String userName;
+
         @Property(name = "restaurant_id")
         public String restaurantId;
 
-        @Property(name = "meal_id_list")
-        public List<String> mealIdList;
+        @Property(name = "restaurant_name")
+        public String restaurantName;
+
+        @Property(name = "meals")
+        public List<Meal> meals;
     }
 
+    public static class Meal {
+        @Property(name = "id")
+        public String id;
+
+        @Property(name = "name")
+        public String name;
+
+        @Property(name = "price")
+        public Double price;
+    }
 }
