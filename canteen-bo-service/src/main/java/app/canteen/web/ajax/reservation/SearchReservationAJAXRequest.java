@@ -17,7 +17,7 @@ public class SearchReservationAJAXRequest {
     @Property(name = "limit")
     public Integer limit = 10;
 
-    @Property(name = "userName")
+    @Property(name = "user_name")
     public String userName;
 
     @Property(name = "restaurant_name")

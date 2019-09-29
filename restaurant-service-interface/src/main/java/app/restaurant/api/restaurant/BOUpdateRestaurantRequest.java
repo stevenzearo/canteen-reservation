@@ -18,6 +18,7 @@ public class BOUpdateRestaurantRequest {
     @Property(name = "phone")
     public String phone;
 
+    @NotNull
     @Property(name = "status")
     public RestaurantStatusView status;
 

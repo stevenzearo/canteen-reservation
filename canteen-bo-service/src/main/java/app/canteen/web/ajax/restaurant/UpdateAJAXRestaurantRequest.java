@@ -18,6 +18,7 @@ public class UpdateAJAXRestaurantRequest {
     @Property(name = "phone")
     public String phone;
 
+    @NotNull
     @Property(name = "status")
     public RestaurantStatusAJAXView status;
 

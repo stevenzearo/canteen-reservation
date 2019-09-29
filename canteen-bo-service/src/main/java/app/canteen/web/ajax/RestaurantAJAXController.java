@@ -34,7 +34,7 @@ public class RestaurantAJAXController {
         return Response.bean(service.create(createRequest)); // should return a page, return text for test.
     }
 
-    public Response updateDeadline(Request request) {
+    public Response update(Request request) {
         UpdateAJAXRestaurantRequest controllerRequest = request.bean(UpdateAJAXRestaurantRequest.class);
         BOUpdateRestaurantRequest updateRestaurantRequest = new BOUpdateRestaurantRequest();
         updateRestaurantRequest.name = controllerRequest.name;
@@ -42,9 +42,7 @@ public class RestaurantAJAXController {
         updateRestaurantRequest.address = controllerRequest.address;
         updateRestaurantRequest.status = RestaurantStatusView.valueOf(controllerRequest.status.name());
         updateRestaurantRequest.reservingDeadline = controllerRequest.reservingDeadline;
-        Map<String, String> paramMap = request.queryParams();
-        String id = paramMap.get("id");
-        if (Strings.isBlank(id)) throw new BadRequestException("id can not be blank");
+        String id = request.pathParam("id");
         service.update(id, updateRestaurantRequest);
         return Response.text("SUCCESS"); // should return a page, return text for test.
     }
@@ -59,7 +57,7 @@ public class RestaurantAJAXController {
         restaurantRequest.phone = controllerRequest.phone;
         restaurantRequest.reservingDeadlineEnd = controllerRequest.reservingDeadlineEnd;
         restaurantRequest.reservingDeadlineStart = controllerRequest.reservingDeadlineStart;
-        restaurantRequest.status = RestaurantStatusView.valueOf(controllerRequest.status.name());
+        restaurantRequest.status = controllerRequest.status == null ? null : RestaurantStatusView.valueOf(controllerRequest.status.name());
         BOSearchRestaurantResponse searchResponse = service.search(restaurantRequest);
         return Response.bean(searchResponse);
     }

@@ -18,6 +18,7 @@ import core.framework.util.Strings;
 import core.framework.web.exception.NotFoundException;
 import org.bson.conversions.Bson;
 
+import java.time.ZonedDateTime;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -87,6 +88,12 @@ public class BORestaurantService {
         Restaurant restaurant = restaurantCollection.get(id).orElseThrow(() -> new NotFoundException(Strings.format("Restaurant not found, id = {}", id)));
         Bson combineFilter = Filters.and();
         Bson combineUpdate = Updates.combine();
+        if (request.reservingDeadline.isBefore(ZonedDateTime.now()))
+            throw new IllegalArgumentException("reserving deadline can not before then current time");
+        combineFilter = Filters.and(combineFilter, Filters.eq("reserving_deadline", restaurant.reservingDeadline));
+        combineUpdate = Updates.combine(combineUpdate, Updates.set("reserving_deadline", request.reservingDeadline));
+        combineFilter = Filters.and(combineFilter, Filters.eq("status", restaurant.status));
+        combineUpdate = Updates.combine(combineUpdate, Updates.set("status", RestaurantStatus.valueOf(request.status.name())));
         if (!Strings.isBlank(request.name)) {
             combineFilter = Filters.and(combineFilter, Filters.eq("name", restaurant.name));
             combineUpdate = Updates.combine(combineUpdate, Updates.set("name", request.name));
@@ -99,14 +106,7 @@ public class BORestaurantService {
             combineFilter = Filters.and(combineFilter, Filters.eq("address", restaurant.address));
             combineUpdate = Updates.combine(combineUpdate, Updates.set("address", request.address));
         }
-        if (request.status != null) {
-            combineFilter = Filters.and(combineFilter, Filters.eq("status", restaurant.status));
-            combineUpdate = Updates.combine(combineUpdate, Updates.set("status", RestaurantStatus.valueOf(request.status.name())));
-        }
-        if (request.reservingDeadline != null) {
-            combineFilter = Filters.and(combineFilter, Filters.eq("reserving_deadline", restaurant.reservingDeadline));
-            combineUpdate = Updates.combine(combineUpdate, Updates.set("reserving_deadline", request.reservingDeadline));
-        }
+
         restaurantCollection.update(combineFilter, combineUpdate);
     }
 

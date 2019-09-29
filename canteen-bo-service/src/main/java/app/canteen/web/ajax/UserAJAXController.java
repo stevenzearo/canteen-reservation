@@ -37,19 +37,21 @@ public class UserAJAXController {
 
     // use user_id to reset password
     public Response resetPassword(Request request) {
+        Long id = Long.valueOf(request.pathParam("id"));
         RestUserPasswordAJAXRequest resetPasswordRequest = request.bean(RestUserPasswordAJAXRequest.class);
         BOUpdateUserPasswordRequest updateRequest = new BOUpdateUserPasswordRequest();
         updateRequest.password = resetPasswordRequest.password;
-        userWebService.updatePassword(resetPasswordRequest.id, updateRequest);
+        userWebService.updatePassword(id, updateRequest);
         return Response.text("SUCCESS");
     }
 
     // use user id to change user status
-    public Response activate(Request request) {
+    public Response updateStatus(Request request) {
+        Long id = Long.valueOf(request.pathParam("id"));
         ActivateUserAJAXRequest activateRequest = request.bean(ActivateUserAJAXRequest.class);
         BOUpdateUserStatusRequest updateRequest = new BOUpdateUserStatusRequest();
         updateRequest.status = UserStatusView.valueOf(activateRequest.status.name());
-        userWebService.updateStatus(activateRequest.id, updateRequest);
+        userWebService.updateStatus(id, updateRequest);
         return Response.text("SUCCESS");
     }
 
@@ -60,7 +62,7 @@ public class UserAJAXController {
         searchRequest.limit = controllerRequest.limit;
         searchRequest.name = controllerRequest.name;
         searchRequest.email = controllerRequest.email;
-        searchRequest.status = UserStatusView.valueOf(controllerRequest.status.name());
+        searchRequest.status = controllerRequest.status == null ? null : UserStatusView.valueOf(controllerRequest.status.name());
         BOSearchUserResponse response = service.search(searchRequest);
         return Response.bean(response);
     }
