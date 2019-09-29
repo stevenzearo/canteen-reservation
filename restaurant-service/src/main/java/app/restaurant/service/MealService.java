@@ -11,10 +11,10 @@ import core.framework.inject.Inject;
 import core.framework.mongo.MongoCollection;
 import core.framework.mongo.Query;
 import core.framework.util.Strings;
+import core.framework.web.exception.ConflictException;
 import core.framework.web.exception.NotFoundException;
 import org.bson.conversions.Bson;
 
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -26,6 +26,8 @@ public class MealService {
 
     public GetMealResponse get(String restaurantId, String mealId) {
         Meal meal = mealCollection.get(mealId).orElseThrow(() -> new NotFoundException(Strings.format("meal not found, id = {}", mealId)));
+        if (meal.restaurantId.equals(restaurantId))
+            throw new ConflictException(Strings.format("restaurant id = {}, mismatch with the restaurant id under the meal", restaurantId, meal.restaurantId));
         GetMealResponse response = new GetMealResponse();
         response.id = meal.id;
         response.name = meal.name;

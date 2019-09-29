@@ -1,6 +1,5 @@
 package app.restaurant.api;
 
-import app.restaurant.api.meal.BOGetMealResponse;
 import app.restaurant.api.meal.GetMealResponse;
 import app.restaurant.api.meal.SearchMealRequest;
 import app.restaurant.api.meal.SearchMealResponse;
@@ -16,6 +15,7 @@ public interface MealWebService {
     @GET
     @Path("/restaurant/:restaurantId/meal/:mealId")
     GetMealResponse get(@PathParam("restaurantId") String restaurantId, @PathParam("mealId") String mealId);
+
     @PUT
     @Path("/restaurant/:restaurantId/meal")
     SearchMealResponse searchValid(@PathParam("restaurantId") String restaurantId, SearchMealRequest request); // user can search via name/price range

@@ -9,11 +9,11 @@ import java.time.ZonedDateTime;
  * @author steve
  */
 public class ZoneDateTimeTest {
-    private static final Logger logger = LoggerFactory.getLogger(ZoneDateTimeTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ZoneDateTimeTest.class);
 
     @Test
     void test() {
-        logger.info(JSON.toJSON(ZonedDateTime.now()));
-        logger.info(ZonedDateTime.now().toString());
+        LOGGER.info(JSON.toJSON(ZonedDateTime.now()));
+        LOGGER.info(ZonedDateTime.now().toString());
     }
 }
