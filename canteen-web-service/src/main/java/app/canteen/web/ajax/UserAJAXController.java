@@ -22,7 +22,7 @@ public class UserAJAXController {
         createRequest.name = controllerRequest.name;
         createRequest.email = controllerRequest.email;
         createRequest.password = controllerRequest.password;
-        return Response.bean(service.create(createRequest)); // should return a page, return a bean for test.
+        return Response.bean(service.create(createRequest));
     }
 
     public Response login(Request request) {
@@ -33,10 +33,10 @@ public class UserAJAXController {
             loginRequest.email = controllerRequest.email;
             loginRequest.password = controllerRequest.password;
             UserLoginResponse loginResponse = service.login(loginRequest);
-            response = Response.bean(loginResponse); // should return a page, return a bean for test.
+            response = Response.bean(loginResponse);
             request.session().set("user_id", loginResponse.id.toString());
         } else {
-            response = Response.text("ALREADY LOGIN"); // should return a page, return text for test.
+            response = Response.text("ALREADY LOGIN");
         }
         return response;
     }
@@ -45,7 +45,7 @@ public class UserAJAXController {
         if (isLogin(request)) {
             request.session().set("user_id", null);
         }
-        return Response.text("LOGOUT SUCCESSFULLY"); // should return a page, return text for test.
+        return Response.text("LOGOUT SUCCESSFULLY");
     }
 
     private boolean isLogin(Request request) {

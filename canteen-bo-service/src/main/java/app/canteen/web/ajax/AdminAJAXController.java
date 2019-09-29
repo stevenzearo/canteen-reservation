@@ -26,9 +26,9 @@ public class AdminAJAXController {
             BOAdminLoginResponse loginResponse = service.login(loginRequest);
             request.session().set("admin_id", loginResponse.id.toString());
             ActionLogContext.put("adminName", loginResponse.name);
-            response = Response.bean(loginResponse); // should return a page, return a bean for test.
+            response = Response.bean(loginResponse);
         } else {
-            response = Response.text("ALREADY LOGIN"); // should return a page, return text for test.
+            response = Response.text("ALREADY LOGIN");
         }
         return response;
     }
@@ -41,7 +41,7 @@ public class AdminAJAXController {
         if (isLogin(request)) {
             request.session().set("admin_id", null);
         }
-        return Response.text("LOGOUT SUCCESSFULLY"); // should return a page, return text for test.
+        return Response.text("LOGOUT SUCCESSFULLY");
     }
 
 }

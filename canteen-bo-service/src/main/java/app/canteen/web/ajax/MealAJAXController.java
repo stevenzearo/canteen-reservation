@@ -22,6 +22,6 @@ public class MealAJAXController {
         createMealRequest.name = controllerRequest.name;
         createMealRequest.price = controllerRequest.price;
         BOCreateMealResponse response = service.create(restaurantId, createMealRequest);
-        return Response.bean(response); // should return a page, return a bean for test.
+        return Response.bean(response);
     }
 }

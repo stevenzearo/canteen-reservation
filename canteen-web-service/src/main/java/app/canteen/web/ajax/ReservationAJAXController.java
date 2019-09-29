@@ -60,7 +60,7 @@ public class ReservationAJAXController {
             reservingRequest.meals.add(reservingMeal);
         });
         ReservingResponse reservingResponse = reservationWebService.reserve(userId, reservingRequest);
-        return Response.bean(reservingResponse); // should return a page, return a bean for test.
+        return Response.bean(reservingResponse);
     }
 
     public Response cancel(Request request) {

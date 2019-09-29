@@ -27,7 +27,7 @@ public class RestaurantAJAXController {
         createRequest.phone = controllerRequest.phone;
         createRequest.address = controllerRequest.address;
         createRequest.reservingDeadline = controllerRequest.reservingDeadline;
-        return Response.bean(service.create(createRequest)); // should return a page, return text for test.
+        return Response.bean(service.create(createRequest));
     }
 
     public Response update(Request request) {
@@ -40,7 +40,7 @@ public class RestaurantAJAXController {
         updateRestaurantRequest.reservingDeadline = controllerRequest.reservingDeadline;
         String id = request.pathParam("id");
         service.update(id, updateRestaurantRequest);
-        return Response.text("SUCCESS"); // should return a page, return text for test.
+        return Response.text("SUCCESS");
     }
 
     public Response search(Request request) {
