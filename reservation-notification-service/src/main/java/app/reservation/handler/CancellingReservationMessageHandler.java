@@ -2,7 +2,6 @@ package app.reservation.handler;
 
 import app.reservation.api.kafka.CancellingReservationMessage;
 import app.reservation.service.EmailNotificationService;
-import app.reservation.service.notification.CancellingEmailNotificationRequest;
 import app.user.api.BOUserWebService;
 import core.framework.inject.Inject;
 import core.framework.kafka.MessageHandler;
@@ -24,10 +23,7 @@ public class CancellingReservationMessageHandler implements MessageHandler<Cance
 
     @Override
     public void handle(String key, CancellingReservationMessage value) throws Exception {
-        CancellingEmailNotificationRequest cancelRequest = new CancellingEmailNotificationRequest();
-        cancelRequest.userEmail = userWebService.get(value.userId).email;
-        cancelRequest.reservationId = value.reservationId;
-        notificationService.cancel(cancelRequest);
-        logger.warn(Strings.format("according to notification id = {}, sending email to {} cancelling reservation", cancelRequest.reservationId, cancelRequest.userEmail));
+        notificationService.cancel(value.reservationId);
+        logger.warn(Strings.format("according to reservation id = {}, sending email to {} cancelling reservation", value.reservationId, userWebService.get(value.userId).email));
     }
 }
