@@ -74,7 +74,7 @@ public class ReservationAJAXController {
             reservationWebService.cancel(userId, reservationResponse.id);
             cancelStatus = "SUCCESS";
         }
-        return Response.text(cancelStatus); // should return a page, return text for test.
+        return Response.text(cancelStatus);
     }
 
     public Response search(Request request) {
